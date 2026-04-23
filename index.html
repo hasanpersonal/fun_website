@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Amar Prothom Website</title>
+    <title>My Dark Website</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -12,55 +12,59 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            background-color: #f0f2f5;
+            /* Halka kalo ba dark gray background */
+            background-color: #1a1a1a; 
+            color: white;
             text-align: center;
+            min-height: 100vh;
         }
 
-        /* Chobi-ti ekhon container er baire upore thakbe */
         .top-image {
             max-width: 300px;
             height: auto;
             border-radius: 15px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            border: 2px solid #333;
         }
 
         .container {
-            background-color: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            width: 80%;
+            background-color: #2d2d2d;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            width: 90%;
             max-width: 500px;
         }
 
         h1 {
-            font-size: 3rem;
-            color: #333;
+            font-size: 3.5rem;
             margin-bottom: 10px;
-            text-transform: uppercase;
+            color: #ffffff;
+            letter-spacing: 2px;
         }
 
         p {
-            font-size: 1.2rem;
-            color: #666;
-            margin-bottom: 20px;
+            font-size: 1.1rem;
+            color: #bbb;
+            margin-bottom: 30px;
         }
 
-        /* Button design */
         .btn {
-            background-color: #007bff;
+            background-color: #ff4757;
             color: white;
             border: none;
-            padding: 12px 25px;
-            font-size: 1rem;
-            border-radius: 5px;
+            padding: 15px 35px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 50px;
             cursor: pointer;
-            transition: background 0.3s;
+            transition: transform 0.2s, background 0.3s;
         }
 
         .btn:hover {
-            background-color: #0056b3;
+            background-color: #ff6b81;
+            transform: scale(1.05);
         }
     </style>
 </head>
@@ -70,17 +74,44 @@
 
     <div class="container">
         <h1>Welcome</h1>
-
         <p>This is my first online website</p>
 
-        <button class="btn" onclick="showMessage()">Click Here</button>
+        <button class="btn" onclick="goToNextPage()">Click Here</button>
     </div>
 
     <script>
-        function showMessage() {
-            alert("bukachoda");
+        function goToNextPage() {
+            // Notun page-er content create kora hochhe
+            const newWindow = window.open("", "_self");
+            newWindow.document.write(`
+                <html>
+                <head>
+                    <title>Surprise</title>
+                    <style>
+                        body {
+                            background-color: #000;
+                            color: red;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            height: 100vh;
+                            margin: 0;
+                            font-family: sans-serif;
+                        }
+                        h1 {
+                            font-size: 10vw;
+                            text-transform: uppercase;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <h1>bokachoda</h1>
+                </body>
+                </html>
+            `);
         }
     </script>
 
 </body>
-</html>
+    </html>
+    
