@@ -79,40 +79,34 @@
         <p>This is my first online website</p>
 
         <button class="btn" onclick="goToNextPage()">Click Here</button>
-    </div>
+    </div
 
     <script>
-        function goToNextPage() {
-            // Notun page-er content create kora hochhe
-            const newWindow = window.open("", "_self");
-            newWindow.document.write(`
-                <html>
-                <head>
-                    <title>Surprise</title>
-                    <style>
-                        body {
-                            background-color: #000;
-                            color: red;
-                            display: flex;
-                            justify-content: center;
-                            align-items: center;
-                            height: 100vh;
-                            margin: 0;
-                            font-family: sans-serif;
-                        }
-                        h1 {
-                            font-size: 10vw;
-                            text-transform: uppercase;
-                        }
-                    </style>
-                </head>
-                <body>
-                    <h1>This page is being prepared.</h1>
-                </body>
-                </html>
-            `);
-        }
-    </script>
+function openSurprise() {
+    let myWindow = window.open("", "LinkWindow", "width=400,height=300,top=200,left=200");
+
+    myWindow.document.write(`
+        <html>
+            <head>
+                <title>Connect with Me</title>
+                <style>
+                    body { background-color: #121212; color: white; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; }
+                    .btn { width: 80%; padding: 15px; margin: 10px 0; text-align: center; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 1.1rem; transition: 0.3s; cursor: pointer; display: block; border: none; }
+                    .home-btn { background-color: #00d4ff; color: black; }
+                    .wa-btn { background-color: #25D366; color: white; }
+                    .btn:hover { opacity: 0.8; transform: scale(1.05); }
+                </style>
+            </head>
+            <body>
+                <h3 style="margin-bottom: 20px;">What's Next?</h3>
+                <a href="index.html" class="btn home-btn" onclick="window.opener.location.href='index.html'; window.close();">🏠 Back to Home</a>
+                <a href="https://wa.me/8801799344393" target="_blank" class="btn wa-btn">💬 WhatsApp Me</a>
+            </body>
+        </html>
+    `);
+}
+</script>
+    
 
  <footer style="text-align: center; font-size: 1.2rem; color: #ffffff; margin-top: 40px; padding: 20px; font-weight: bold; letter-spacing: 1px;">
     This website is designed by Imrul Hasan
