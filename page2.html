@@ -25,14 +25,16 @@
         h1 {
             color: #333;
         }
-        .video-wrapper {
+                .video-wrapper {
             position: relative;
-            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            padding-bottom: 56.25%; /* 16:9 Ratio */
             height: 0;
             overflow: hidden;
             border-radius: 8px;
-            margin-top: 20px;
+            margin-top: -30px; /* Video-ke upore uthanor jonno negative margin */
+            background: black; /* Faka jayga kalo thakbe jate baje na dekhay */
         }
+        
         .video-wrapper iframe {
             position: absolute;
             top: 0;
