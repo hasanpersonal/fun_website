@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Dark Website</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            /* Halka kalo ba dark gray background */
+            background-color: #1a1a1a; 
+            color: white;
+            text-align: center;
+            min-height: 100vh;
+        }
+
+        .top-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            border: 2px solid #333;
+        }
+
+        .container {
+            background-color: #2d2d2d;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            width: 90%;
+            max-width: 500px;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            color: #ffffff;
+            letter-spacing: 2px;
+        }
+
+        p {
+            font-size: 1.1rem;
+            color: #bbb;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            background-color: #ff4757;
+            color: white;
+            border: none;
+            padding: 15px 35px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.2s, background 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #ff6b81;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" style="width: 100%; display: block; overflow: hidden;">
+    <img src="primarylogo.jpg" alt="Home" class="top-image" style="width: 100%; height: auto; cursor: pointer; display: block;">
+</a>
+        
+
+    <div class="container">
+        <h1>Welcome</h1>
+        <p>This is my first online website</p>
+
+        <button class="btn" onclick="goToNextPage()">Click Here</button>
+    </div>
+
+    <script>
+        function goToNextPage() {
+            // Notun page-er content create kora hochhe
+            const newWindow = window.open("", "_self");
+            newWindow.document.write(`
+                <html>
+                <head>
+                    <title>Surprise</title>
+                    <style>
+                        body {
+                            background-color: #000;
+                            color: red;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            height: 100vh;
+                            margin: 0;
+                            font-family: sans-serif;
+                        }
+                        h1 {
+                            font-size: 10vw;
+                            text-transform: uppercase;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <h1>This page is being prepared.</h1>
+                </body>
+                </html>
+            `);
+        }
+    </script>
+
+ <footer style="text-align: center; font-size: 1.2rem; color: #ffffff; margin-top: 40px; padding: 20px; font-weight: bold; letter-spacing: 1px;">
+    This website is designed by Imrul Hasan
+ </footer>
+    
+</body>
+    </html>
+    
