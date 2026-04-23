@@ -83,14 +83,13 @@
 
     <script>
     function goToNextPage() {
-
-    <html>
-        <body>
-    
-        <a window.location.href = "page2.html">My Web Link</a>
-    }
-            </body>
-    </html>
+// Choto window-r bhetore Page 2 er link formula
+myWindow.document.write(`
+    <button class="btn home-btn" onclick="window.opener.location.href='page2.html'; window.close();">
+        📄 Go to Page 2
+    </button>
+`);
+        }
 </script>
 
  <footer style="text-align: center; font-size: 1.2rem; color: #ffffff; margin-top: 40px; padding: 20px; font-weight: bold; letter-spacing: 1px;">
