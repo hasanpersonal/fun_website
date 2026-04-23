@@ -3,121 +3,136 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Magic Surprise</title>
+    <title>Surprise Page</title>
     <style>
         /* Main Page Styling */
         body {
-            margin: 0;
-            padding: 0;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: linear-gradient(45deg, #ff416c, #ff4b2b, #4facfe, #00f2fe);
-            background-size: 400% 400%;
-            animation: gradientBG 10s ease infinite;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        .card {
-            background: rgba(0, 0, 0, 0.7);
-            padding: 40px;
-            border-radius: 20px;
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            background-color: #0f0f0f;
             color: white;
-            border: 2px solid rgba(255, 255, 255, 0.1);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
         }
 
-        h1 { font-size: 3rem; margin-bottom: 10px; }
-        p { margin-bottom: 30px; opacity: 0.8; }
+        .container {
+            text-align: center;
+            padding: 20px;
+            border: 1px solid #333;
+            border-radius: 20px;
+            background: #1a1a1a;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
 
-        .magic-btn {
-            background: #ff4b2b;
+        h1 {
+            color: #00d4ff;
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        p {
+            color: #ccc;
+            margin-bottom: 30px;
+        }
+
+        .magic-button {
+            background: linear-gradient(45deg, #00d4ff, #0055ff);
             color: white;
             border: none;
             padding: 15px 40px;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-weight: bold;
             border-radius: 50px;
             cursor: pointer;
             transition: 0.3s;
-            box-shadow: 0 5px 15px rgba(255, 75, 43, 0.4);
+            box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
         }
 
-        .magic-btn:hover {
-            transform: scale(1.1);
-            background: #ff416c;
+        .magic-button:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 6px 20px rgba(0, 212, 255, 0.5);
         }
     </style>
 </head>
 <body>
 
-    <div class="card">
-        <h1>Welcome</h1>
-        <p>This is my first online website</p>
-        <button class="magic-btn" onclick="openSurprise()">Click Here</button>
+    <div class="container">
+        <h1>Surprise! 🎁</h1>
+        <p>You've found the secret navigation panel.</p>
+        <button class="magic-button" onclick="openSurprise()">Open Options</button>
     </div>
 
     <script>
-    function openSurprise() {
-        let myWindow = window.open("", "LinkWindow", "width=450,height=450,top=150,left=200");
+        function openSurprise() {
+            // Choto window open kora
+            const width = 400;
+            const height = 350;
+            const left = (screen.width / 2) - (width / 2);
+            const top = (screen.height / 2) - (height / 2);
+            
+            let myWindow = window.open("", "LinkWindow", `width=${width},height=${height},top=${top},left=${left}`);
 
-        myWindow.document.write(`
-            <html>
-                <head>
-                    <title>What's Next?</title>
-                    <style>
-                        body { 
-                            background: linear-gradient(to bottom, #1e3c72, #2a5298); 
-                            color: white; 
-                            font-family: sans-serif; 
-                            display: flex; 
-                            flex-direction: column; 
-                            align-items: center; 
-                            justify-content: center; 
-                            height: 100vh; 
-                            margin: 0; 
-                        }
-                        .btn { 
-                            width: 80%; 
-                            padding: 15px; 
-                            margin: 8px 0; 
-                            text-align: center; 
-                            text-decoration: none; 
-                            border-radius: 12px; 
-                            font-weight: bold; 
-                            font-size: 1rem; 
-                            transition: 0.3s; 
-                            display: block; 
-                            color: white;
-                        }
-                        .home-btn { background: #ff4b2b; }
-                        .wa-btn { background: #25D366; }
-                        .college-btn { background: #6a11cb; }
-                        .btn:hover { transform: translateY(-3px); filter: brightness(1.1); }
-                    </style>
-                </head>
-                <body>
-                    <h2 style="margin-bottom: 20px;">Options for You</h2>
-                    
-                    <a href="index.html" class="btn home-btn" onclick="window.opener.location.href='index.html'; window.close();">🏠 Back to Home</a>
-                    
-                    <a href="https://wa.me/8801799344393" target="_blank" class="btn wa-btn">💬 WhatsApp Me</a>
-                    
-                    <a href="http://cascedu.bd" target="_blank" class="btn college-btn">🏫 College</a>
+            // Window-r bhetorer content
+            myWindow.document.write(`
+                <html>
+                    <head>
+                        <title>Quick Links</title>
+                        <style>
+                            body { 
+                                background-color: #121212; 
+                                color: white; 
+                                font-family: sans-serif; 
+                                display: flex; 
+                                flex-direction: column; 
+                                align-items: center; 
+                                justify-content: center; 
+                                height: 100vh; 
+                                margin: 0; 
+                            }
+                            h3 { color: #00d4ff; margin-bottom: 20px; }
+                            .btn {
+                                width: 85%;
+                                padding: 14px;
+                                margin: 8px 0;
+                                text-align: center;
+                                text-decoration: none;
+                                border-radius: 10px;
+                                font-weight: bold;
+                                font-size: 1rem;
+                                display: block;
+                                cursor: pointer;
+                                transition: 0.2s;
+                                border: none;
+                                outline: none;
+                            }
+                            .home-btn { background-color: #00d4ff; color: #000; }
+                            .wa-btn { background-color: #25D366; color: #fff; }
+                            .btn:hover { opacity: 0.9; transform: scale(1.02); }
+                            .footer-text { font-size: 0.7rem; color: #555; margin-top: 15px; }
+                        </style>
+                    </head>
+                    <body>
+                        <h3>Menu</h3>
 
-                </body>
-            </html>
-        `);
-    }
+                        <button class="btn home-btn" onclick="window.opener.location.href='index.html'; window.close();">
+                            🏠 Back to Home
+                        </button>
+
+                        <a href="https://wa.me/8801799344393" target="_blank" class="btn wa-btn">
+                            💬 Message on WhatsApp
+                        </a>
+                        
+                        <p class="footer-text">Select an option to continue</p>
+                    </body>
+                </html>
+            `);
+        }
     </script>
 
 </body>
-</html>
+    </html>
+    
