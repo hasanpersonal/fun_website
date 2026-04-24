@@ -1,94 +1,105 @@
 ---
 layout: default
 ---
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            /* Halka kalo ba dark gray background */
-            background-color: #979fd1; 
-            color: white;
-            text-align: center;
-            min-height: 100vh;
-        }
 
+<style>
+    /* Jekyll Layout use korle body-te display:flex ba padding:20px dewa thik na, 
+       tai eita sudhu main section-e kaj korbe */
+    
+    .hero-section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 40px 10px;
+        text-align: center;
+    }
 
-     
-        .container {
-            background-color: #28afe0;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            width: 90%;
-            max-width: 500px;
-        }
+    .container {
+        background: linear-gradient(145deg, #28afe0, #1e9ac7);
+        padding: 50px 30px;
+        border-radius: 30px;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        width: 90%;
+        max-width: 500px;
+        /* Gap komanor jonno niche margin-top 0 kora hoyeche */
+        margin-top: 10px; 
+    }
 
-        h1 {
-            font-size: 3.5rem;
-            margin-bottom: 10px;
-            color: #ffffff;
-            letter-spacing: 2px;
-        }
+    .container h1 {
+        font-size: 3.5rem;
+        margin: 0 0 10px 0;
+        color: #ffffff;
+        letter-spacing: 2px;
+        font-family: 'Segoe UI', sans-serif;
+    }
 
-        p {
-            font-size: 1.3rem;
-            color: #000000;
-            margin-bottom: 30px;
-        }
+    .container p {
+        font-size: 1.2rem;
+        color: #f0f0f0;
+        margin-bottom: 30px;
+        font-weight: 500;
+    }
 
-        /* Button er main style */
+    /* Button Style Improvement */
+    .btn {
+        background-color: #ff4757;
+        color: white !important;
+        border: none;
+        padding: 15px 40px;
+        font-size: 1.1rem;
+        font-weight: bold;
+        border-radius: 50px;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+        min-width: 140px;
+        margin: 10px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
 
-        .btn {
-    background-color: #ff4757;
-    color: white;
-    border: none;
-    padding: 15px 35px;
-    font-size: 1.2rem;
-    font-weight: bold;
-    border-radius: 50px;
-    cursor: pointer;
-    text-decoration: none;
-    display: inline-block; /* Margin ar width kaj korar jonno eta dorkar */
-    min-width: 160px;      /* Button-er width boro korbe */
-    margin: 15px 10px;    /* 15px upor-nich, 10px pashapashi faka korbe */
-    text-align: center;
-    transition: transform 0.2s, background 0.3s, box-shadow 0.3s;
-}
+    .btn:hover {
+        background-color: #ff6b81;
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(255, 71, 87, 0.4);
+    }
 
-/* Button-e mouse nile ba touch korle ja hobe */
+    .custom-footer {
+        text-align: center;
+        color: #ffffff;
+        margin-top: 50px;
+        padding-bottom: 30px;
+        line-height: 1.6;
+    }
 
-        .btn:hover {
-    background-color: #ff6b81; /* Halka color hobe */
-    transform: scale(1.05);    /* 5% boro hobe */
-    box-shadow: 0 5px 15px rgba(255, 71, 87, 0.4); /* Niche shadow porbe */
-}
+    .footer-highlight {
+        font-size: 1.1rem;
+        font-weight: bold;
+        display: block;
+        margin-bottom: 5px;
+    }
 
-    </style>
-</head>
-<body>
+    .footer-sub {
+        font-size: 0.8rem;
+        opacity: 0.8;
+        letter-spacing: 1px;
+    }
+</style>
 
-   <div class="container">
+<div class="hero-section">
+    <div class="container">
         <h1>Welcome</h1>
         <p>This is my first online website</p>
 
-         <a href="page2.html" class="btn" style="text-decoration: none; display: inline-block;">Page 2</a>
-     
-        <a href="page3.html" class="btn" style="text-decoration: none; display: inline-block;">Page 3</a>
+        <a href="page2.html" class="btn">Page 2</a>
+        <a href="page3.html" class="btn">Page 3</a>
     </div>
 
- <footer style="text-align: center; font-size: 1.2rem; color: #ffffff; margin-top: 40px; padding: 20px; font-weight: bold; letter-spacing: 1px;">
-    This website is coded by Imrul Hasan😇
-     using html and css (host:github)😌
- </footer>
-
-    <footer style="text-align: center; font-size: 0.9rem; color: #ffffff; margin-top: 40px; padding: 40px 20px; font-weight: bold; letter-spacing: 1px;">
-    "web project 2008✓✓"
-    </footer>
-    
-</body>
-    </html>
-    
+    <div class="custom-footer">
+        <span class="footer-highlight">Coded by Imrul Hasan 😇</span>
+        <span style="font-size: 0.9rem;">Using HTML & CSS (Hosted on GitHub) 😌</span>
+        <br><br>
+        <span class="footer-sub">"WEB PROJECT 2026✓✓"</span>
+    </div>
+</div>
