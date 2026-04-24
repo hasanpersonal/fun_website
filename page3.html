@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Gallery</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background-color: #f0f2f5; padding: 15px; }
+        .container { max-width: 500px; margin: auto; }
+        
+        /* Playlist Card Style */
+        .video-card {
+            display: flex;
+            align-items: center;
+            background: white;
+            border-radius: 12px;
+            padding: 10px;
+            margin-bottom: 12px;
+            text-decoration: none; /* Link er niche line thakbe na */
+            color: #333;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: 0.2s;
+        }
+
+        .video-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            background-color: #f9f9f9;
+        }
+
+        /* Bam pasher chhoto pic */
+        .thumbnail {
+            width: 80px;
+            height: 60px;
+            border-radius: 8px;
+            object-fit: cover;
+            margin-right: 15px;
+            background-color: #ddd; /* Chhobi load na hole color dekhabe */
+        }
+
+        /* Dan pasher naam */
+        .video-info {
+            flex-grow: 1;
+        }
+
+        .video-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .click-hint {
+            font-size: 12px;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" id="video-list">
+    <a href="APNAR_DRIVE_VIDEO_LINK_1" target="_blank" class="video-card">
+        <img src="https://via.placeholder.com/80x60" class="thumbnail" alt="Thumb">
+        <div class="video-info">
+            <p class="video-title">Custom Video Name 1</p>
+            <span class="click-hint">Click to play in Drive</span>
+        </div>
+    </a>
+
+    <a href="APNAR_DRIVE_VIDEO_LINK_2" target="_blank" class="video-card">
+        <img src="https://via.placeholder.com/80x60" class="thumbnail" alt="Thumb">
+        <div class="video-info">
+            <p class="video-title">Custom Video Name 2</p>
+            <span class="click-hint">Click to play in Drive</span>
+        </div>
+    </a>
+</div>
+
+</body>
+</html>
