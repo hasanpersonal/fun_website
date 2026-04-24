@@ -7,14 +7,14 @@
         /* Body reset and background */
         body { margin: 0; padding: 0; background-color: #a2add0; font-family: sans-serif; }
 
-        /* Title Section - Gap komano hoyeche */
+        /* Title Section */
         .top-header { text-align: center; padding: 15px 0; margin-bottom: 0; }
         .brand-container { display: inline-block; padding: 8px 25px; border: 2px solid #333; border-radius: 5px; background-color: #fff; text-decoration: none; transition: all 0.3s ease; }
         .brand-container:hover { background-color: #333; }
         .brand-text { font-size: 1.8rem; font-weight: bold; color: #333; margin: 0; }
         .brand-container:hover .brand-text { color: #fff; }
         
-        /* Navbar - Ek line-e anar jonno style */
+        /* Navbar - 1 line style */
         .navbar { 
             background-color: #333; 
             width: 100%; 
@@ -23,8 +23,8 @@
             position: sticky; 
             top: 0; 
             z-index: 1000;
-            white-space: nowrap; /* 1 line-e thakbe */
-            overflow-x: auto;    /* Mobile-e slide kora jabe */
+            white-space: nowrap; 
+            overflow-x: auto;    
         }
         .navbar a { 
             color: white; 
@@ -38,39 +38,29 @@
         .navbar a:hover { background-color: #ff4757; border-radius: 5px; }
 
         /* Content area spacing */
-        .content { padding-top: 10px; }
+        .content { padding: 10px; min-height: 50vh; }
+
         /* Footer Section Style */
-.custom-footer {
-    background-color: #4a5568; /* Deep grey-blue color, kalo noy */
-    color: white;
-    padding: 30px 20px;
-    text-align: center;
-    margin-top: 50px; /* Content theke ektu niche thakbe */
-}
-
-.footer-content {
-    display: flex;
-    flex-direction: column; /* Ektar niche arekta thakar jonno */
-    gap: 15px; /* Protita point-er majhe faka jayga */
-}
-
-.footer-link {
-    color: #ffd700; /* Gold color link jate shohoje dekha jay */
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 1.1rem;
-}
-
-.footer-link:hover {
-    text-decoration: underline;
-}
-
-.footer-text {
-    font-size: 1rem;
-    letter-spacing: 1px;
-    opacity: 0.9;
-}
-
+        .custom-footer {
+            background-color: #4a5568; 
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+            margin-top: 50px; 
+        }
+        .footer-content {
+            display: flex;
+            flex-direction: column; 
+            gap: 15px; 
+        }
+        .footer-link {
+            color: #ffd700; 
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        .footer-link:hover { text-decoration: underline; }
+        .footer-text { font-size: 1rem; letter-spacing: 1px; opacity: 0.9; }
     </style>
 </head>
 <body>
@@ -81,22 +71,13 @@
         {{ content }} 
     </div>
 
-        <div class="content">
-        {{ content }} 
-    </div>
-
     <footer class="custom-footer">
         <div class="footer-content">
             <a href="index.html" class="footer-link">Go back to Home</a>
-
             <span class="footer-text">This website was coded by Imrul Hasan 😇</span>
             <span class="footer-text">Project 2026 ✓✓</span>
         </div>
     </footer>
-
-</body>
-</html>
-
 
 </body>
 </html>
