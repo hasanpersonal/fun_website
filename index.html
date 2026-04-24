@@ -19,19 +19,37 @@
             min-height: 100vh;
         }
 
-        .home-link {
-    display: block;
+        .top-header {
     text-align: center;
-    text-decoration: none;
-    color: #333; /* Apnar pochondo moto color dite paren */
-    font-size: 2.0rem;
-    font-weight: bold;
-    margin-bottom: 10px;
-}
-.home-link:hover {
-    color: #007bff; /* Hover korle color change hobe */
+    padding-top: 30px; /* Upore space baranor jonno */
+    margin-bottom: 20px;
 }
 
+.brand-container {
+    display: inline-block;
+    padding: 10px 25px;
+    border: 2px solid #333;
+    border-radius: 5px;
+    background-color: #fff;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.brand-container:hover {
+    background-color: #333;
+}
+
+.brand-text {
+    font-size: 2.0rem;
+    font-weight: bold;
+    color: #333;
+    margin: 0;
+}
+
+.brand-container:hover .brand-text {
+    color: #fff; /* Hover korle lekhar color change hobe */
+}
+        
         .container {
             background-color: #28afe0;
             padding: 40px;
