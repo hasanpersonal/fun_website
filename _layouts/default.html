@@ -1,1 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .top-header { text-align: center; padding-top: 30px; margin-bottom: 20px; }
+        .brand-container { display: inline-block; padding: 10px 25px; border: 2px solid #333; border-radius: 5px; background-color: #fff; text-decoration: none; transition: all 0.3s ease; }
+        .brand-container:hover { background-color: #333; }
+        .brand-text { font-size: 2.0rem; font-weight: bold; color: #333; margin: 0; }
+        .brand-container:hover .brand-text { color: #fff; }
+        
+        .navbar { background-color: #333; width: 100%; padding: 10px 0; text-align: center; position: sticky; top: 0; z-index: 1000; }
+        .navbar a { color: white; text-decoration: none; padding: 10px 20px; font-size: 1.1rem; font-weight: bold; display: inline-block; transition: 0.3s; }
+        .navbar a:hover { background-color: #ff4757; border-radius: 5px; }
+
+        body { margin: 0; padding: 0; background-color: #a2add0; font-family: sans-serif; }
+    </style>
+</head>
+<body>
+
+    {% include upper.html %} 
+
+    <div class="content">
+        {{ content }} 
+    </div>
+
+</body>
+</html>
 
