@@ -72,22 +72,33 @@
             margin-bottom: 30px;
         }
 
+        /* Button er main style */
+
         .btn {
-            background-color: #ff4757;
-            color: white;
-            border: none;
-            padding: 15px 35px;
-            font-size: 1.2rem;
-            font-weight: bold;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: transform 0.2s, background 0.3s;
-        }
+    background-color: #ff4757;
+    color: white;
+    border: none;
+    padding: 15px 35px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-radius: 50px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block; /* Margin ar width kaj korar jonno eta dorkar */
+    min-width: 160px;      /* Button-er width boro korbe */
+    margin: 15px 10px;    /* 15px upor-nich, 10px pashapashi faka korbe */
+    text-align: center;
+    transition: transform 0.2s, background 0.3s, box-shadow 0.3s;
+}
+
+/* Button-e mouse nile ba touch korle ja hobe */
 
         .btn:hover {
-            background-color: #ff6b81;
-            transform: scale(1.05);
-        }
+    background-color: #ff6b81; /* Halka color hobe */
+    transform: scale(1.05);    /* 5% boro hobe */
+    box-shadow: 0 5px 15px rgba(255, 71, 87, 0.4); /* Niche shadow porbe */
+}
+
     </style>
 </head>
 <body>
