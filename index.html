@@ -49,7 +49,35 @@
 .brand-container:hover .brand-text {
     color: #fff; /* Hover korle lekhar color change hobe */
 }
-        
+   /* Menubar Container */
+
+        .navbar {
+    background-color: #333; /* Deep gray/black color */
+    width: 100%;
+    padding: 10px 0;
+    text-align: center;
+    position: sticky; /* Screen-er upore atke thakbe scroll korle-o */
+    top: 0;
+    z-index: 1000;
+}
+
+/* Menu Links */
+.navbar a {
+    color: white;
+    text-decoration: none;
+    padding: 10px 20px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    display: inline-block;
+    transition: 0.3s;
+}
+
+/* Menu Hover Effect */
+.navbar a:hover {
+    background-color: #ff4757; /* Button-er color-er sathe mil rekhe hover */
+    border-radius: 5px;
+}
+     
         .container {
             background-color: #28afe0;
             padding: 40px;
