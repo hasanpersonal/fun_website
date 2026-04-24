@@ -1,79 +1,88 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Video Gallery</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background-color: #c24646; padding: 15px; }
-        .container { max-width: 500px; margin: auto; }
-        
-        /* Playlist Card Style */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        /* Video Card Design */
         .video-card {
             display: flex;
             align-items: center;
-            background: white;
-            border-radius: 12px;
-            padding: 10px;
-            margin-bottom: 12px;
-            text-decoration: none; /* Link er niche line thakbe na */
-            color: #333;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            transition: 0.2s;
+            background: #fff;
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+            text-decoration: none; /* Link er underline remove korar jonno */
         }
-
         .video-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-            background-color: #f9f9f9;
+            transform: scale(1.02);
+            background-color: #f0f7ff;
         }
-
-        /* Bam pasher chhoto pic */
-        .thumbnail {
-            width: 80px;
-            height: 60px;
-            border-radius: 8px;
+        .video-thumb {
+            width: 150px;
+            height: 90px;
             object-fit: cover;
-            margin-right: 15px;
-            background-color: #ddd; /* Chhobi load na hole color dekhabe */
+            border-radius: 5px;
+            margin-right: 20px;
         }
-
-        /* Dan pasher naam */
-        .video-info {
-            flex-grow: 1;
-        }
-
         .video-title {
-            font-size: 16px;
-            font-weight: 600;
-            margin: 0;
+            font-size: 1.2rem;
+            color: #007bff;
+            font-weight: bold;
         }
-
-        .click-hint {
-            font-size: 12px;
-            color: #888;
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            color: #777;
+            font-size: 0.9rem;
         }
     </style>
 </head>
 <body>
 
-<div class="container" id="video-list">
-    <a href="https://drive.google.com/file/d/1_DqEImZwFDdV-Yezgam8ym8geK0Psbh8/view?usp=drivesdk" target="_blank" class="video-card">
-        <img src="Screenshot_2026_0424_150716.png/80×60" alt="Thumb">
-        <div class="video-info">
-            <p class="video-title">test video 1</p>
-            <span class="click-hint">Click to play in Drive</span>
-        </div>
-    </a>
+    <div class="container">
+        <h1>Video Gallery</h1>
 
-    <a href="APNAR_DRIVE_VIDEO_LINK_2" target="_blank" class="video-card">
-        <img src="https://via.placeholder.com/80x60" class="thumbnail" alt="Thumb">
-        <div class="video-info">
-            <p class="video-title">Custom Video Name 2</p>
-            <span class="click-hint">Click to play in Drive</span>
-        </div>
-    </a>
-</div>
+        <a href="APNAR_DRIVE_LINK_1" target="_blank" class="video-card">
+            <img src="Screenshot_2026_0424_150716.png" alt="Video Thumbnail" class="video-thumb">
+            <div class="video-title">test video 1</div>
+        </a>
+
+        <a href="APNAR_DRIVE_LINK_2" target="_blank" class="video-card">
+            <img src="Screenshot_2026_0424_150716.png" alt="Video Thumbnail" class="video-thumb">
+            <div class="video-title">video 2</div>
+        </a>
+
+        <a href="APNAR_DRIVE_LINK_3" target="_blank" class="video-card">
+            <img src="Screenshot_2026_0424_150716.png" alt="Video Thumbnail" class="video-thumb">
+            <div class="video-title">Third Video</div>
+        </a>
+
+    </div>
+
+    <footer>
+        &copy; 2026 Video Gallery Project
+    </footer>
 
 </body>
 </html>
