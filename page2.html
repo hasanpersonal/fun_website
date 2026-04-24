@@ -1,90 +1,62 @@
 ---
 layout: default
 ---
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f0f2f5;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
-            margin: 0;
-        }
-        .container {
-    margin-top: 0 !important; /* Container-ke mathay uthiye dibe */
-    padding-top: 10px;
-}
 
-h1 {
-    margin-top: 0; /* H1 er upore thaka barti jayga komabe */
-}
-        
-        .container {
-            background: white;
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0px 10px 25px rgba(0,0,0,0.1);
-            text-align: center;
-            max-width: 750px;
-            width: 100%;
-        }
-        h1 { color: #333; margin-bottom: 10px; }
-        h3 { color: #555; margin-top: 30px; margin-bottom: 10px; border-left: 5px solid #007bff; padding-left: 10px; text-align: left; }
-        
-        .video-wrapper {
-            position: relative;
-            padding-bottom: 56.25%; /* 16:9 Ratio */
-            height: 0;
-            overflow: hidden;
-            border-radius: 12px;
-            background: #000;
-            margin-bottom: 20px;
-        }
-        .video-wrapper iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-        .back-btn {
-            display: inline-block;
-            margin-top: 30px;
-            padding: 12px 30px;
-            background-color: #007bff;
-            color: white;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: bold;
-            transition: 0.3s;
-            position: middle 
-        }
-        .back-btn:hover {
-            background-color: #0056b3;
-            transform: translateY(-2px);
-        }
-    </style>
-<body>
+<style>
+    /* Container Style */
+    .video-container {
+        max-width: 800px;
+        margin: 0 auto;
+        background: white;
+        padding: 30px;
+        border-radius: 20px;
+        box-shadow: 0px 10px 25px rgba(0,0,0,0.1);
+        text-align: center;
+    }
 
-    <div class="container">
-        <h1>Video Gallery</h1>
+    .video-item {
+        margin-bottom: 30px;
+        padding-bottom: 20px;
+        border-bottom: 1px dashed #ccc;
+    }
 
-        <h3>Test Video (Cloud)</h3>
-        <div class="video-wrapper">
-            <iframe src="https://drive.google.com/file/d/1_DqEImZwFDdV-Yezgam8ym8geK0Psbh8/view?usp=drivesdk"></iframe>
-        </div>
+    .video-item:last-child {
+        border-bottom: none;
+    }
 
-        <h3>Test Video (YouTube)</h3>
-        <div class="video-wrapper">
-            <iframe src="https://www.youtube.com/embed/iZtCsaP36SY" 
-                    allowfullscreen>
-            </iframe>
-        </div>
+    .video-title {
+        font-size: 1.2rem;
+        color: #333;
+        margin-bottom: 15px;
+        display: block;
+        font-weight: bold;
+    }
 
-        <a href="index.html" class="back-btn">Back to Main Page</a>
+    /* Video frame design */
+    iframe {
+        width: 100%;
+        height: 315px;
+        border-radius: 10px;
+        border: none;
+    }
+</style>
+
+<div class="video-container">
+    <h1 style="margin-top: 0; color: #333;">My Video Collection</h1>
+    <p style="color: #666; margin-bottom: 30px;">Ekhane amar bachai kora 3-ti video ache.</p>
+
+    <div class="video-item">
+        <span class="video-title">1. First Video Title</span>
+        <iframe src="https://www.youtube.com/embed/VIDEO_ID_1" allowfullscreen></iframe>
     </div>
 
-</body>
-</html>
+    <div class="video-item">
+        <span class="video-title">2. Second Video Title</span>
+        <iframe src="https://www.youtube.com/embed/VIDEO_ID_2" allowfullscreen></iframe>
+    </div>
+
+    <div class="video-item">
+        <span class="video-title">3. Third Video Title</span>
+        <iframe src="https://www.youtube.com/embed/VIDEO_ID_3" allowfullscreen></iframe>
+    </div>
+</div>
