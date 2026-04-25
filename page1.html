@@ -4,62 +4,70 @@ title: My Video Collection
 ---
 
 <style>
- 
+    /* Global Reset */
     * {
-        margin 0;
-        padding 0;
-        
+        margin: 0;
+        padding: 0;
         box-sizing: border-box;
-   
     }
-    
 
-    /* --- EIKHANE EKBAR CHANGE KORLEI SHOB CHANGE HOBE --- */
     :root {
-        --card-bg: #ffffff;           /* Card-er background color */
-        --card-border: #dddddd;      /* Card-er border color */
-        --card-shadow: rgba(0,0,0,0.08); /* Shadow style */
-        --card-radius: 15px;         /* Corner koto gulo hobe */
-        --title-color: #333333;      /* Title-er font color */
-        --video-bg: #000000;         /* Video box-er background */
+        --card-bg: #ffffff;
+        --card-border: #eeeeee;
+        --card-shadow: rgba(0, 0, 0, 0.1);
+        --card-radius: 20px;
+        --title-bg: #f9f9f9; /* Title box-er pichone halka color */
+    }
+
+    body {
+        background-color: #f0f2f5; /* Background ektu off-white jate card gulo fute uthe */
     }
 
     .video-page-container {
         width: 100%;
-        height: auto;
+        max-width: 100%; /* Puru screen nibe */
         margin: 0 auto;
-        padding: 20px;
-        position: middle;
+        padding: 0; /* Side padding kete dilam jate container puru width pay */
+    }
+
+    .page-main-title {
+        text-align: center;
+        padding: 30px 10px;
+        font-family: 'Segoe UI', sans-serif;
+        color: #333;
     }
 
     .video-card {
-        margin-bottom: 40px;
-        padding: 5px;
-        border: 1px solid var(--card-border);
-        border-radius: var(--card-radius);
+        width: 100%;
         background: var(--card-bg);
-        box-shadow: 0 4px 12px var(--card-shadow);
-        transition: transform 0.3s ease;
+        margin-bottom: 40px;
+        border-top: 1px solid var(--card-border);
+        border-bottom: 1px solid var(--card-border);
+        box-shadow: 0 4px 15px var(--card-shadow);
+        overflow: hidden;
     }
 
-    .video-card:hover {
-        transform: translateY(-5px); /* Mouse nile ektu upore uthbe */
+    /* Title Box - Upore thakbe */
+    .card-header {
+        padding: 15px 20px;
+        background: var(--title-bg);
+        border-bottom: 1px solid #eee;
     }
 
-    .video-card h2 {
-        font-size: 1.3rem;
-        color: var(--title-color);
+    .card-header h2 {
+        font-size: 1.2rem;
         font-family: 'Segoe UI', sans-serif;
-        margin-bottom: 15px;
+        color: #222;
+        font-weight: 600;
     }
 
+    /* Video Section - Screen 100% Width */
     .video-wrapper {
         position: relative;
-        padding-bottom: 56.25%; /* 16:9 ratio */
+        width: 100%;
+        padding-bottom: 56.25%; /* 16:9 Ratio */
         height: 0;
-        overflow: hidden;
-        border-radius: calc(var(--card-radius) - 5px);
-        background: var(--video-bg);
+        background: #000;
     }
 
     .video-wrapper iframe {
@@ -70,30 +78,60 @@ title: My Video Collection
         height: 100%;
         border: none;
     }
+
+    /* Card Footer - Nich diye container ber hoye thakbe */
+    .card-footer {
+        padding: 15px 20px;
+        background: var(--card-bg);
+        min-height: 20px; /* Halka ektu niche container thakbe */
+    }
+
+    /* Responsive adjustment for Desktop */
+    @media (min-width: 768px) {
+        .video-card {
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            border: 1px solid var(--card-border);
+            border-radius: var(--card-radius);
+        }
+        .video-page-container {
+            padding: 20px;
+        }
+    }
 </style>
 
 <div class="video-page-container">
-    <h1 style="text-align: center; color: #333; margin-bottom: 30px;">My Videos</h1>
+    <h1 class="page-main-title">My Videos</h1>
 
     <div class="video-card">
-        <h2>1. Leader= (I HAVE A PLAN)</h2>
+        <div class="card-header">
+            <h2>1. Leader= (I HAVE A PLAN)</h2>
+        </div>
         <div class="video-wrapper">
             <iframe src="https://www.youtube-nocookie.com/embed/XcgIeBzUKSc" allowfullscreen></iframe>
         </div>
+        <div class="card-footer">joy bangla, hridoy e bongoboltu, hasina shorkar bar bar dorkar</div>
     </div>
 
     <div class="video-card">
-        <h2>2. Second Video Title Eikhane</h2>
+        <div class="card-header">
+            <h2>2. Second Video Title Eikhane</h2>
+        </div>
         <div class="video-wrapper">
             <iframe src="https://www.youtube-nocookie.com/embed/VIDEO_ID_1" allowfullscreen></iframe>
         </div>
+        <div class="card-footer"></div>
     </div>
 
     <div class="video-card">
-        <h2>3. Third Video Title Eikhane</h2>
+        <div class="card-header">
+            <h2>3. Third Video Title Eikhane</h2>
+        </div>
         <div class="video-wrapper">
             <iframe src="https://www.youtube-nocookie.com/embed/VIDEO_ID_2" allowfullscreen></iframe>
         </div>
+        <div class="card-footer"></div>
     </div>
 
 </div>
