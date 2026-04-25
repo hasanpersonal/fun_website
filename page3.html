@@ -1,68 +1,101 @@
 ---
 layout: default
 title: Drive Content
+---
+
 <style>
+    /* --- TOTAL PAGE STYLE --- */
+    .page-container {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 20px;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .page-title {
+        text-align: center;
+        color: #333;
+        margin-bottom: 30px;
+        font-size: 1.8rem;
+    }
+
+    /* --- VIDEO/IMAGE CARD STYLE --- */
     .video-card {
         display: flex;
         flex-direction: row;
         align-items: center;
+        background: #ffffff;
+        border: 1px solid #e0e0e0;
+        border-radius: 12px; /* Smooth rounded corners */
         margin-bottom: 20px;
-        background: #fff;
-        border: 1px solid #ddd;
-        border-radius: 12px;
         overflow: hidden;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-        height: 65px; /* Puru box-er height komiye dilam */
+        height: 100px; /* Slim height, square hobe na */
+        box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        transition: transform 0.2s;
     }
 
+    .video-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    /* Bam Pasher Image Area */
     .card-image-area {
-        flex: 0.5;        /* Image area ektu choto korlam */
-        max-width:90px; 
-        height: 60px;     
-        background: #f0f0f0; /* Black kete light color dilam jate image na asle bhalo lage */
+        flex: 0.6;
+        height: 100%;
+        max-width: 180px; /* Chora boro kora hoyeche jate square na hoy */
+        background: #f4f4f4;
     }
 
     .card-image-area img {
         width: 100%;
         height: 100%;
-        object-fit: cover;
+        object-fit: cover; /* Chobi jate kete na jay ar puru jaygay thake */
     }
 
+    /* Dan Pasher Text Area */
     .card-text-area {
         flex: 2;
-        padding: 10px 20px; /* Padding komiye space bachalam */
+        padding: 10px 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
     }
 
     .card-title {
-        font-size: 1.0rem; /* Title ektu choto korlam jate box-e fit hoy */
+        font-size: 1.2rem; /* Ekhan theke shob title-er size ekbare change hobe */
         color: #2c3e50;
         margin: 0 0 5px 0;
-        font-family: sans-serif;
+        font-weight: 600;
+    }
+
+    .card-desc {
+        font-size: 0.9rem; /* Ekhan theke shob description-er size change hobe */
+        color: #666;
+        margin: 0;
+        line-height: 1.4;
     }
 
     .btn-view {
-        display: inline-block;
-        padding: 5px 15px; /* Button size-o komiye dilam */
-        background: #28a745;
-        color: #fff;
+        margin-top: 8px;
+        font-size: 0.85rem;
+        color: #28a745;
         text-decoration: none;
-        border-radius: 5px;
         font-weight: bold;
-        font-size: 0.8rem;
     }
 </style>
 
-
-<div style="max-width: 1100px; margin: 0 auto; padding: 20px;">
-    <h1 style="text-align: center; font-family: sans-serif; margin-bottom: 40px;">My Collection</h1>
+<div class="page-container">
+    <h1 class="page-title">My Drive Collection</h1>
 
     <div class="video-card">
         <div class="card-image-area">
             <img src="https://lh3.googleusercontent.com/u/0/d/APNAR_IMAGE_ID_EIKHANE0" alt="Drive Image">
         </div>
         <div class="card-text-area">
-            <h2 class="card-title">1. First Content Title</h2>
-            <a href="index.html" class="btn-view">View Now</a>
+            <h2 class="card-title">1. Prothom Video Title</h2>
+            <p class="card-desc">Eikhane apnar prothom chobi ba video-r shundor ekti description likhun.</p>
+            <a href="#" class="btn-view">View Content →</a>
         </div>
     </div>
 
@@ -71,8 +104,9 @@ title: Drive Content
             <img src="https://lh3.googleusercontent.com/u/0/d/APNAR_IMAGE_ID_EIKHANE0" alt="Drive Image">
         </div>
         <div class="card-text-area">
-            <h2 class="card-title">2. Second Content Title</h2>
-            <a href="index.html" class="btn-view">View Now</a>
+            <h2 class="card-title">2. Dwitiyo Video Title</h2>
+            <p class="card-desc">Drive theke host kora notun image-ta ekhane shundor bhabe load hobe.</p>
+            <a href="#" class="btn-view">View Content →</a>
         </div>
     </div>
 
@@ -81,9 +115,9 @@ title: Drive Content
             <img src="https://lh3.googleusercontent.com/u/0/d/APNAR_IMAGE_ID_EIKHANE0" alt="Drive Image">
         </div>
         <div class="card-text-area">
-            <h2 class="card-title">3. Third Content Title</h2>
-            <a href="index.html" class="btn-view">View Now</a>
+            <h2 class="card-title">3. Tritiyo Video Title</h2>
+            <a href="#" class="btn-view">View Content →</a>
         </div>
     </div>
-
-</div>
+                </div>
+            
