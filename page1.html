@@ -3,43 +3,84 @@ layout: default
 title: My Video Collection
 ---
 
-<div style="max-width: 1000px; margin: 0 auto; padding: 20px;">
+<style>
+    /* --- EIKHANE EKBAR CHANGE KORLEI SHOB CHANGE HOBE --- */
+    :root {
+        --card-bg: #ffffff;           /* Card-er background color */
+        --card-border: #dddddd;      /* Card-er border color */
+        --card-shadow: rgba(0,0,0,0.08); /* Shadow style */
+        --card-radius: 15px;         /* Corner koto gulo hobe */
+        --title-color: #333333;      /* Title-er font color */
+        --video-bg: #000000;         /* Video box-er background */
+    }
 
-    <h1 style="text-align: center; color: #333; font-family: sans-serif; margin-bottom: 30px;">My Videos</h1>
+    .video-page-container {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 20px;
+    }
 
-    <div style="margin-bottom: 40px; padding: 15px; border: 1px solid #ddd; border-radius: 12px; background: #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.08);">
-        <h2 style="font-size: 1.3rem; color: #333; font-family: sans-serif; margin-bottom: 15px;">1. Leader= (I HAVE A PLAN)</h2>
-        <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 10px; background: #000;">
-            <iframe 
-                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
-                src="https://www.youtube-nocookie.com/embed/XcgIeBzUKSc" 
-                frameborder="0" 
-                allowfullscreen>
-            </iframe>
+    .video-card {
+        margin-bottom: 40px;
+        padding: 15px;
+        border: 1px solid var(--card-border);
+        border-radius: var(--card-radius);
+        background: var(--card-bg);
+        box-shadow: 0 4px 12px var(--card-shadow);
+        transition: transform 0.3s ease;
+    }
+
+    .video-card:hover {
+        transform: translateY(-5px); /* Mouse nile ektu upore uthbe */
+    }
+
+    .video-card h2 {
+        font-size: 1.3rem;
+        color: var(--title-color);
+        font-family: 'Segoe UI', sans-serif;
+        margin-bottom: 15px;
+    }
+
+    .video-wrapper {
+        position: relative;
+        padding-bottom: 56.25%; /* 16:9 ratio */
+        height: 0;
+        overflow: hidden;
+        border-radius: calc(var(--card-radius) - 5px);
+        background: var(--video-bg);
+    }
+
+    .video-wrapper iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: none;
+    }
+</style>
+
+<div class="video-page-container">
+    <h1 style="text-align: center; color: #333; margin-bottom: 30px;">My Videos</h1>
+
+    <div class="video-card">
+        <h2>1. Leader= (I HAVE A PLAN)</h2>
+        <div class="video-wrapper">
+            <iframe src="https://www.youtube-nocookie.com/embed/XcgIeBzUKSc" allowfullscreen></iframe>
         </div>
     </div>
 
-    <div style="margin-bottom: 40px; padding: 15px; border: 1px solid #ddd; border-radius: 12px; background: #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.08);">
-        <h2 style="font-size: 1.3rem; color: #333; font-family: sans-serif; margin-bottom: 15px;">2. Second Video Title Eikhane</h2>
-        <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 10px; background: #000;">
-            <iframe 
-                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
-                src="https://www.youtube-nocookie.com/embed/VIDEO_ID_EIKHANE" 
-                frameborder="0" 
-                allowfullscreen>
-            </iframe>
+    <div class="video-card">
+        <h2>2. Second Video Title Eikhane</h2>
+        <div class="video-wrapper">
+            <iframe src="https://www.youtube-nocookie.com/embed/VIDEO_ID_1" allowfullscreen></iframe>
         </div>
     </div>
 
-    <div style="margin-bottom: 40px; padding: 15px; border: 1px solid #ddd; border-radius: 12px; background: #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.08);">
-        <h2 style="font-size: 1.3rem; color: #333; font-family: sans-serif; margin-bottom: 15px;">3. Third Video Title Eikhane</h2>
-        <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 10px; background: #000;">
-            <iframe 
-                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
-                src="https://www.youtube-nocookie.com/embed/VIDEO_ID_EIKHANE" 
-                frameborder="0" 
-                allowfullscreen>
-            </iframe>
+    <div class="video-card">
+        <h2>3. Third Video Title Eikhane</h2>
+        <div class="video-wrapper">
+            <iframe src="https://www.youtube-nocookie.com/embed/VIDEO_ID_2" allowfullscreen></iframe>
         </div>
     </div>
 
