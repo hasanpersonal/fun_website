@@ -1,27 +1,25 @@
 ---
 layout: default
 title: Drive Content
----
-
 <style>
-    /* --- EIKHANE CHANGE KORLE SHOBGULO CARD EKSARE CHANGE HOBE --- */
     .video-card {
         display: flex;
         flex-direction: row;
         align-items: center;
-        margin-bottom: 30px;
+        margin-bottom: 20px;
         background: #fff;
         border: 1px solid #ddd;
-        border-radius: 15px;
+        border-radius: 12px;
         overflow: hidden;
         box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        height: 65px; /* Puru box-er height komiye dilam */
     }
 
     .card-image-area {
-        flex: 1;           /* Image-er size boro korte eita bariye den (e.g. 1.5) */
-        max-width: 450px;  /* Image-er chora koto hobe sheta eikhane thik korun */
-        height: 300px;     /* Image-er uchu/height eikhane thik korun */
-        background: #000;
+        flex: 0.5;        /* Image area ektu choto korlam */
+        max-width:90px; 
+        height: 60px;     
+        background: #f0f0f0; /* Black kete light color dilam jate image na asle bhalo lage */
     }
 
     .card-image-area img {
@@ -31,34 +29,29 @@ title: Drive Content
     }
 
     .card-text-area {
-        flex: 1.5;
-        padding: 30px;
+        flex: 2;
+        padding: 10px 20px; /* Padding komiye space bachalam */
     }
 
     .card-title {
-        font-size: 1.6rem; /* Title boro korte eita bariye den */
+        font-size: 1.0rem; /* Title ektu choto korlam jate box-e fit hoy */
         color: #2c3e50;
-        margin-top: 0;
+        margin: 0 0 5px 0;
         font-family: sans-serif;
-    }
-
-    .card-desc {
-        color: #555;
-        line-height: 1.7;
-        font-size: 1.1rem; /* Description boro korte eita bariye den */
     }
 
     .btn-view {
         display: inline-block;
-        margin-top: 15px;
-        padding: 10px 22px;
+        padding: 5px 15px; /* Button size-o komiye dilam */
         background: #28a745;
         color: #fff;
         text-decoration: none;
-        border-radius: 8px;
+        border-radius: 5px;
         font-weight: bold;
+        font-size: 0.8rem;
     }
 </style>
+
 
 <div style="max-width: 1100px; margin: 0 auto; padding: 20px;">
     <h1 style="text-align: center; font-family: sans-serif; margin-bottom: 40px;">My Collection</h1>
@@ -69,7 +62,6 @@ title: Drive Content
         </div>
         <div class="card-text-area">
             <h2 class="card-title">1. First Content Title</h2>
-            <p class="card-desc">Eikhane apnar prothom chobi ba video-r description thakbe.</p>
             <a href="index.html" class="btn-view">View Now</a>
         </div>
     </div>
@@ -80,7 +72,6 @@ title: Drive Content
         </div>
         <div class="card-text-area">
             <h2 class="card-title">2. Second Content Title</h2>
-            <p class="card-desc">Dwitiyo item-er details eikhane likhun.</p>
             <a href="index.html" class="btn-view">View Now</a>
         </div>
     </div>
@@ -91,7 +82,6 @@ title: Drive Content
         </div>
         <div class="card-text-area">
             <h2 class="card-title">3. Third Content Title</h2>
-            <p class="card-desc">Tritiyo item-er description eikhane thakbe.</p>
             <a href="index.html" class="btn-view">View Now</a>
         </div>
     </div>
