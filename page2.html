@@ -3,36 +3,107 @@ layout: default
 title: My Video Collection
 ---
 
-<div style="max-width: 1000px; margin: 0 auto; padding: 20px;">
+<style>
+    /* --- EIKHANE EKBAR CHANGE KORLEI SHOB CHANGE HOBE --- */
+    :root {
+        --card-bg: #ffffff;
+        --card-border: #dddddd;
+        --card-shadow: 0 4px 10px rgba(0,0,0,0.08);
+        --card-radius: 12px;
+        --title-color: #333333;
+        --img-radius: 10px;
+    }
 
-    <h1 style="text-align: center; color: #333; font-family: sans-serif; margin-bottom: 30px;">My Videos</h1>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
 
-    <div style="margin-bottom: 40px; padding: 15px; border: 1px solid #ddd; border-radius: 12px; background: #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.08);">
-        <a href="https://drive.google.com/file/d/1ZGweVX0fwp9TY6aQHmF9sNMJOEKeKBR4/view?usp=drivesdk" target="_blank" style="text-decoration: none;">
-            <h2 style="font-size: 1.3rem; color: #333; font-family: sans-serif; margin-bottom: 15px;">1. Leader= (I HAVE A PLAN)</h2>
-            <div style="position: relative; border-radius: 10px; overflow: hidden; background: #f0f0f0;">
-                <img src="https://lh3.googleusercontent.com/u/0/d/1ZMOu2RwDalnr6u4hdPFUVGvlnQbZmbFF" alt="Video Thumbnail" style="width: 100%; height: auto; display: block; transition: transform 0.3s ease;">
+    .video-page-container {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .main-title {
+        text-align: center;
+        color: var(--title-color);
+        font-family: sans-serif;
+        margin-bottom: 30px;
+    }
+
+    .video-card {
+        margin-bottom: 40px;
+        padding: 15px;
+        border: 1px solid var(--card-border);
+        border-radius: var(--card-radius);
+        background: var(--card-bg);
+        box-shadow: var(--card-shadow);
+    }
+
+    .video-card a {
+        text-decoration: none;
+    }
+
+    .video-card h2 {
+        font-size: 1.3rem;
+        color: var(--title-color);
+        font-family: sans-serif;
+        margin-bottom: 15px;
+    }
+
+    /* Thumbnail container - Eikhane size control kora hoyeche */
+    .thumbnail-box {
+        position: relative;
+        border-radius: var(--img-radius);
+        overflow: hidden;
+        background: #f0f0f0;
+        text-align: center; /* Image ke majhkane rakhar jonno */
+        padding: 10px 0;    /* Upore niche ektu khali jayga */
+    }
+
+    .thumbnail-box img {
+        width: 80%;         /* <--- IMAGE SIZE EIKHANE KOMANO HOYECHE (100% THEKE 80%) */
+        height: auto;
+        display: inline-block;
+        border-radius: var(--img-radius);
+        transition: transform 0.3s ease;
+    }
+
+    .thumbnail-box img:hover {
+        transform: scale(1.05); /* Mouse nile ektu boro hobe */
+    }
+</style>
+
+<div class="video-page-container">
+    <h1 class="main-title">My Videos</h1>
+
+    <div class="video-card">
+        <a href="https://drive.google.com/file/d/1ZGweVX0fwp9TY6aQHmF9sNMJOEKeKBR4/view?usp=drivesdk" target="_blank">
+            <h2>1. Leader= (I HAVE A PLAN)</h2>
+            <div class="thumbnail-box">
+                <img src="https://lh3.googleusercontent.com/u/0/d/1ZMOu2RwDalnr6u4hdPFUVGvlnQbZmbFF" alt="Video Thumbnail">
             </div>
         </a>
     </div>
 
-    <div style="margin-bottom: 40px; padding: 15px; border: 1px solid #ddd; border-radius: 12px; background: #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.08);">
-        <a href="#" target="_blank" style="text-decoration: none;">
-            <h2 style="font-size: 1.3rem; color: #333; font-family: sans-serif; margin-bottom: 15px;">2. Second Video Title</h2>
-            <div style="position: relative; border-radius: 10px; overflow: hidden; background: #f0f0f0;">
-                <img src="https://lh3.googleusercontent.com/u/0/d/1ZMOu2RwDalnr6u4hdPFUVGvlnQbZmbFF" alt="Video Thumbnail" style="width: 100%; height: auto; display: block;">
+    <div class="video-card">
+        <a href="#" target="_blank">
+            <h2>2. Second Video Title</h2>
+            <div class="thumbnail-box">
+                <img src="https://lh3.googleusercontent.com/u/0/d/1ZMOu2RwDalnr6u4hdPFUVGvlnQbZmbFF" alt="Video Thumbnail">
             </div>
         </a>
     </div>
 
-    <div style="margin-bottom: 40px; padding: 15px; border: 1px solid #ddd; border-radius: 12px; background: #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.08);">
-        <a href="#" target="_blank" style="text-decoration: none;">
-            <h2 style="font-size: 1.3rem; color: #333; font-family: sans-serif; margin-bottom: 15px;">3. Third Video Title</h2>
-            <div style="position: relative; border-radius: 10px; overflow: hidden; background: #f0f0f0;">
-                <img src="https://lh3.googleusercontent.com/u/0/d/1ZMOu2RwDalnr6u4hdPFUVGvlnQbZmbFF" alt="Video Thumbnail" style="width: 100%; height: auto; display: block;">
+    <div class="video-card">
+        <a href="#" target="_blank">
+            <h2>3. Third Video Title</h2>
+            <div class="thumbnail-box">
+                <img src="https://lh3.googleusercontent.com/u/0/d/1ZMOu2RwDalnr6u4hdPFUVGvlnQbZmbFF" alt="Video Thumbnail">
             </div>
         </a>
     </div>
 
 </div>
-
