@@ -2,25 +2,29 @@
 layout: default
 ---
 
-<!-- Google Fonts (Inter) এবং FontAwesome (Icons) -->
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 <style>
-    /* মডার্ন মিনিমালিস্ট সেটআপ */
+    /* ১. বক্স সাইজিং রিসেট - এটি পেজ ডানদিকে বা স্ক্রিনের বাইরে চলে যাওয়া বন্ধ করবে */
+    .minimal-hero, .minimal-hero * {
+        box-sizing: border-box;
+    }
+
     :root {
-        --bg-color: #f8fafc; /* হালকা সুন্দর ব্যাকগ্রাউন্ড */
+        --bg-color: #f8fafc; 
         --card-bg: #ffffff;
-        --text-main: #0f172a; /* গাঢ় কালচে-নীল টেক্সট */
+        --text-main: #0f172a; 
         --text-muted: #64748b;
-        --primary-color: #0ea5e9; /* সুন্দর একটি নীল রঙ */
+        --primary-color: #0ea5e9; 
         --primary-hover: #0284c7;
     }
 
-    /* হিরো সেকশন - ডট প্যাটার্ন ব্যাকগ্রাউন্ড সহ */
+    /* হিরো সেকশন */
     .minimal-hero {
         font-family: 'Inter', sans-serif;
         min-height: 100vh;
+        width: 100%; /* ফুল উইডথ নিশ্চিত করা হলো */
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -29,7 +33,7 @@ layout: default
         text-align: center;
         background-color: var(--bg-color);
         background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
-        background-size: 24px 24px; /* প্রিমিয়াম ডট প্যাটার্ন */
+        background-size: 24px 24px; 
         color: var(--text-main);
     }
 
@@ -40,9 +44,22 @@ layout: default
         border-radius: 24px;
         box-shadow: 0 20px 40px -10px rgba(0,0,0,0.08), 0 0 10px rgba(0,0,0,0.02);
         width: 100%;
-        max-width: 480px;
+        max-width: 450px; /* মোবাইলে পারফেক্ট ফিটিংয়ের জন্য কিছুটা কমানো হলো */
         border: 1px solid #f1f5f9;
         transition: transform 0.3s ease;
+    }
+
+    /* ২. মোবাইল রেস্পন্সিভ কোড - স্ক্রিন ছোট হলে কন্টেইনার ও টেক্সট নিজে থেকেই মানিয়ে নেবে */
+    @media (max-width: 480px) {
+        .minimal-hero {
+            padding: 20px 10px;
+        }
+        .clean-container {
+            padding: 40px 20px; /* মোবাইলে ভেতরের স্পেস বা প্যাডিং কমানো হলো */
+        }
+        .clean-container h1 {
+            font-size: 2.8rem; /* মোবাইলের জন্য লেখার সাইজ পারফেক্ট করা হলো */
+        }
     }
 
     .clean-container:hover {
@@ -64,14 +81,13 @@ layout: default
         font-weight: 400;
     }
 
-    /* বাটনগুলো সুন্দরভাবে সাজানোর জন্য স্ট্যাক লেআউট */
+    /* বাটন স্ট্যাক */
     .button-stack {
         display: flex;
         flex-direction: column;
         gap: 14px;
     }
 
-    /* সাধারণ বাটন ডিজাইন */
     .clean-btn {
         background-color: #ffffff;
         color: #334155;
@@ -96,7 +112,6 @@ layout: default
         box-shadow: 0 10px 15px -3px rgba(14, 165, 233, 0.1);
     }
     
-    /* স্পেশাল/মেইন বাটন ডিজাইন (game er জন্য) */
     .clean-btn.highlight {
         background-color: var(--primary-color);
         color: #ffffff;
@@ -115,7 +130,7 @@ layout: default
         font-size: 1.2rem;
     }
 
-    /* ফুটার ডিজাইন */
+    /* ফুটার */
     .minimal-footer {
         margin-top: 50px;
         text-align: center;
@@ -154,7 +169,6 @@ layout: default
         <p>This is my first online website</p>
     
         <div class="button-stack">
-            <!-- game বাটনটিকে একটু বেশি ফোকাস করা হয়েছে -->
             <a href="page1.html" class="clean-btn">
                 <i class="fa-solid fa-rocket"></i> Go to Page 1
             </a>
