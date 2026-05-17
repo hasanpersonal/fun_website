@@ -3,104 +3,293 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game Zone</title>
+    <title>Archer Gaming Zone</title>
     <style>
         /* Basic Reset */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        /* Body Styling with Gradient Background */
+        /* Body Styling with Animated-like Gradient Background */
         body {
-            background: linear-gradient(135deg, #141e30, #243b55);
-            color: white;
+            background: radial-gradient(circle at center, #1f4068 0%, #162447 50%, #0f172a 100%);
+            color: #ffffff;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            overflow-x: hidden;
+            padding: 20px;
         }
 
-        /* Glassmorphism Container */
+        /* Main Glassmorphism Container */
         .container {
             text-align: center;
-            background: rgba(255, 255, 255, 0.05);
-            padding: 50px;
-            border-radius: 20px;
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
-            width: 90%;
-            max-width: 500px;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 50px 40px;
+            border-radius: 24px;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6), 
+                        0 0 40px rgba(0, 242, 254, 0.1);
+            width: 100%;
+            max-width: 550px;
+            position: relative;
         }
 
-        /* Header Styling */
+        /* Decorative Glowing Top Bar */
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 10%;
+            width: 80%;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, #00f2fe, #4facfe, transparent);
+            border-radius: 0 0 10px 10px;
+        }
+
+        /* Header Area with Main Logo */
+        .header-section {
+            margin-bottom: 35px;
+        }
+
+        .main-logo {
+            margin-bottom: 10px;
+            filter: drop-shadow(0 0 15px rgba(0, 242, 254, 0.6));
+        }
+
         h1 {
-            font-size: 3.5rem;
-            margin-bottom: 30px;
+            font-size: 3rem;
             text-transform: uppercase;
-            letter-spacing: 3px;
-            color: #00ffcc;
-            text-shadow: 0 0 15px rgba(0, 255, 204, 0.6);
+            letter-spacing: 4px;
+            background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(0, 242, 254, 0.3);
+            font-weight: 800;
         }
 
-        /* List Styling */
+        p.subtitle {
+            color: #708090;
+            font-size: 0.95rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-top: 5px;
+        }
+
+        /* Game List Wrapper */
         .game-list {
-            list-style: none;
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 20px;
         }
 
-        /* Individual Game Item Styling */
-        .game-item {
-            background: rgba(0, 0, 0, 0.4);
-            padding: 18px 25px;
-            border-radius: 10px;
-            font-size: 1.3rem;
-            font-weight: 600;
-            letter-spacing: 1px;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            border-left: 5px solid transparent;
+        /* Game Item Link Styling */
+        .game-card {
+            text-decoration: none;
+            color: white;
+            background: rgba(15, 23, 42, 0.6);
+            padding: 20px 25px;
+            border-radius: 16px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
         }
 
-        /* Hover Animation */
-        .game-item:hover {
-            background: rgba(255, 255, 255, 0.15);
-            transform: translateX(10px);
-            border-left: 5px solid #00ffcc;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-            color: #00ffcc;
+        /* Left Side Content (Logo + Text) */
+        .card-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
         }
 
-        /* Optional: Add a small icon or arrow on hover */
-        .game-item::after {
-            content: '➔';
-            opacity: 0;
-            transition: opacity 0.3s ease;
+        /* SVG Logo Container inside Card */
+        .game-icon-box {
+            background: rgba(0, 242, 254, 0.1);
+            padding: 12px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid rgba(0, 242, 254, 0.2);
+            transition: all 0.3s ease;
         }
 
-        .game-item:hover::after {
-            opacity: 1;
+        .game-icon-box svg {
+            width: 28px;
+            height: 28px;
+            fill: none;
+            stroke: #00f2fe;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            transition: all 0.3s ease;
+        }
+
+        /* Text Details */
+        .game-info {
+            text-align: left;
+        }
+
+        .game-title {
+            font-size: 1.35rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: #ffffff;
+            transition: color 0.3s ease;
+        }
+
+        .game-meta {
+            font-size: 0.8rem;
+            color: #00f2fe;
+            opacity: 0.7;
+            margin-top: 2px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Right Side Badge */
+        .play-badge {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        /* Hover Effects */
+        .game-card:hover {
+            background: rgba(0, 242, 254, 0.08);
+            transform: translateY(-5px) scale(1.02);
+            border-color: rgba(0, 242, 254, 0.4);
+            box-shadow: 0 15px 30px rgba(0, 242, 254, 0.15);
+        }
+
+        .game-card:hover .game-icon-box {
+            background: #00f2fe;
+            box-shadow: 0 0 15px rgba(0, 242, 254, 0.6);
+        }
+
+        .game-card:hover .game-icon-box svg {
+            stroke: #162447;
+        }
+
+        .game-card:hover .game-title {
+            color: #00f2fe;
+        }
+
+        .game-card:hover .play-badge {
+            background: #00f2fe;
+            color: #162447;
+            border-color: #00f2fe;
+            box-shadow: 0 0 10px rgba(0, 242, 254, 0.4);
+        }
+
+        /* Footer Info */
+        .footer-text {
+            margin-top: 35px;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.3);
+            letter-spacing: 1px;
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h1>Games</h1>
-        <ul class="game-list">
-            <li class="game-item"><a herf="games/archer.html">Archer</li>
-           <a herf="archer.html <li class="games-item">Archer</li> >
-            <li class="game-item">on development</li>
-            <li class="game-item">don't click</li>
-        </ul>
+        
+        <div class="header-section">
+            <svg class="main-logo" viewBox="0 0 24 24" width="50" height="50" fill="none" stroke="#00f2fe" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 3C11.5 3 3 11.5 3 21"/>
+                <line x1="21" y1="3" x2="3" y2="21"/>
+                <line x1="5" y1="5" x2="19" y2="19"/>
+                <path d="M19 15V19H15"/>
+            </svg>
+            <h1>Games</h1>
+            <p class="subtitle">Select Your Archer Adventure</p>
+        </div>
+
+        <div class="game-list">
+            
+            <a href="archer.html" class="game-card">
+                <div class="card-left">
+                    <div class="game-icon-box">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M21 3C11.5 3 3 11.5 3 21"/><line x1="21" y1="3" x2="3" y2="21"/><line x1="5" y1="5" x2="19" y2="19"/><path d="M19 15V19H15"/>
+                        </svg>
+                    </div>
+                    <div class="game-info">
+                        <div class="game-title">Archer</div>
+                        <div class="game-meta">Origins • Edition I</div>
+                    </div>
+                </div>
+                <div class="play-badge">Play</div>
+            </a>
+
+            <a href="archer.html" class="game-card">
+                <div class="card-left">
+                    <div class="game-icon-box">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M21 3C11.5 3 3 11.5 3 21"/><line x1="21" y1="3" x2="3" y2="21"/><line x1="5" y1="5" x2="19" y2="19"/><path d="M19 15V19H15"/>
+                        </svg>
+                    </div>
+                    <div class="game-info">
+                        <div class="game-title">Archer</div>
+                        <div class="game-meta">Shadow Siege • Edition II</div>
+                    </div>
+                </div>
+                <div class="play-badge">Play</div>
+            </a>
+
+            <a href="archer.html" class="game-card">
+                <div class="card-left">
+                    <div class="game-icon-box">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M21 3C11.5 3 3 11.5 3 21"/><line x1="21" y1="3" x2="3" y2="21"/><line x1="5" y1="5" x2="19" y2="19"/><path d="M19 15V19H15"/>
+                        </svg>
+                    </div>
+                    <div class="game-info">
+                        <div class="game-title">Archer</div>
+                        <div class="game-meta">Crimson Hunt • Edition III</div>
+                    </div>
+                </div>
+                <div class="play-badge">Play</div>
+            </a>
+
+            <a href="archer.html" class="game-card">
+                <div class="card-left">
+                    <div class="game-icon-box">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M21 3C11.5 3 3 11.5 3 21"/><line x1="21" y1="3" x2="3" y2="21"/><line x1="5" y1="5" x2="19" y2="19"/><path d="M19 15V19H15"/>
+                        </svg>
+                    </div>
+                    <div class="game-info">
+                        <div class="game-title">Archer</div>
+                        <div class="game-meta">Mythic Vanguard • Edition IV</div>
+                    </div>
+                </div>
+                <div class="play-badge">Play</div>
+            </a>
+
+        </div>
+
+        <div class="footer-text">
+            © 2026 Archer Gaming Portal. All Rights Reserved.
+        </div>
+
     </div>
 
 </body>
