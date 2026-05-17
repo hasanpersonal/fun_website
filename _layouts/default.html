@@ -1,71 +1,175 @@
 <!DOCTYPE html>
-<html>
+<html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        /* Body reset and background */
-        body { margin: 0; padding: 0; background-color: #a2add0; font-family: sans-serif; }
+    <title>Hasan's WEB</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-        /* Title Section */
-        .top-header { text-align: center; padding: 15px 0; margin-bottom: 0; }
-        .brand-container { display: inline-block; padding: 8px 25px; border: 2px solid #333; border-radius: 5px; background-color: #fff; text-decoration: none; transition: all 0.3s ease; }
-        .brand-container:hover { background-color: #333; }
-        .brand-text { font-size: 1.8rem; font-weight: bold; color: #333; margin: 0; }
-        .brand-container:hover .brand-text { color: #fff; }
+    <style>
+        /* গ্লোবাল রিসেট এবং প্রিমিয়াম ব্যাকগ্রাউন্ড */
+        body { 
+            margin: 0; 
+            padding: 0; 
+            background-color: #f4f7fa; /* চোখে আরামদায়ক হালকা ব্ল্যুইশ-গ্রে কালার */
+            font-family: 'Inter', sans-serif; 
+            color: #1e293b;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* সব এলিমেন্টের জন্য বক্স-সাইজিং ফিক্স */
+        * {
+            box-sizing: border-box;
+        }
+
+        /* হেডার সেকশন (লোগো এরিয়া) */
+        .top-header { 
+            text-align: center; 
+            padding: 30px 0 20px 0; 
+            background-color: #ffffff;
+        }
         
-        /* Navbar - 1 line style */
+        .brand-container { 
+            display: inline-block; 
+            padding: 10px 30px; 
+            border: 1px solid #e2e8f0; 
+            border-radius: 50px; /* মডার্ন ওভাল ক্যাপসুল ডিজাইন */
+            background-color: #ffffff; 
+            text-decoration: none; 
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+        }
+        
+        .brand-container:hover { 
+            transform: translateY(-2px);
+            border-color: #0ea5e9;
+            box-shadow: 0 10px 25px rgba(14, 165, 233, 0.15);
+        }
+        
+        .brand-text { 
+            font-size: 1.6rem; 
+            font-weight: 800; 
+            color: #0f172a; 
+            letter-spacing: -0.5px; 
+            transition: color 0.3s;
+        }
+        
+        .brand-container:hover .brand-text { 
+            color: #0ea5e9; /* হোভার করলে লোগো নীল হবে */
+        }
+        
+        /* মডার্ন স্লিক ন্যাভবার (Frosted Glass Effect) */
         .navbar { 
-            background-color: #333; 
+            background-color: rgba(255, 255, 255, 0.85); 
+            backdrop-filter: blur(12px); /* পেছনে হালকা ঝাপসা বা ব্লার ইফেক্ট */
+            -webkit-backdrop-filter: blur(12px);
             width: 100%; 
-            padding: 5px 0; 
+            padding: 12px 0; 
             text-align: center; 
             position: sticky; 
             top: 0; 
             z-index: 1000;
+            border-bottom: 1px solid #e2e8f0;
             white-space: nowrap; 
-            overflow-x: auto;    
+            overflow-x: auto; /* মোবাইলের স্ক্রিন ছোট হলে বাটন স্ক্রোল করা যাবে */
+            -ms-overflow-style: none;  
+            scrollbar-width: none; 
         }
+        
+        .navbar::-webkit-scrollbar {
+            display: none; /* স্ক্রোলবার হাইড */
+        }
+        
         .navbar a { 
-            color: white; 
+            color: #475569; 
             text-decoration: none; 
-            padding: 10px 15px; 
-            font-size: 0.9rem; 
-            font-weight: bold; 
+            padding: 8px 20px; 
+            font-size: 0.95rem; 
+            font-weight: 600; 
             display: inline-block; 
-            transition: 0.3s; 
+            margin: 0 4px;
+            border-radius: 20px;
+            transition: all 0.25s ease; 
         }
-        .navbar a:hover { background-color: #ff4757; border-radius: 5px; }
+        
+        .navbar a:hover { 
+            background-color: #f0f9ff; 
+            color: #0ea5e9; 
+        }
 
-        /* Content area spacing */
-        .content { padding: 10px; min-height: 50vh; }
+        /* কন্টেন্ট এরিয়া */
+        .content { 
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px; 
+            min-height: 60vh; 
+        }
 
-        /* Footer Section Style */
+        /* প্রিমিয়াম ডার্ক স্লেট ফুটার */
         .custom-footer {
-            background-color: #4a5568; 
-            color: white;
-            padding: 30px 20px;
+            background-color: #0f172a; 
+            color: #f8fafc;
+            padding: 45px 20px;
             text-align: center;
-            margin-top: 50px; 
+            border-top: 1px solid #1e293b;
         }
+        
         .footer-content {
             display: flex;
             flex-direction: column; 
-            gap: 15px; 
+            align-items: center;
+            gap: 10px; 
         }
+        
         .footer-link {
-            color: #ffd700; 
+            color: #38bdf8; 
             text-decoration: none;
-            font-weight: bold;
-            font-size: 1.1rem;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+            background: rgba(56, 189, 248, 0.08);
+            padding: 6px 18px;
+            border-radius: 20px;
+            border: 1px solid rgba(56, 189, 248, 0.2);
         }
-        .footer-link:hover { text-decoration: underline; }
-        .footer-text { font-size: 1rem; letter-spacing: 1px; opacity: 0.9; }
+        
+        .footer-link:hover { 
+            background: rgba(56, 189, 248, 0.15);
+            color: #7dd3fc;
+            transform: translateY(-1px);
+        }
+        
+        .footer-text { 
+            font-size: 0.95rem; 
+            color: #94a3b8;
+            font-weight: 400;
+        }
+
+        /* মোবাইল রেস্পন্সিভ ফিক্স */
+        @media (max-width: 600px) {
+            .content { padding: 25px 15px; }
+            .brand-text { font-size: 1.4rem; }
+            .navbar a { padding: 8px 14px; font-size: 0.9rem; }
+        }
     </style>
 </head>
 <body>
 
-    {% include upper.html %} 
+    <div class="top-header">
+        <a href="index.html" class="brand-container">
+            <span class="brand-text">Hasan's WEB</span>
+        </a>
+    </div>
+
+    <nav class="navbar">
+        <a href="index.html"><i class="fa-solid fa-house" style="font-size: 0.85rem; margin-right: 5px;"></i> Home</a>
+        <a href="games/game.html">Games by me</a>
+        <a href="page1.html">YT Vid</a>
+        <a href="page2.html">Drive Vid</a>
+        <a href="pagecontact.html">Contact & Support</a>
+    </nav>
 
     <div class="content">
         {{ content }} 
@@ -73,9 +177,9 @@
 
     <footer class="custom-footer">
         <div class="footer-content">
-            <a href="index.html" class="footer-link">Go back to Home</a>
-            <span class="footer-text">This website was coded by Imrul Hasan 😇</span>
-            <span class="footer-text">Project 2026 ✓✓</span>
+            <a href="index.html" class="footer-link"><i class="fa-solid fa-arrow-left"></i> Go back to Home</a>
+            <span class="footer-text">This website was coded by <strong>Imrul Hasan</strong> 😇</span>
+            <span class="footer-text" style="font-size: 0.85rem; opacity: 0.6;">Project 2026 ✓✓</span>
         </div>
     </footer>
 
