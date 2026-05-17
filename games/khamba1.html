@@ -451,11 +451,11 @@
         // কার্ড আপডেট লজিক
         function updateCardStatus() {
             let previousCard = Game.currentCard;
-            if (Game.khamba >= 50) Game.currentCard = "জ্বালানি কার্ড";
-            else if (Game.khamba >= 40) Game.currentCard = "এলপিজি কার্ড";
-            else if (Game.khamba >= 30) Game.currentCard = "হকার কার্ড";
-            else if (Game.khamba >= 20) Game.currentCard = "কৃষক কার্ড";
-            else if (Game.khamba >= 10) Game.currentCard = "ফ্যামিলি কার্ড";
+            if (Game.khamba >= 40) Game.currentCard = "Aura কার্ড";
+            else if (Game.khamba >= 32) Game.currentCard = "এলপিজি কার্ড+ হকার কার্ড+ কৃষক কার্ড+ ফ্যামিলি কার্ড";
+            else if (Game.khamba >= 24) Game.currentCard = "হকার কার্ড+ কৃষক কার্ড+ ফ্যামিলি কার্ড";
+            else if (Game.khamba >= 16) Game.currentCard = "কৃষক কার্ড+ ফ্যামিলি কার্ড";
+            else if (Game.khamba >= 8) Game.currentCard = "ফ্যামিলি কার্ড";
             else Game.currentCard = "নাই";
 
             ui.card.innerText = Game.currentCard;
@@ -485,8 +485,8 @@
                         color = "#0099ff";
                     }
 
-                    // খাম্বা ১টি করে বাড়বে
-                    Game.khamba += 1;
+                    // খাম্বা 2টি করে বাড়বে
+                    Game.khamba += 2;
                     Game.score += earnedPoints;
                     
                     ui.score.innerText = Game.score;
