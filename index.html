@@ -2,183 +2,175 @@
 layout: default
 ---
 
-<!-- Google Fonts (Poppins) এবং FontAwesome (Icons) যোগ করা হয়েছে -->
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<!-- Google Fonts (Inter) এবং FontAwesome (Icons) -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 <style>
-    /* গ্লোবাল ভেরিয়েবল এবং ফন্ট সেটআপ */
+    /* মডার্ন মিনিমালিস্ট সেটআপ */
     :root {
-        --primary-font: 'Poppins', sans-serif;
-        --glass-bg: rgba(255, 255, 255, 0.08);
-        --glass-border: rgba(255, 255, 255, 0.15);
+        --bg-color: #f8fafc; /* হালকা সুন্দর ব্যাকগ্রাউন্ড */
+        --card-bg: #ffffff;
+        --text-main: #0f172a; /* গাঢ় কালচে-নীল টেক্সট */
+        --text-muted: #64748b;
+        --primary-color: #0ea5e9; /* সুন্দর একটি নীল রঙ */
+        --primary-hover: #0284c7;
     }
 
-    /* অ্যানিমেটেড প্রিমিয়াম ব্যাকগ্রাউন্ড */
-    .premium-hero {
-        font-family: var(--primary-font);
-        min-height: 100vh; /* ফুল স্ক্রিন হাইট */
+    /* হিরো সেকশন - ডট প্যাটার্ন ব্যাকগ্রাউন্ড সহ */
+    .minimal-hero {
+        font-family: 'Inter', sans-serif;
+        min-height: 100vh;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
         padding: 40px 20px;
         text-align: center;
-        background: linear-gradient(135deg, #0f2027, #203a43, #2c5364); /* ডার্ক মডার্ন গ্রেডিয়েন্ট */
-        background-size: 400% 400%;
-        animation: gradientBG 15s ease infinite;
-        color: #ffffff;
+        background-color: var(--bg-color);
+        background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+        background-size: 24px 24px; /* প্রিমিয়াম ডট প্যাটার্ন */
+        color: var(--text-main);
     }
 
-    @keyframes gradientBG {
-        0% { background-position: 0% 50%; }
-        50% { background-position: 100% 50%; }
-        100% { background-position: 0% 50%; }
-    }
-
-    /* Glassmorphism কন্টেইনার */
-    .glass-container {
-        background: var(--glass-bg);
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
-        border: 1px solid var(--glass-border);
-        padding: 60px 40px;
+    /* মেইন কার্ড ডিজাইন */
+    .clean-container {
+        background: var(--card-bg);
+        padding: 50px 40px;
         border-radius: 24px;
-        box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+        box-shadow: 0 20px 40px -10px rgba(0,0,0,0.08), 0 0 10px rgba(0,0,0,0.02);
         width: 100%;
-        max-width: 550px;
-        animation: fadeInUp 1.2s ease-out;
+        max-width: 480px;
+        border: 1px solid #f1f5f9;
+        transition: transform 0.3s ease;
     }
 
-    @keyframes fadeInUp {
-        from { opacity: 0; transform: translateY(40px); }
-        to { opacity: 1; transform: translateY(0); }
+    .clean-container:hover {
+        transform: translateY(-5px);
     }
 
-    /* টেক্সট স্টাইলিং */
-    .glass-container h1 {
-        font-size: 3.8rem;
-        font-weight: 700;
-        margin: 0 0 10px 0;
-        background: linear-gradient(to right, #00c6ff, #0072ff);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        letter-spacing: 2px;
+    .clean-container h1 {
+        font-size: 3.5rem;
+        font-weight: 800;
+        margin: 0 0 8px 0;
+        color: var(--text-main);
+        letter-spacing: -1.5px;
     }
 
-    .glass-container p {
+    .clean-container p {
         font-size: 1.1rem;
-        color: #d1d5db;
-        margin-bottom: 40px;
-        font-weight: 300;
-        letter-spacing: 0.5px;
+        color: var(--text-muted);
+        margin-bottom: 35px;
+        font-weight: 400;
     }
 
-    /* রেস্পন্সিভ বাটন গ্রিড */
-    .btn-group {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 15px;
+    /* বাটনগুলো সুন্দরভাবে সাজানোর জন্য স্ট্যাক লেআউট */
+    .button-stack {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
     }
 
-    @media (max-width: 500px) {
-        .btn-group {
-            grid-template-columns: 1fr; /* মোবাইলে বাটনগুলো নিচে নিচে আসবে */
-        }
-    }
-
-    /* প্রিমিয়াম বাটন ডিজাইন */
-    .premium-btn {
-        background: rgba(255, 255, 255, 0.05);
-        color: #ffffff !important;
-        border: 1px solid var(--glass-border);
+    /* সাধারণ বাটন ডিজাইন */
+    .clean-btn {
+        background-color: #ffffff;
+        color: #334155;
+        border: 2px solid #e2e8f0;
         padding: 16px 20px;
-        font-size: 1rem;
-        font-weight: 500;
-        border-radius: 12px;
+        font-size: 1.05rem;
+        font-weight: 600;
+        border-radius: 16px;
         cursor: pointer;
         text-decoration: none;
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 10px;
-        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        gap: 12px;
+        transition: all 0.3s ease;
     }
 
-    .premium-btn:hover {
-        background: linear-gradient(135deg, #00c6ff, #0072ff);
-        transform: translateY(-5px) scale(1.03);
-        border-color: transparent;
-        box-shadow: 0 10px 25px rgba(0, 114, 255, 0.4);
+    .clean-btn:hover {
+        border-color: var(--primary-color);
+        color: var(--primary-color);
+        background-color: #f0f9ff;
+        box-shadow: 0 10px 15px -3px rgba(14, 165, 233, 0.1);
+    }
+    
+    /* স্পেশাল/মেইন বাটন ডিজাইন (প্রথমটির জন্য) */
+    .clean-btn.highlight {
+        background-color: var(--primary-color);
+        color: #ffffff;
+        border: none;
+        box-shadow: 0 8px 20px rgba(14, 165, 233, 0.25);
     }
 
-    .premium-btn i {
+    .clean-btn.highlight:hover {
+        background-color: var(--primary-hover);
+        color: #ffffff;
+        transform: translateY(-2px);
+        box-shadow: 0 12px 25px rgba(14, 165, 233, 0.4);
+    }
+
+    .clean-btn i {
         font-size: 1.2rem;
     }
 
-    /* ফুটার স্টাইলিং */
-    .premium-footer {
-        margin-top: 60px;
+    /* ফুটার ডিজাইন */
+    .minimal-footer {
+        margin-top: 50px;
         text-align: center;
-        animation: fadeIn 2s ease-in;
-    }
-
-    @keyframes fadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
     }
 
     .footer-highlight {
-        font-size: 1.2rem;
-        font-weight: 600;
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: #334155;
         display: block;
-        margin-bottom: 8px;
-        color: #f3f4f6;
+        margin-bottom: 5px;
     }
 
     .footer-text {
-        font-size: 0.95rem;
-        color: #9ca3af;
+        font-size: 0.9rem;
+        color: #64748b;
         display: block;
         margin-bottom: 15px;
-        font-weight: 300;
     }
 
     .footer-badge {
         display: inline-block;
-        background: rgba(0, 198, 255, 0.1);
-        color: #00c6ff;
-        padding: 6px 18px;
-        border-radius: 30px;
-        font-size: 0.85rem;
-        font-weight: 600;
-        letter-spacing: 1.5px;
-        border: 1px solid rgba(0, 198, 255, 0.3);
+        background: #e2e8f0;
+        color: #475569;
+        padding: 6px 16px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 700;
+        letter-spacing: 1px;
     }
 </style>
 
-<div class="premium-hero">
-    <div class="glass-container">
+<div class="minimal-hero">
+    <div class="clean-container">
         <h1>Welcome</h1>
         <p>This is my first online website</p>
     
-        <div class="btn-group">
-            <a href="page1.html" class="premium-btn">
-                <i class="fa-solid fa-file-lines"></i> Page 1
+        <div class="button-stack">
+            <!-- প্রথম বাটনটিকে একটু বেশি ফোকাস করা হয়েছে -->
+            <a href="page1.html" class="clean-btn highlight">
+                <i class="fa-solid fa-rocket"></i> Go to Page 1
             </a>
-            <a href="page2.html" class="premium-btn">
-                <i class="fa-regular fa-file-lines"></i> Page 2
+            <a href="page2.html" class="clean-btn">
+                <i class="fa-regular fa-file-lines"></i> Explore Page 2
             </a>
-            <a href="games/game.html" class="premium-btn">
+            <a href="games/game.html" class="clean-btn">
                 <i class="fa-solid fa-gamepad"></i> Games by me
             </a>
-            <a href="pagecontact.html" class="premium-btn">
-                <i class="fa-solid fa-envelope"></i> Contact & Support
+            <a href="pagecontact.html" class="clean-btn">
+                <i class="fa-solid fa-headset"></i> Contact & Support
             </a>
         </div>
     </div>
 
-    <div class="premium-footer">
+    <div class="minimal-footer">
         <span class="footer-highlight">Coded by Imrul Hasan 😇</span>
         <span class="footer-text">Using HTML & CSS (Hosted on GitHub) 😌</span>
         <span class="footer-badge">WEB PROJECT 2026 ✓✓</span>
