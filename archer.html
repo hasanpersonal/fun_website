@@ -2,464 +2,170 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pro Archery Challenge (Hard Mode)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Pro Archery Mobile</title>
     <style>
         body {
             margin: 0;
             padding: 0;
-            background: linear-gradient(135deg, #1e1e2f, #0f0f1a);
+            background: #0f0f1a;
             color: #fff;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: Arial, sans-serif;
             display: flex;
-            flex-direction: column;
-            align-items: center;
             justify-content: center;
-            min-height: 100vh;
+            align-items: center;
+            height: 100vh;
             overflow: hidden;
+            touch-action: none;
         }
 
-        h1 {
-            margin: 5px 0;
-            font-size: 28px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: #00ffcc;
-            text-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
+        /* Portrait orientation warning */
+        #rotate-msg {
+            display: none;
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #000;
+            z-index: 999;
+            text-align: center;
+            padding-top: 20%;
+            font-size: 24px;
+            color: #fff;
+        }
+
+        @media (orientation: portrait) {
+            #rotate-msg { display: block; }
+            #game-container { display: none; }
         }
 
         #game-container {
             position: relative;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.7);
-            border-radius: 12px;
-            overflow: hidden;
-            border: 3px solid #333;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         canvas {
             background: linear-gradient(to bottom, #141e30, #243b55);
-            display: block;
+            width: 100%;
+            height: 100%;
+            touch-action: none;
         }
 
         .ui-panel {
             position: absolute;
-            top: 15px;
+            top: 20px;
             left: 20px;
-            right: 20px;
-            display: flex;
-            justify-content: space-between;
-            font-size: 18px;
-            font-weight: bold;
+            font-size: 20px;
             pointer-events: none;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
-        }
-
-        .wind-indicator {
-            color: #ff9900;
-        }
-
-        #game-over-screen {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            display: none;
-        }
-
-        #game-over-screen h2 {
-            font-size: 45px;
-            color: #ff3333;
-            margin-bottom: 10px;
-        }
-
-        .btn {
-            padding: 12px 30px;
-            font-size: 18px;
-            background: #00ffcc;
-            color: #111;
-            border: none;
-            border-radius: 25px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: 0.3s;
-            margin-top: 15px;
-        }
-
-        .btn:hover {
-            background: #fff;
-            box-shadow: 0 0 15px #00ffcc;
-            transform: scale(1.05);
         }
     </style>
 </head>
 <body>
 
-    <h1>Pro Archery Challenge</h1>
-    
+    <div id="rotate-msg">📱 Please Rotate Your Phone to Landscape Mode to Play!</div>
+
     <div id="game-container">
         <div class="ui-panel">
-            <div>Score: <span id="score-val">0</span></div>
-            <div class="wind-indicator">Wind: <span id="wind-val">0.00</span> m/s</div>
-            <div>Arrows Left: <span id="arrows-val">5</span></div>
+            Score: <span id="score-val">0</span> | Arrows: <span id="arrows-val">5</span>
         </div>
-        
-        <div id="game-over-screen">
-            <h2>GAME OVER</h2>
-            <p style="font-size: 20px;">Final Score: <span id="final-score">0</span></p>
-            <button class="btn" onclick="resetGame()">Play Again</button>
-        </div>
-
         <canvas id="gameCanvas" width="900" height="500"></canvas>
     </div>
-
-    <p style="color: #888; font-size: 14px; margin-top: 10px;">
-        * How to Play: Click & Drag backwards from the bow (left side) to aim and power up, then release to shoot! Watch out for the changing wind!
-    </p>
 
     <script>
         const canvas = document.getElementById("gameCanvas");
         const ctx = canvas.getContext("2d");
-
-        // Game UI Elements
         const scoreVal = document.getElementById("score-val");
-        const windVal = document.getElementById("wind-val");
         const arrowsVal = document.getElementById("arrows-val");
-        const gameOverScreen = document.getElementById("game-over-screen");
-        const finalScore = document.getElementById("final-score");
 
-        // Game variables
-        let score = 0;
-        let arrows = 5;
-        let gameOver = false;
-
-        // Physics parameters
+        let score = 0, arrows = 5, gameOver = false;
         const gravity = 0.15;
-        let wind = 0;
-
-        // Bow position
         const bow = { x: 100, y: 250, radius: 45 };
         
-        // Arrow state
-        let arrow = {
-            x: bow.x,
-            y: bow.y,
-            vx: 0,
-            vy: 0,
-            isFlying: false,
-            isDragging: false,
-            pullX: 0,
-            pullY: 0,
-            angle: 0,
-            length: 60
-        };
-
-        // Target position & properties
-        let target = {
-            x: 820,
-            y: 250,
-            radius: 50,
-            speed: 3,
-            direction: 1
-        };
-
-        // Mouse interactions
+        let arrow = { x: bow.x, y: bow.y, vx: 0, vy: 0, isFlying: false, isDragging: false, pullX: 0, pullY: 0, angle: 0, length: 60 };
+        let target = { x: 820, y: 250, radius: 40, speed: 4, direction: 1 };
         let mouse = { x: 0, y: 0 };
 
-        function updateWind() {
-            // Generates a random wind value between -0.4 and +0.4 (Hard challenge)
-            wind = (Math.random() * 0.8 - 0.4);
-            windVal.innerText = (wind * 10).toFixed(2);
-        }
-        
-        updateWind();
+        // Touch handling
+        canvas.addEventListener("touchstart", (e) => {
+            e.preventDefault();
+            const rect = canvas.getBoundingClientRect();
+            let tx = e.touches[0].clientX - rect.left;
+            let ty = e.touches[0].clientY - rect.top;
+            
+            if (Math.hypot(tx - bow.x, ty - bow.y) < 100) arrow.isDragging = true;
+        });
 
-        // Event Listeners
-        canvas.addEventListener("mousedown", onMouseDown);
-        canvas.addEventListener("mousemove", onMouseMove);
-        window.addEventListener("mouseup", onMouseUp);
-
-        // Touch support for Mobile
-        canvas.addEventListener("touchstart", (e) => { handleTouch(e); onMouseDown(e); });
-        canvas.addEventListener("touchmove", (e) => { handleTouch(e); onMouseMove(e); });
-        window.addEventListener("touchend", onMouseUp);
-
-        function handleTouch(e) {
-            if(e.touches.length > 0) {
-                const rect = canvas.getBoundingClientRect();
-                mouse.x = e.touches[0].clientX - rect.left;
-                mouse.y = e.touches[0].clientY - rect.top;
-            }
-        }
-
-        function onMouseDown(e) {
-            if (gameOver || arrow.isFlying) return;
-
-            if(!e.touches) {
-                const rect = canvas.getBoundingClientRect();
-                mouse.x = e.clientX - rect.left;
-                mouse.y = e.clientY - rect.top;
-            }
-
-            // Allowed to drag if clicked near the bow area
-            let dist = Math.hypot(mouse.x - bow.x, mouse.y - bow.y);
-            if (dist < 80) {
-                arrow.isDragging = true;
-            }
-        }
-
-        function onMouseMove(e) {
+        canvas.addEventListener("touchmove", (e) => {
+            e.preventDefault();
             if (!arrow.isDragging) return;
-
-            if(!e.touches) {
-                const rect = canvas.getBoundingClientRect();
-                mouse.x = e.clientX - rect.left;
-                mouse.y = e.clientY - rect.top;
-            }
-
-            // Calculate drag distance and constraint it
-            let dx = mouse.x - bow.x;
-            let dy = mouse.y - bow.y;
-            let dragDist = Math.hypot(dx, dy);
-            const maxPull = 120;
-
-            if (dragDist > maxPull) {
-                dx = (dx / dragDist) * maxPull;
-                dy = (dy / dragDist) * maxPull;
-            }
-
-            arrow.pullX = dx;
-            arrow.pullY = dy;
-            // Angle opposite to drag direction for shooting forward
+            const rect = canvas.getBoundingClientRect();
+            let tx = e.touches[0].clientX - rect.left;
+            let ty = e.touches[0].clientY - rect.top;
+            
+            let dx = Math.min(Math.max(tx - bow.x, -120), 0);
+            let dy = Math.min(Math.max(ty - bow.y, -120), 120);
+            arrow.pullX = dx; arrow.pullY = dy;
             arrow.angle = Math.atan2(-dy, -dx);
-        }
+        });
 
-        function onMouseUp() {
+        canvas.addEventListener("touchend", (e) => {
             if (!arrow.isDragging) return;
             arrow.isDragging = false;
+            arrow.vx = Math.cos(arrow.angle) * Math.abs(arrow.pullX) * 0.15;
+            arrow.vy = Math.sin(arrow.angle) * Math.abs(arrow.pullX) * 0.15;
+            arrow.isFlying = true;
+            arrow.x = bow.x; arrow.y = bow.y;
+        });
 
-            // Shoot the arrow based on pull distance
-            let pullDist = Math.hypot(arrow.pullX, arrow.pullY);
-            if (pullDist > 15) { // Minimum pull force required
-                const forceMultiplier = 0.14; // Controls the speed difficulty
-                arrow.vx = Math.cos(arrow.angle) * pullDist * forceMultiplier;
-                arrow.vy = Math.sin(arrow.angle) * pullDist * forceMultiplier;
-                arrow.isFlying = true;
-                arrow.x = bow.x;
-                arrow.y = bow.y;
-            } else {
-                arrow.pullX = 0;
-                arrow.pullY = 0;
-            }
-        }
-
-        // Collision Detection (Raycast style approximation)
-        function checkCollision() {
-            // Check if arrow reaches the target X coordinate
-            if (arrow.x >= target.x - 10 && arrow.x <= target.x + 20) {
-                let distToTargetCenter = Math.abs(arrow.y - target.y);
-                
-                if (distToTargetCenter <= target.radius) {
-                    // Hit registered! Calculate points based on accuracy
-                    let points = 0;
-                    if (distToTargetCenter <= target.radius * 0.2) {
-                        points = 100; // Bullseye!
-                    } else if (distToTargetCenter <= target.radius * 0.5) {
-                        points = 50;
-                    } else {
-                        points = 20;
-                    }
-                    
-                    score += points;
-                    scoreVal.innerText = score;
-                    
-                    // Increase speed slightly with every hit to make it harder
-                    target.speed += 0.5;
-                    
-                    resetArrowAfterShot();
-                }
-            }
-        }
-
-        function resetArrowAfterShot() {
-            arrow.isFlying = false;
-            arrow.x = bow.x;
-            arrow.y = bow.y;
-            arrow.vx = 0;
-            arrow.vy = 0;
-            arrow.pullX = 0;
-            arrow.pullY = 0;
-            arrows--;
-            arrowsVal.innerText = arrows;
-            
-            if (arrows <= 0) {
-                endGame();
-            } else {
-                updateWind(); // Change wind for the next turn
-            }
-        }
-
-        function endGame() {
-            gameOver = true;
-            finalScore.innerText = score;
-            gameOverScreen.style.display = "flex";
-        }
-
-        function resetGame() {
-            score = 0;
-            arrows = 5;
-            target.speed = 3;
-            gameOver = false;
-            scoreVal.innerText = score;
-            arrowsVal.innerText = arrows;
-            gameOverScreen.style.display = "none";
-            resetArrowAfterShot();
-            arrows = 5; // Re-correct since resetArrowAfterShot decrements it
-            arrowsVal.innerText = arrows;
-            updateWind();
-        }
-
-        // Main Game Loop
         function gameLoop() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // 1. Update Target Mechanics
+            // Target movement
             if (!gameOver) {
                 target.y += target.speed * target.direction;
-                if (target.y - target.radius < 20 || target.y + target.radius > canvas.height - 20) {
-                    target.direction *= -1; // Bounce back from walls
-                }
+                if (target.y < 50 || target.y > 450) target.direction *= -1;
             }
 
-            // 2. Update Arrow Physics
+            // Arrow Physics
             if (arrow.isFlying) {
-                arrow.vx += wind; // Apply wind effect
-                arrow.vy += gravity; // Apply gravity effect
+                arrow.vy += gravity;
                 arrow.x += arrow.vx;
                 arrow.y += arrow.vy;
-                
-                // Realtime angle adjustment according to trajectory path
                 arrow.angle = Math.atan2(arrow.vy, arrow.vx);
-
-                checkCollision();
-
-                // Out of bounds check (Miss)
-                if (arrow.x > canvas.width || arrow.y > canvas.height || arrow.x < 0) {
-                    resetArrowAfterShot();
-                }
-            }
-
-            // 3. Draw Environment / Background elements
-            ctx.strokeStyle = "rgba(255,255,255,0.1)";
-            ctx.lineWidth = 1;
-            for(let i = 50; i < canvas.height; i+=50) {
-                ctx.beginPath(); ctx.moveTo(0, i); ctx.lineTo(canvas.width, i); ctx.stroke();
-            }
-
-            // 4. Draw Bow & String
-            ctx.lineWidth = 4;
-            ctx.strokeStyle = "#e67e22";
-            ctx.beginPath();
-            // Arc representing the bow structure
-            let bowAngleStart = arrow.isDragging ? arrow.angle + Math.PI/2 : Math.PI/2;
-            ctx.arc(bow.x, bow.y, bow.radius, Math.PI/2, (3*Math.PI)/2, false);
-            ctx.stroke();
-
-            // Draw String
-            ctx.lineWidth = 1.5;
-            ctx.strokeStyle = "#ddd";
-            ctx.beginPath();
-            ctx.moveTo(bow.x, bow.y - bow.radius);
-            if (arrow.isDragging) {
-                ctx.lineTo(bow.x + arrow.pullX, bow.y + arrow.pullY);
-            } else if (!arrow.isFlying) {
-                ctx.lineTo(bow.x, bow.y);
-            } else {
-                ctx.lineTo(bow.x, bow.y);
-            }
-            ctx.lineTo(bow.x, bow.y + bow.radius);
-            ctx.stroke();
-
-            // 5. Draw Target (Multiple rings)
-            let rings = [target.radius, target.radius * 0.7, target.radius * 0.4, target.radius * 0.15];
-            let colors = ["#e74c3c", "#3498db", "#f1c40f", "#ffffff"]; // Red, Blue, Gold, White core
-            
-            for (let i = 0; i < rings.length; i++) {
-                ctx.beginPath();
-                ctx.arc(target.x, target.y, rings[i], 0, Math.PI * 2);
-                ctx.fillStyle = colors[i];
-                ctx.fill();
-                ctx.strokeStyle = "#111";
-                ctx.lineWidth = 1.5;
-                ctx.stroke();
-            }
-
-            // 6. Draw Arrow
-            if (arrow.isFlying || arrow.isDragging) {
-                ctx.save();
-                // Move context to arrow position and rotate to flight angle
-                if (arrow.isDragging) {
-                    ctx.translate(bow.x + arrow.pullX, bow.y + arrow.pullY);
-                } else {
-                    ctx.translate(arrow.x, arrow.y);
-                }
-                ctx.rotate(arrow.angle);
-
-                // Main arrow shaft
-                ctx.strokeStyle = "#ecf0f1";
-                ctx.lineWidth = 3;
-                ctx.beginPath();
-                ctx.moveTo(-arrow.length, 0);
-                ctx.lineTo(0, 0);
-                ctx.stroke();
-
-                // Arrow head (Arrow tip)
-                ctx.fillStyle = "#ff3333";
-                ctx.beginPath();
-                ctx.moveTo(0, 0);
-                ctx.lineTo(-12, -6);
-                ctx.lineTo(-12, 6);
-                ctx.closePath();
-                ctx.fill();
-
-                // Arrow feathers (Fletching)
-                ctx.fillStyle = "#00ffcc";
-                ctx.beginPath();
-                ctx.moveTo(-arrow.length, 0);
-                ctx.lineTo(-arrow.length - 8, -6);
-                ctx.lineTo(-arrow.length + 4, 0);
-                ctx.lineTo(-arrow.length - 8, 6);
-                ctx.closePath();
-                ctx.fill();
-
-                ctx.restore();
-            } else if (!gameOver) {
-                // Idle arrow resting on bow
-                ctx.save();
-                ctx.translate(bow.x, bow.y);
-                ctx.strokeStyle = "#ecf0f1";
-                ctx.lineWidth = 3;
-                ctx.beginPath();
-                ctx.moveTo(-arrow.length, 0);
-                ctx.lineTo(0, 0);
-                ctx.stroke();
                 
-                ctx.fillStyle = "#ff3333";
-                ctx.beginPath(); ctx.moveTo(0,0); ctx.lineTo(-12,-6); ctx.lineTo(-12,6); ctx.closePath(); ctx.fill();
-                ctx.restore();
+                // Collision
+                if (arrow.x > target.x - 20 && arrow.x < target.x + 20 && Math.abs(arrow.y - target.y) < target.radius) {
+                    score += 10;
+                    scoreVal.innerText = score;
+                    target.speed += 0.5;
+                    resetArrow();
+                } else if (arrow.x > canvas.width || arrow.y > canvas.height) resetArrow();
             }
+
+            // Draw
+            ctx.beginPath(); ctx.arc(target.x, target.y, target.radius, 0, Math.PI*2);
+            ctx.fillStyle = "red"; ctx.fill();
+
+            // Draw Arrow
+            ctx.save();
+            ctx.translate(arrow.isFlying ? arrow.x : bow.x + arrow.pullX, arrow.isFlying ? arrow.y : bow.y + arrow.pullY);
+            ctx.rotate(arrow.angle);
+            ctx.fillStyle = "white"; ctx.fillRect(0, -2, 60, 4);
+            ctx.restore();
 
             requestAnimationFrame(gameLoop);
         }
 
-        // Start the game loop
+        function resetArrow() {
+            arrow.isFlying = false; arrow.x = bow.x; arrow.y = bow.y;
+            arrow.pullX = 0; arrow.pullY = 0;
+            arrows--; arrowsVal.innerText = arrows;
+            if (arrows <= 0) { alert("Game Over! Score: " + score); location.reload(); }
+        }
+
         gameLoop();
     </script>
 </body>
-  </html>
-  
+</html>
