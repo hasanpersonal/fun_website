@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Cyber Archery - Pole & Card Edition</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-user-select: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        html, body {
+            width: 100%;
+            height: 100%;
+            background-color: #030308;
+            overflow: hidden;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        /* Landscape orientation warning */
+        #rotate-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle, #101223 0%, #030308 100%);
+            z-index: 10000;
+            color: #00ffcc;
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 20px;
+        }
+        
+        .device-icon {
+            width: 44px; height: 80px;
+            border: 4px solid #00ffcc;
+            border-radius: 8px; margin-bottom: 25px;
+            position: relative;
+            animation: rotateDevice 2.5s infinite cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        @keyframes rotateDevice {
+            0%, 20% { transform: rotate(0deg); }
+            50%, 70% { transform: rotate(-90deg); }
+            100% { transform: rotate(-90deg); }
+        }
+
+        #game-container {
+            position: relative;
+            width: 100vw;
+            height: 100dvh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: radial-gradient(circle, #0f1026 0%, #05050f 100%);
+        }
+
+        canvas {
+            display: block;
+            max-width: 100%;
+            max-height: 100%;
+            aspect-ratio: 16 / 9;
+            box-shadow: 0 0 50px rgba(0, 255, 204, 0.1);
+            border-radius: 8px;
+        }
+
+        .screen-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(3, 3, 8, 0.85);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            transition: opacity 0.4s ease;
+        }
+
+        h1 {
+            font-size: 44px;
+            color: #00ffcc;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            margin-bottom: 15px;
+            text-shadow: 0 0 25px rgba(0, 255, 204, 0.7);
+        }
+
+        .btn {
+            padding: 16px 45px;
+            font-size: 20px;
+            font-weight: 800;
+            color: #05050f;
+            background: linear-gradient(45deg, #00ffcc, #0099ff);
+            border: none;
+            border-radius: 40px;
+            cursor: pointer;
+            box-shadow: 0 0 25px rgba(0, 255, 204, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* HUD Styling */
+        #hud {
+            position: absolute;
+            top: 20px; left: 25px; right: 25px;
+            display: flex;
+            justify-content: space-between;
+            pointer-events: none;
+            font-family: monospace;
+            font-size: 18px;
+            font-weight: bold;
+            z-index: 10;
+        }
+        .hud-group { display: flex; gap: 15px; }
+        .hud-item { 
+            background: rgba(10, 12, 30, 0.7); 
+            padding: 8px 16px; 
+            border-radius: 8px; 
+            border: 1px solid rgba(0, 255, 204, 0.2);
+        }
+        .text-cyan { color: #00ffcc; text-shadow: 0 0 8px rgba(0,255,204,0.6); }
+        .text-yellow { color: #ffcc00; text-shadow: 0 0 8px rgba(255,204,0,0.6); }
+        .text-red { color: #ff3366; text-shadow: 0 0 8px rgba(255,51,102,0.6); }
+
+        /* --- Simple Popup Card --- */
+        #card-popup {
+            display: none;
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 160px;
+            height: 240px;
+            background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%);
+            border-radius: 12px;
+            box-shadow: 0 0 35px rgba(255, 255, 255, 0.5), inset 0 0 15px rgba(0,0,0,0.2);
+            z-index: 500;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            border: 4px solid #00f2fe;
+            animation: cardPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+        .card-text {
+            color: #111116;
+            font-size: 28px;
+            font-weight: 900;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-family: 'Arial Black', sans-serif;
+        }
+        @keyframes cardPop {
+            0% { transform: translate(-50%, -50%) scale(0.3) rotate(-10deg); opacity: 0; }
+            100% { transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="rotate-overlay">
+        <div class="device-icon"></div>
+        <div style="font-weight:bold; font-size:22px;">ROTATE TO LANDSCAPE</div>
+    </div>
+
+    <div id="game-container">
+        
+        <!-- HUD Interface -->
+        <div id="hud">
+            <div class="hud-group">
+                <div class="hud-item text-cyan">POLES: <span id="poles-txt">0</span>/30</div>
+                <div class="hud-item text-yellow">CARDS: <span id="cards-txt">0</span></div>
+            </div>
+            <div class="hud-group">
+                <div class="hud-item text-red">ARROWS: <span id="arrows-txt">5</span></div>
+            </div>
+        </div>
+
+        <!-- Pop-up Simple Card -->
+        <div id="card-popup">
+            <div class="card-text">CARD</div>
+        </div>
+
+        <!-- Start Overlay -->
+        <div id="start-screen" class="screen-overlay">
+            <h1>System Ignition</h1>
+            <p style="color: #8892b0; margin-bottom: 25px; text-align:center;">Hit the target to harvest Electric Poles. 30 Poles will forge 1 Card!</p>
+            <button class="btn" onclick="initAndStartGame()">Start Mission</button>
+        </div>
+
+        <!-- Game Over Overlay -->
+        <div id="game-over-screen" class="screen-overlay" style="display: none;">
+            <h1 style="color: #ff3366;">Mission Aborted</h1>
+            <div style="font-size:22px; color:white; margin-bottom:30px;">Total Cards Secured: <span id="final-cards">0</span></div>
+            <button class="btn" onclick="restartGame()">Restart</button>
+        </div>
+
+        <canvas id="gameCanvas" width="1334" height="750"></canvas>
+    </div>
+
+    <script>
+        const canvas = document.getElementById("gameCanvas");
+        const ctx = canvas.getContext("2d");
+        
+        // PNG Target Image Initialization
+        const targetImg = new Image();
+        targetImg.src = "target.png"; // <-- আপনার PNG ফাইলের নাম/পাথ এখানে বসাবেন।
+
+        const ui = {
+            start: document.getElementById("start-screen"),
+            gameOver: document.getElementById("game-over-screen"),
+            poles: document.getElementById("poles-txt"),
+            cards: document.getElementById("cards-txt"),
+            arrows: document.getElementById("arrows-txt"),
+            finalCards: document.getElementById("final-cards"),
+            cardPopup: document.getElementById("card-popup"),
+            container: document.getElementById("game-container")
+        };
+
+        const Game = {
+            poles: 0,
+            cards: 0,
+            arrows: 5,
+            isOver: false,
+            isSetup: false,
+            gravity: 0.22,
+            particles: [],
+            floatTexts: []
+        };
+
+        const bow = { x: 150, y: 375, radius: 65 };
+        let arrow = { x: bow.x, y: bow.y, vx: 0, vy: 0, isFlying: false, isDragging: false, pullX: 0, pullY: 0, angle: 0, length: 80 };
+        let target = { x: 1180, y: 375, radius: 55, speed: 5, direction: 1 };
+
+        let audioCtx = null;
+        function playSound(type) {
+            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain); gain.connect(audioCtx.destination);
+
+            if (type === 'shoot') {
+                osc.type = 'triangle'; osc.frequency.setValueAtTime(440, audioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(120, audioCtx.currentTime + 0.15);
+                gain.gain.setValueAtTime(0.2, audioCtx.currentTime); osc.start(); osc.stop(audioCtx.currentTime + 0.15);
+            } else if (type === 'hit') {
+                osc.type = 'sine'; osc.frequency.setValueAtTime(580, audioCtx.currentTime);
+                gain.gain.setValueAtTime(0.3, audioCtx.currentTime); osc.start(); osc.stop(audioCtx.currentTime + 0.2);
+            } else if (type === 'card') {
+                osc.type = 'sine'; osc.frequency.setValueAtTime(400, audioCtx.currentTime);
+                osc.frequency.setValueAtTime(800, audioCtx.currentTime + 0.1);
+                gain.gain.setValueAtTime(0.4, audioCtx.currentTime); osc.start(); osc.stop(audioCtx.currentTime + 0.4);
+            }
+        }
+
+        function initAndStartGame() {
+            if (ui.container.requestFullscreen) ui.container.requestFullscreen();
+            ui.start.style.opacity = '0';
+            setTimeout(() => ui.start.style.display = 'none', 300);
+            
+            if(!Game.isSetup) {
+                setupControls();
+                Game.isSetup = true;
+                gameLoop();
+            }
+        }
+
+        function getCanvasCoords(e) {
+            const rect = canvas.getBoundingClientRect();
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            return {
+                x: (clientX - rect.left) * (canvas.width / rect.width),
+                y: (clientY - rect.top) * (canvas.height / rect.height)
+            };
+        }
+
+        function setupControls() {
+            const startDrag = (e) => {
+                if (Game.isOver || arrow.isFlying) return;
+                let coords = getCanvasCoords(e);
+                if (Math.hypot(coords.x - bow.x, coords.y - bow.y) < 130) arrow.isDragging = true;
+            };
+
+            const moveDrag = (e) => {
+                if (!arrow.isDragging) return;
+                let coords = getCanvasCoords(e);
+                let dx = coords.x - bow.x, dy = coords.y - bow.y;
+                let dist = Math.hypot(dx, dy);
+                if (dist > 160) { dx = (dx / dist) * 160; dy = (dy / dist) * 160; }
+                if(dx > 20) dx = 20;
+                arrow.pullX = dx; arrow.pullY = dy;
+                arrow.angle = Math.atan2(-dy, -dx);
+            };
+
+            const endDrag = () => {
+                if (!arrow.isDragging) return;
+                arrow.isDragging = false;
+                let pullDist = Math.hypot(arrow.pullX, arrow.pullY);
+                if (pullDist > 25) {
+                    arrow.vx = Math.cos(arrow.angle) * pullDist * 0.15;
+                    arrow.vy = Math.sin(arrow.angle) * pullDist * 0.15;
+                    arrow.isFlying = true;
+                    playSound('shoot');
+                }
+            };
+
+            canvas.addEventListener("mousedown", startDrag);
+            canvas.addEventListener("mousemove", moveDrag);
+            window.addEventListener("mouseup", endDrag);
+            canvas.addEventListener("touchstart", startDrag, {passive:true});
+            canvas.addEventListener("touchmove", moveDrag, {passive:true});
+            window.addEventListener("touchend", endDrag);
+        }
+
+        function checkCollision() {
+            if (arrow.x >= target.x - 20 && arrow.x <= target.x + 30) {
+                let hitDist = Math.abs(arrow.y - target.y);
+                if (hitDist <= target.radius) {
+                    let polesEarned = 0;
+                    let label = "";
+                    let color = "#00ffcc";
+
+                    if (hitDist <= target.radius * 0.2) { polesEarned = 5; label = "PERFECT! +5 Poles"; color = "#00ffcc"; }
+                    else if (hitDist <= target.radius * 0.6) { polesEarned = 3; label = "GREAT! +3 Poles"; color = "#0099ff"; }
+                    else { polesEarned = 1; label = "HIT! +1 Pole"; color = "#ffcc00"; }
+
+                    Game.poles += polesEarned;
+                    
+                    // Trigger Text & Sounds
+                    Game.floatTexts.push({ x: target.x - 100, y: target.y - 40, text: label, alpha: 1, color: color });
+                    playSound('hit');
+
+                    // Check for 30 Poles Card Reward
+                    if (Game.poles >= 30) {
+                        Game.cards += Math.floor(Game.poles / 30);
+                        Game.poles = Game.poles % 30; // Remainder poles carry over
+                        ui.cards.innerText = Game.cards;
+                        showCardPopup();
+                    }
+                    
+                    ui.poles.innerText = Game.poles;
+                    target.speed += 0.5; // Accelerate target
+                    resetArrow(false);
+                }
+            }
+        }
+
+        function showCardPopup() {
+            playSound('card');
+            ui.cardPopup.style.display = "flex";
+            setTimeout(() => {
+                ui.cardPopup.style.display = "none";
+            }, 1800); // Popup stays for 1.8 seconds
+        }
+
+        function resetArrow(isMiss) {
+            arrow.isFlying = false;
+            arrow.x = bow.x; arrow.y = bow.y;
+            arrow.vx = 0; arrow.vy = 0; arrow.pullX = 0; arrow.pullY = 0;
+            
+            if(isMiss) {
+                Game.arrows--;
+                ui.arrows.innerText = Game.arrows;
+                if(Game.arrows <= 0) {
+                    Game.isOver = true;
+                    ui.finalCards.innerText = Game.cards;
+                    ui.gameOver.style.display = "flex";
+                }
+            }
+        }
+
+        function restartGame() {
+            Game.poles = 0; Game.cards = 0; Game.arrows = 5; Game.isOver = false;
+            target.speed = 5;
+            ui.poles.innerText = 0; ui.cards.innerText = 0; ui.arrows.innerText = 5;
+            ui.gameOver.style.display = "none";
+            resetArrow(false);
+        }
+
+        function gameLoop() {
+            ctx.fillStyle = "#060613";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Matrix Grid
+            ctx.strokeStyle = "rgba(0, 255, 204, 0.03)"; ctx.lineWidth = 1;
+            for(let i=0; i<canvas.width; i+=70) { ctx.beginPath(); ctx.moveTo(i,0); ctx.lineTo(i,canvas.height); ctx.stroke(); }
+
+            // Target Mechanics
+            if (!Game.isOver) {
+                target.y += target.speed * target.direction;
+                if (target.y - target.radius < 30 || target.y + target.radius > canvas.height - 30) target.direction *= -1;
+            }
+
+            // Arrow Movement
+            if (arrow.isFlying) {
+                arrow.vy += Game.gravity; arrow.x += arrow.vx; arrow.y += arrow.vy;
+                arrow.angle = Math.atan2(arrow.vy, arrow.vx);
+                checkCollision();
+                if (arrow.x > canvas.width + 100 || arrow.y > canvas.height + 100) resetArrow(true);
+            }
+
+            // Trajectory Line
+            if (arrow.isDragging) {
+                ctx.fillStyle = "rgba(0, 255, 204, 0.3)";
+                let tx = bow.x, ty = bow.y;
+                let tvx = Math.cos(arrow.angle) * Math.hypot(arrow.pullX, arrow.pullY) * 0.15;
+                let tvy = Math.sin(arrow.angle) * Math.hypot(arrow.pullX, arrow.pullY) * 0.15;
+                for (let i = 0; i < 15; i++) {
+                    tvy += Game.gravity; tx += tvx; ty += tvy;
+                    ctx.beginPath(); ctx.arc(tx, ty, 3, 0, Math.PI * 2); ctx.fill();
+                }
+            }
+
+            // Draw Bow & String
+            ctx.lineWidth = 5; ctx.strokeStyle = "#0099ff"; ctx.beginPath();
+            ctx.arc(bow.x, bow.y, bow.radius, Math.PI * 0.45, Math.PI * 1.55, false); ctx.stroke();
+            ctx.lineWidth = 2; ctx.strokeStyle = "rgba(255,255,255,0.7)"; ctx.beginPath();
+            ctx.moveTo(bow.x - 5, bow.y - bow.radius + 8);
+            if (arrow.isDragging) ctx.lineTo(bow.x + arrow.pullX, bow.y + arrow.pullY);
+            else ctx.lineTo(bow.x, bow.y);
+            ctx.lineTo(bow.x - 5, bow.y + bow.radius - 8); ctx.stroke();
+
+            // --- Draw PNG Target or Placeholder ---
+            if (targetImg.complete && targetImg.naturalWidth !== 0) {
+                ctx.drawImage(targetImg, target.x - target.radius, target.y - target.radius, target.radius * 2, target.radius * 2);
+            } else {
+                // Fallback custom graphics if image is missing
+                ctx.save();
+                ctx.shadowBlur = 15; ctx.shadowColor = "#ff3366";
+                ctx.fillStyle = "#ff3366"; ctx.beginPath();
+                ctx.arc(target.x, target.y, target.radius, 0, Math.PI * 2); ctx.fill();
+                ctx.fillStyle = "#ffffff"; ctx.font = "bold 13px Arial";
+                ctx.fillText("TARGET PNG", target.x - 40, target.y + 5);
+                ctx.restore();
+            }
+
+            // Draw Arrow
+            if (arrow.isFlying || arrow.isDragging) {
+                ctx.save();
+                ctx.translate(arrow.isDragging ? bow.x + arrow.pullX : arrow.x, arrow.isDragging ? bow.y + arrow.pullY : arrow.y);
+                ctx.rotate(arrow.angle);
+                ctx.strokeStyle = "#ffffff"; ctx.lineWidth = 4; ctx.beginPath(); ctx.moveTo(-arrow.length, 0); ctx.lineTo(0, 0); ctx.stroke();
+                ctx.fillStyle = "#ff3366"; ctx.beginPath(); ctx.moveTo(-arrow.length, 0); ctx.lineTo(-arrow.length - 12, -8); ctx.lineTo(-arrow.length + 5, 0); ctx.lineTo(-arrow.length - 12, 8); ctx.fill();
+                ctx.fillStyle = "#00ffcc"; ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(-14, -6); ctx.lineTo(-14, 6); ctx.fill();
+                ctx.restore();
+            }
+
+            // Floating Reward Texts
+            for (let i = Game.floatTexts.length - 1; i >= 0; i--) {
+                let ft = Game.floatTexts[i]; ft.y -= 1.2; ft.alpha -= 0.02;
+                if (ft.alpha <= 0) Game.floatTexts.splice(i, 1);
+                else {
+                    ctx.globalAlpha = ft.alpha; ctx.fillStyle = ft.color;
+                    ctx.font = "bold 22px 'Segoe UI'"; ctx.fillText(ft.text, ft.x, ft.y);
+                    ctx.globalAlpha = 1.0;
+                }
+            }
+
+            requestAnimationFrame(gameLoop);
+        }
+    </script>
+</body>
+</html>
