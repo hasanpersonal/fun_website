@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Zone</title>
+    <style>
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Body Styling with Gradient Background */
+        body {
+            background: linear-gradient(135deg, #141e30, #243b55);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Glassmorphism Container */
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 50px;
+            border-radius: 20px;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            width: 90%;
+            max-width: 500px;
+        }
+
+        /* Header Styling */
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: #00ffcc;
+            text-shadow: 0 0 15px rgba(0, 255, 204, 0.6);
+        }
+
+        /* List Styling */
+        .game-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        /* Individual Game Item Styling */
+        .game-item {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 18px 25px;
+            border-radius: 10px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border-left: 5px solid transparent;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Hover Animation */
+        .game-item:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateX(10px);
+            border-left: 5px solid #00ffcc;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            color: #00ffcc;
+        }
+
+        /* Optional: Add a small icon or arrow on hover */
+        .game-item::after {
+            content: '➔';
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .game-item:hover::after {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Games</h1>
+        <ul class="game-list">
+            <li class="archer.html">Archer</li>
+            <li class="game-item">comming soon</li>
+            <li class="game-item">on development</li>
+            <li class="game-item">don't click</li>
+        </ul>
+    </div>
+
+</body>
+</html>
