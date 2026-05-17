@@ -2,170 +2,533 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Pro Archery Mobile</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Cyber Archery Elite</title>
     <style>
-        body {
+        * {
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-user-select: none;
             margin: 0;
             padding: 0;
-            background: #0f0f1a;
-            color: #fff;
-            font-family: Arial, sans-serif;
-            display: flex;
+        }
+        
+        html, body {
+            width: 100%;
+            height: 100%;
+            background-color: #030308;
+            overflow: hidden;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        /* Landscape orientation warning */
+        #rotate-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #050510;
+            z-index: 10000;
+            color: #ff3366;
+            text-align: center;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            overflow: hidden;
-            touch-action: none;
+            flex-direction: column;
+            font-size: 22px;
+            font-weight: bold;
+            padding: 20px;
         }
-
-        /* Portrait orientation warning */
-        #rotate-msg {
-            display: none;
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: #000;
-            z-index: 999;
-            text-align: center;
-            padding-top: 20%;
-            font-size: 24px;
-            color: #fff;
+        #rotate-overlay svg {
+            width: 80px; height: 80px; fill: #00ffcc; margin-bottom: 20px;
+            animation: rotateAnim 2s infinite ease-in-out;
         }
-
+        @keyframes rotateAnim {
+            0% { transform: rotate(0deg); }
+            50% { transform: rotate(-90deg); }
+            100% { transform: rotate(-90deg); }
+        }
         @media (orientation: portrait) {
-            #rotate-msg { display: block; }
+            #rotate-overlay { display: flex; }
             #game-container { display: none; }
         }
 
+        /* Game Container utilizing dynamic viewport */
         #game-container {
             position: relative;
             width: 100vw;
-            height: 100vh;
+            height: 100dvh; /* Dynamic toolbars handling */
             display: flex;
             justify-content: center;
             align-items: center;
+            background: radial-gradient(circle, #0f1026 0%, #05050f 100%);
         }
 
         canvas {
-            background: linear-gradient(to bottom, #141e30, #243b55);
-            width: 100%;
-            height: 100%;
-            touch-action: none;
+            display: block;
+            max-width: 100%;
+            max-height: 100%;
+            aspect-ratio: 16 / 9;
+            box-shadow: 0 0 40px rgba(0, 255, 204, 0.15);
+            border-radius: 4px;
         }
 
-        .ui-panel {
+        /* Smooth Overlays inside Game */
+        .screen-overlay {
             position: absolute;
-            top: 20px;
-            left: 20px;
-            font-size: 20px;
-            pointer-events: none;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(5, 5, 15, 0.9);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            backdrop-filter: blur(8px);
+            transition: opacity 0.3s ease;
         }
+
+        h1 {
+            font-size: 42px;
+            color: #00ffcc;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px rgba(0, 255, 204, 0.6);
+            text-align: center;
+        }
+
+        .score-board {
+            font-size: 24px;
+            color: #ffffff;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            padding: 15px 40px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #05050f;
+            background: linear-gradient(45deg, #00ffcc, #0099ff);
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(0, 255, 204, 0.4);
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn:active {
+            transform: scale(0.95);
+            box-shadow: 0 0 10px rgba(0, 255, 204, 0.2);
+        }
+
+        /* Top HUD panel for Canvas scaling reference */
+        #hud {
+            position: absolute;
+            top: 15px; left: 20px; right: 20px;
+            display: flex;
+            justify-content: space-between;
+            pointer-events: none;
+            font-family: monospace;
+            font-size: 18px;
+            font-weight: bold;
+            color: #00ffcc;
+            text-shadow: 0 0 5px #000;
+            z-index: 10;
+        }
+        .hud-item { background: rgba(0,0,0,0.4); padding: 5px 12px; border-radius: 5px; }
     </style>
 </head>
 <body>
 
-    <div id="rotate-msg">📱 Please Rotate Your Phone to Landscape Mode to Play!</div>
+    <!-- Rotation Warning -->
+    <div id="rotate-overlay">
+        <svg viewBox="0 0 24 24"><path d="M16.48 2.52c3.27 1.55 5.61 4.72 5.97 8.48h-2c-.34-3.14-2.18-5.77-4.8c-7.11 3.4-3.11 5.43 1.35 1.35l3.83 3.83-12 12-3.83-3.83 12-12 3.48-3.48zm-12.96 5.48l3.83-3.83-3.83-3.83-3.83 3.83 3.83 3.83zm-1.52 3c-.36 3.76 1.98 6.93 5.25 8.48l.72-1.87c-2.62-1.24-4.46-3.87-4.8-7.01h-1.17z"/></svg>
+        <div>PLEASE ROTATE YOUR PHONE TO LANDSCAPE</div>
+    </div>
 
+    <!-- Main Game Context -->
     <div id="game-container">
-        <div class="ui-panel">
-            Score: <span id="score-val">0</span> | Arrows: <span id="arrows-val">5</span>
+        
+        <!-- Interactive HUD overlay -->
+        <div id="hud">
+            <div class="hud-item">SCORE: <span id="score-txt">0</span></div>
+            <div class="hud-item" style="color:#ff3366">ARROWS: <span id="arrows-txt">5</span></div>
         </div>
-        <canvas id="gameCanvas" width="900" height="500"></canvas>
+
+        <!-- Start Screen (Triggering native fullscreen) -->
+        <div id="start-screen" class="screen-overlay">
+            <h1>Cyber Archery</h1>
+            <p style="color: #888; margin-bottom: 25px; text-align:center; max-width:80%;">Drag back from the bow to aim & release. Avoid missing! The target accelerates with every hit.</p>
+            <button class="btn" onclick="initAndStartGame()">Enter Fullscreen & Play</button>
+        </div>
+
+        <!-- Game Over Screen -->
+        <div id="game-over-screen" class="screen-overlay" style="display: none;">
+            <h1 style="color: #ff3366; text-shadow: 0 0 20px rgba(255,51,102,0.6);">Game Over</h1>
+            <div class="score-board">Final Score: <span id="final-score">0</span></div>
+            <button class="btn" onclick="restartGame()">Try Again</button>
+        </div>
+
+        <!-- High-res master canvas -->
+        <canvas id="gameCanvas" width="1334" height="750"></canvas>
     </div>
 
     <script>
         const canvas = document.getElementById("gameCanvas");
         const ctx = canvas.getContext("2d");
-        const scoreVal = document.getElementById("score-val");
-        const arrowsVal = document.getElementById("arrows-val");
-
-        let score = 0, arrows = 5, gameOver = false;
-        const gravity = 0.15;
-        const bow = { x: 100, y: 250, radius: 45 };
         
-        let arrow = { x: bow.x, y: bow.y, vx: 0, vy: 0, isFlying: false, isDragging: false, pullX: 0, pullY: 0, angle: 0, length: 60 };
-        let target = { x: 820, y: 250, radius: 40, speed: 4, direction: 1 };
-        let mouse = { x: 0, y: 0 };
+        // UI Elements
+        const startScreen = document.getElementById("start-screen");
+        const gameOverScreen = document.getElementById("game-over-screen");
+        const scoreTxt = document.getElementById("score-txt");
+        const arrowsTxt = document.getElementById("arrows-txt");
+        const finalScore = document.getElementById("final-score");
+        const container = document.getElementById("game-container");
 
-        // Touch handling
-        canvas.addEventListener("touchstart", (e) => {
-            e.preventDefault();
-            const rect = canvas.getBoundingClientRect();
-            let tx = e.touches[0].clientX - rect.left;
-            let ty = e.touches[0].clientY - rect.top;
+        // Game Configuration & State
+        let score = 0;
+        let arrows = 5;
+        let gameOver = false;
+        let isSetup = false;
+        const gravity = 0.22; // Hard physics drop
+
+        const bow = { x: 150, y: 375, radius: 65 };
+        let arrow = { x: bow.x, y: bow.y, vx: 0, vy: 0, isFlying: false, isDragging: false, pullX: 0, pullY: 0, angle: 0, length: 80 };
+        let target = { x: 1180, y: 375, radius: 60, speed: 5, direction: 1 };
+        
+        let particles = [];
+        let floatTexts = [];
+
+        // Synthesizing sound effects via Web Audio API (No asset loading issues)
+        let audioCtx = null;
+        function playSound(type) {
+            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
             
-            if (Math.hypot(tx - bow.x, ty - bow.y) < 100) arrow.isDragging = true;
-        });
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
 
-        canvas.addEventListener("touchmove", (e) => {
-            e.preventDefault();
-            if (!arrow.isDragging) return;
-            const rect = canvas.getBoundingClientRect();
-            let tx = e.touches[0].clientX - rect.left;
-            let ty = e.touches[0].clientY - rect.top;
+            if (type === 'shoot') {
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(440, audioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(120, audioCtx.currentTime + 0.15);
+                gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.15);
+                osc.start(); osc.stop(audioCtx.currentTime + 0.15);
+            } else if (type === 'hit') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(600, audioCtx.currentTime);
+                osc.frequency.setValueAtTime(900, audioCtx.currentTime + 0.05);
+                gain.gain.setValueAtTime(0.4, audioCtx.currentTime);
+                gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.2);
+                osc.start(); osc.stop(audioCtx.currentTime + 0.2);
+            } else if (type === 'gameover') {
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(250, audioCtx.currentTime);
+                osc.frequency.linearRampToValueAtTime(80, audioCtx.currentTime + 0.5);
+                gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.5);
+                osc.start(); osc.stop(audioCtx.currentTime + 0.5);
+            }
+        }
+
+        // Fullscreen activation + Game Start
+        function initAndStartGame() {
+            // Trigger native mobile fullscreen to hide URL bars
+            if (container.requestFullscreen) container.requestFullscreen();
+            else if (container.webkitRequestFullscreen) container.webkitRequestFullscreen();
+            else if (container.msRequestFullscreen) container.msRequestFullscreen();
+
+            startScreen.style.opacity = '0';
+            setTimeout(() => startScreen.style.display = 'none', 300);
             
-            let dx = Math.min(Math.max(tx - bow.x, -120), 0);
-            let dy = Math.min(Math.max(ty - bow.y, -120), 120);
-            arrow.pullX = dx; arrow.pullY = dy;
-            arrow.angle = Math.atan2(-dy, -dx);
-        });
+            if(!isSetup) {
+                setupControls();
+                isSetup = true;
+                gameLoop();
+            }
+        }
 
-        canvas.addEventListener("touchend", (e) => {
-            if (!arrow.isDragging) return;
-            arrow.isDragging = false;
-            arrow.vx = Math.cos(arrow.angle) * Math.abs(arrow.pullX) * 0.15;
-            arrow.vy = Math.sin(arrow.angle) * Math.abs(arrow.pullX) * 0.15;
-            arrow.isFlying = true;
+        // Screen-to-Canvas scaling translator
+        function getCanvasCoords(e) {
+            const rect = canvas.getBoundingClientRect();
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            
+            return {
+                x: (clientX - rect.left) * (canvas.width / rect.width),
+                y: (clientY - rect.top) * (canvas.height / rect.height)
+            };
+        }
+
+        function setupControls() {
+            const startDrag = (e) => {
+                if (gameOver || arrow.isFlying) return;
+                let coords = getCanvasCoords(e);
+                // Allow grabbing slightly wider than the bow
+                if (Math.hypot(coords.x - bow.x, coords.y - bow.y) < 130) {
+                    arrow.isDragging = true;
+                }
+            };
+
+            const moveDrag = (e) => {
+                if (!arrow.isDragging) return;
+                let coords = getCanvasCoords(e);
+                let dx = coords.x - bow.x;
+                let dy = coords.y - bow.y;
+                let dist = Math.hypot(dx, dy);
+                
+                const maxPull = 160; // Max tension
+                if (dist > maxPull) {
+                    dx = (dx / dist) * maxPull;
+                    dy = (dy / dist) * maxPull;
+                }
+
+                // Force drag to stay backwards (leftwards)
+                if(dx > 20) dx = 20;
+
+                arrow.pullX = dx;
+                arrow.pullY = dy;
+                arrow.angle = Math.atan2(-dy, -dx);
+            };
+
+            const endDrag = () => {
+                if (!arrow.isDragging) return;
+                arrow.isDragging = false;
+                
+                let pullDist = Math.hypot(arrow.pullX, arrow.pullY);
+                if (pullDist > 25) {
+                    const releaseForce = 0.145; 
+                    arrow.vx = Math.cos(arrow.angle) * pullDist * releaseForce;
+                    arrow.vy = Math.sin(arrow.angle) * pullDist * releaseForce;
+                    arrow.isFlying = true;
+                    arrow.x = bow.x;
+                    arrow.y = bow.y;
+                    playSound('shoot');
+                } else {
+                    arrow.pullX = 0; arrow.pullY = 0;
+                }
+            };
+
+            // Touch + Mouse bindings
+            canvas.addEventListener("mousedown", startDrag);
+            canvas.addEventListener("mousemove", moveDrag);
+            window.addEventListener("mouseup", endDrag);
+
+            canvas.addEventListener("touchstart", (e) => { startDrag(e); }, {passive: true});
+            canvas.addEventListener("touchmove", (e) => { moveDrag(e); }, {passive: true});
+            window.addEventListener("touchend", endDrag);
+        }
+
+        // Particle generator for explosion
+        function spawnParticles(x, y, color) {
+            for(let i=0; i<25; i++) {
+                particles.push({
+                    x: x, y: y,
+                    vx: (Math.random() - 0.5) * 10,
+                    vy: (Math.random() - 0.5) * 10,
+                    radius: Math.random() * 4 + 2,
+                    alpha: 1,
+                    color: color
+                });
+            }
+        }
+
+        function triggerScoreText(x, y, text) {
+            floatTexts.push({ x: x - 50, y: y, text: text, alpha: 1 });
+        }
+
+        function checkCollision() {
+            // Target horizontal boundary checking
+            if (arrow.x >= target.x - 15 && arrow.x <= target.x + 25) {
+                let hitDist = Math.abs(arrow.y - target.y);
+                
+                if (hitDist <= target.radius) {
+                    let points = 0;
+                    let label = "";
+                    let color = "#ffffff";
+
+                    if (hitDist <= target.radius * 0.18) {
+                        points = 100; label = "BULLSEYE! +100"; color = "#00ffcc";
+                    } else if (hitDist <= target.radius * 0.5) {
+                        points = 50; label = "GREAT! +50"; color = "#0099ff";
+                    } else {
+                        points = 20; label = "HIT! +20"; color = "#ffcc00";
+                    }
+
+                    score += points;
+                    scoreTxt.innerText = score;
+                    
+                    // Dynamic Difficulty Scaling (Target accelerates & shrinks slightly)
+                    target.speed += 0.65; 
+                    if(target.radius > 35) target.radius -= 1;
+
+                    spawnParticles(arrow.x, arrow.y, color);
+                    triggerScoreText(target.x - 100, target.y - 40, label);
+                    playSound('hit');
+                    resetArrow(false);
+                }
+            }
+        }
+
+        function resetArrow(isMiss) {
+            arrow.isFlying = false;
             arrow.x = bow.x; arrow.y = bow.y;
-        });
+            arrow.vx = 0; arrow.vy = 0;
+            arrow.pullX = 0; arrow.pullY = 0;
+            
+            if(isMiss) {
+                arrows--;
+                arrowsTxt.innerText = arrows;
+                if(arrows <= 0) {
+                    gameOver = true;
+                    playSound('gameover');
+                    finalScore.innerText = score;
+                    gameOverScreen.style.display = "flex";
+                }
+            }
+        }
 
+        function restartGame() {
+            score = 0; arrows = 5; gameOver = false;
+            target.speed = 5; target.radius = 60;
+            scoreTxt.innerText = score; arrowsTxt.innerText = arrows;
+            gameOverScreen.style.display = "none";
+            resetArrow(false);
+        }
+
+        // Real-time Frame updates
         function gameLoop() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            // Background clearing
+            ctx.fillStyle = "#060613";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            // Target movement
-            if (!gameOver) {
-                target.y += target.speed * target.direction;
-                if (target.y < 50 || target.y > 450) target.direction *= -1;
+            // Tech Grid matrix lines
+            ctx.strokeStyle = "rgba(0, 255, 204, 0.03)";
+            ctx.lineWidth = 2;
+            for(let i=0; i<canvas.width; i+=60) {
+                ctx.beginPath(); ctx.moveTo(i, 0); ctx.lineTo(i, canvas.height); ctx.stroke();
+            }
+            for(let j=0; j<canvas.height; j+=60) {
+                ctx.beginPath(); ctx.moveTo(0, j); ctx.lineTo(canvas.width, j); ctx.stroke();
             }
 
-            // Arrow Physics
+            // 1. Move Target (Ping-pong bounds)
+            if (!gameOver) {
+                target.y += target.speed * target.direction;
+                if (target.y - target.radius < 30 || target.y + target.radius > canvas.height - 30) {
+                    target.direction *= -1;
+                }
+            }
+
+            // 2. Trajectory Math & Physics update
             if (arrow.isFlying) {
-                arrow.vy += gravity;
+                arrow.vy += gravity; // Pull downward
                 arrow.x += arrow.vx;
                 arrow.y += arrow.vy;
                 arrow.angle = Math.atan2(arrow.vy, arrow.vx);
-                
-                // Collision
-                if (arrow.x > target.x - 20 && arrow.x < target.x + 20 && Math.abs(arrow.y - target.y) < target.radius) {
-                    score += 10;
-                    scoreVal.innerText = score;
-                    target.speed += 0.5;
-                    resetArrow();
-                } else if (arrow.x > canvas.width || arrow.y > canvas.height) resetArrow();
+
+                checkCollision();
+
+                // Out of screen boundaries (Miss)
+                if (arrow.x > canvas.width + 100 || arrow.y > canvas.height + 100 || arrow.x < -50) {
+                    resetArrow(true);
+                }
             }
 
-            // Draw
-            ctx.beginPath(); ctx.arc(target.x, target.y, target.radius, 0, Math.PI*2);
-            ctx.fillStyle = "red"; ctx.fill();
+            // 3. Render Trajectory Predictor Dot line (While aiming - Short helpful guide)
+            if (arrow.isDragging) {
+                ctx.fillStyle = "rgba(0, 255, 204, 0.35)";
+                let tx = bow.x;
+                let ty = bow.y;
+                let tvx = Math.cos(arrow.angle) * Math.hypot(arrow.pullX, arrow.pullY) * 0.145;
+                let tvy = Math.sin(arrow.angle) * Math.hypot(arrow.pullX, arrow.pullY) * 0.145;
+                for (let i = 0; i < 18; i++) {
+                    tvy += gravity; tx += tvx; ty += tvy;
+                    ctx.beginPath(); ctx.arc(tx, ty, 3, 0, Math.PI * 2); ctx.fill();
+                }
+            }
 
-            // Draw Arrow
-            ctx.save();
-            ctx.translate(arrow.isFlying ? arrow.x : bow.x + arrow.pullX, arrow.isFlying ? arrow.y : bow.y + arrow.pullY);
-            ctx.rotate(arrow.angle);
-            ctx.fillStyle = "white"; ctx.fillRect(0, -2, 60, 4);
-            ctx.restore();
+            // 4. Draw Sci-Fi Neon Bow & String
+            ctx.lineWidth = 5;
+            ctx.strokeStyle = "#0099ff";
+            ctx.shadowBlur = 15; ctx.shadowColor = "#0099ff";
+            ctx.beginPath();
+            ctx.arc(bow.x, bow.y, bow.radius, Math.PI * 0.45, Math.PI * 1.55, false);
+            ctx.stroke();
+
+            // Elastic String logic
+            ctx.lineWidth = 2;
+            ctx.strokeStyle = "rgba(255,255,255,0.7)";
+            ctx.shadowBlur = 0;
+            ctx.beginPath();
+            ctx.moveTo(bow.x - 5, bow.y - bow.radius + 8);
+            if (arrow.isDragging) ctx.lineTo(bow.x + arrow.pullX, bow.y + arrow.pullY);
+            else ctx.lineTo(bow.x, bow.y);
+            ctx.lineTo(bow.x - 5, bow.y + bow.radius - 8);
+            ctx.stroke();
+
+            // 5. Draw Layered Pro Target Face
+            let rings = [target.radius, target.radius * 0.75, target.radius * 0.5, target.radius * 0.18];
+            let colors = ["#ffffff", "#0099ff", "#ff3366", "#f1c40f"];
+            ctx.shadowBlur = 10; ctx.shadowColor = "#ff3366";
+            for (let i = 0; i < rings.length; i++) {
+                ctx.beginPath(); ctx.arc(target.x, target.y, rings[i], 0, Math.PI * 2);
+                ctx.fillStyle = colors[i]; ctx.fill();
+                ctx.strokeStyle = "#060613"; ctx.lineWidth = 2; ctx.stroke();
+            }
+            ctx.shadowBlur = 0;
+
+            // 6. Render Arrow Model
+            if (arrow.isFlying || arrow.isDragging) {
+                ctx.save();
+                ctx.translate(arrow.isDragging ? bow.x + arrow.pullX : arrow.x, arrow.isDragging ? bow.y + arrow.pullY : arrow.y);
+                ctx.rotate(arrow.angle);
+
+                // Shaft
+                ctx.strokeStyle = "#ffffff"; ctx.lineWidth = 4;
+                ctx.beginPath(); ctx.moveTo(-arrow.length, 0); ctx.lineTo(0, 0); ctx.stroke();
+
+                // Advanced Fletching (Feathers)
+                ctx.fillStyle = "#ff3366";
+                ctx.beginPath(); ctx.moveTo(-arrow.length, 0); ctx.lineTo(-arrow.length - 12, -8);
+                ctx.lineTo(-arrow.length + 5, 0); ctx.lineTo(-arrow.length - 12, 8); ctx.closePath(); ctx.fill();
+
+                // Glowing Tip
+                ctx.fillStyle = "#00ffcc"; ctx.shadowBlur = 10; ctx.shadowColor = "#00ffcc";
+                ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(-14, -6); ctx.lineTo(-14, 6); ctx.closePath(); ctx.fill();
+                ctx.restore();
+                ctx.shadowBlur = 0;
+            }
+
+            // 7. Render Active Particles
+            for (let i = particles.length - 1; i >= 0; i--) {
+                let p = particles[i];
+                p.x += p.vx; p.y += p.vy; p.alpha -= 0.025;
+                if (p.alpha <= 0) particles.splice(i, 1);
+                else {
+                    ctx.save(); ctx.globalAlpha = p.alpha;
+                    ctx.fillStyle = p.color; ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2); ctx.fill();
+                    ctx.restore();
+                }
+            }
+
+            // 8. Render Floating Scores
+            for (let i = floatTexts.length - 1; i >= 0; i--) {
+                let t = floatTexts[i];
+                t.y -= 1.5; t.alpha -= 0.02;
+                if (t.alpha <= 0) floatTexts.splice(i, 1);
+                else {
+                    ctx.save(); ctx.globalAlpha = t.alpha;
+                    ctx.fillStyle = "#00ffcc"; ctx.font = "bold 22px Arial";
+                    ctx.fillText(t.text, t.x, t.y); ctx.restore();
+                }
+            }
 
             requestAnimationFrame(gameLoop);
         }
-
-        function resetArrow() {
-            arrow.isFlying = false; arrow.x = bow.x; arrow.y = bow.y;
-            arrow.pullX = 0; arrow.pullY = 0;
-            arrows--; arrowsVal.innerText = arrows;
-            if (arrows <= 0) { alert("Game Over! Score: " + score); location.reload(); }
-        }
-
-        gameLoop();
     </script>
 </body>
 </html>
