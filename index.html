@@ -2,106 +2,185 @@
 layout: default
 ---
 
+<!-- Google Fonts (Poppins) এবং FontAwesome (Icons) যোগ করা হয়েছে -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
 <style>
-    /* Jekyll Layout use korle body-te display:flex ba padding:20px dewa thik na, 
-       tai eita sudhu main section-e kaj korbe */
-    
-    .hero-section {
+    /* গ্লোবাল ভেরিয়েবল এবং ফন্ট সেটআপ */
+    :root {
+        --primary-font: 'Poppins', sans-serif;
+        --glass-bg: rgba(255, 255, 255, 0.08);
+        --glass-border: rgba(255, 255, 255, 0.15);
+    }
+
+    /* অ্যানিমেটেড প্রিমিয়াম ব্যাকগ্রাউন্ড */
+    .premium-hero {
+        font-family: var(--primary-font);
+        min-height: 100vh; /* ফুল স্ক্রিন হাইট */
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        padding: 40px 10px;
+        padding: 40px 20px;
         text-align: center;
-    }
-
-    .container {
-        background: linear-gradient(145deg, #28afe0, #1e9ac7);
-        padding: 50px 30px;
-        border-radius: 30px;
-        box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-        width: 90%;
-        max-width: 500px;
-        /* Gap komanor jonno niche margin-top 0 kora hoyeche */
-        margin-top: 10px; 
-    }
-
-    .container h1 {
-        font-size: 3.5rem;
-        margin: 0 0 10px 0;
+        background: linear-gradient(135deg, #0f2027, #203a43, #2c5364); /* ডার্ক মডার্ন গ্রেডিয়েন্ট */
+        background-size: 400% 400%;
+        animation: gradientBG 15s ease infinite;
         color: #ffffff;
+    }
+
+    @keyframes gradientBG {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+
+    /* Glassmorphism কন্টেইনার */
+    .glass-container {
+        background: var(--glass-bg);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid var(--glass-border);
+        padding: 60px 40px;
+        border-radius: 24px;
+        box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+        width: 100%;
+        max-width: 550px;
+        animation: fadeInUp 1.2s ease-out;
+    }
+
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(40px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* টেক্সট স্টাইলিং */
+    .glass-container h1 {
+        font-size: 3.8rem;
+        font-weight: 700;
+        margin: 0 0 10px 0;
+        background: linear-gradient(to right, #00c6ff, #0072ff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
         letter-spacing: 2px;
-        font-family: 'Segoe UI', sans-serif;
     }
 
-    .container p {
-        font-size: 1.2rem;
-        color: #f0f0f0;
-        margin-bottom: 30px;
-        font-weight: 500;
-    }
-
-    /* Button Style Improvement */
-    .btn {
-        background-color: #ff4757;
-        color: white !important;
-        border: none;
-        padding: 15px 40px;
+    .glass-container p {
         font-size: 1.1rem;
-        font-weight: bold;
-        border-radius: 50px;
+        color: #d1d5db;
+        margin-bottom: 40px;
+        font-weight: 300;
+        letter-spacing: 0.5px;
+    }
+
+    /* রেস্পন্সিভ বাটন গ্রিড */
+    .btn-group {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+    }
+
+    @media (max-width: 500px) {
+        .btn-group {
+            grid-template-columns: 1fr; /* মোবাইলে বাটনগুলো নিচে নিচে আসবে */
+        }
+    }
+
+    /* প্রিমিয়াম বাটন ডিজাইন */
+    .premium-btn {
+        background: rgba(255, 255, 255, 0.05);
+        color: #ffffff !important;
+        border: 1px solid var(--glass-border);
+        padding: 16px 20px;
+        font-size: 1rem;
+        font-weight: 500;
+        border-radius: 12px;
         cursor: pointer;
         text-decoration: none;
-        display: inline-block;
-        min-width: 140px;
-        margin: 10px;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
-    .btn:hover {
-        background-color: #ff6b81;
-        transform: translateY(-3px);
-        box-shadow: 0 8px 20px rgba(255, 71, 87, 0.4);
+    .premium-btn:hover {
+        background: linear-gradient(135deg, #00c6ff, #0072ff);
+        transform: translateY(-5px) scale(1.03);
+        border-color: transparent;
+        box-shadow: 0 10px 25px rgba(0, 114, 255, 0.4);
     }
 
-    .custom-footer {
+    .premium-btn i {
+        font-size: 1.2rem;
+    }
+
+    /* ফুটার স্টাইলিং */
+    .premium-footer {
+        margin-top: 60px;
         text-align: center;
-        color: #ffffff;
-        margin-top: 50px;
-        padding-bottom: 30px;
-        line-height: 1.6;
+        animation: fadeIn 2s ease-in;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
     }
 
     .footer-highlight {
-        font-size: 1.1rem;
-        font-weight: bold;
+        font-size: 1.2rem;
+        font-weight: 600;
         display: block;
-        margin-bottom: 5px;
+        margin-bottom: 8px;
+        color: #f3f4f6;
     }
 
-    .footer-sub {
-        font-size: 0.8rem;
-        opacity: 0.8;
-        letter-spacing: 1px;
+    .footer-text {
+        font-size: 0.95rem;
+        color: #9ca3af;
+        display: block;
+        margin-bottom: 15px;
+        font-weight: 300;
+    }
+
+    .footer-badge {
+        display: inline-block;
+        background: rgba(0, 198, 255, 0.1);
+        color: #00c6ff;
+        padding: 6px 18px;
+        border-radius: 30px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        letter-spacing: 1.5px;
+        border: 1px solid rgba(0, 198, 255, 0.3);
     }
 </style>
 
-<div class="hero-section">
-    <div class="container">
+<div class="premium-hero">
+    <div class="glass-container">
         <h1>Welcome</h1>
         <p>This is my first online website</p>
     
-        <a href="page1.html" class="btn">Page 1</a>
-        <a href="page2.html" class="btn">Page 2</a>
-        <a href="games/game.html" class="btn">Games by me</a>
-        <a href="pagecontact.html" class="btn">contact & support</a>
+        <div class="btn-group">
+            <a href="page1.html" class="premium-btn">
+                <i class="fa-solid fa-file-lines"></i> Page 1
+            </a>
+            <a href="page2.html" class="premium-btn">
+                <i class="fa-regular fa-file-lines"></i> Page 2
+            </a>
+            <a href="games/game.html" class="premium-btn">
+                <i class="fa-solid fa-gamepad"></i> Games by me
+            </a>
+            <a href="pagecontact.html" class="premium-btn">
+                <i class="fa-solid fa-envelope"></i> Contact & Support
+            </a>
+        </div>
     </div>
 
-    <div class="custom-footer">
+    <div class="premium-footer">
         <span class="footer-highlight">Coded by Imrul Hasan 😇</span>
-        <span style="font-size: 0.9rem;">Using HTML & CSS (Hosted on GitHub) 😌</span>
-        <br><br>
-        <span class="footer-sub">"WEB PROJECT 2026✓✓"</span>
+        <span class="footer-text">Using HTML & CSS (Hosted on GitHub) 😌</span>
+        <span class="footer-badge">WEB PROJECT 2026 ✓✓</span>
     </div>
 </div>
