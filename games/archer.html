@@ -157,6 +157,31 @@
             box-shadow: 0 0 10px rgba(0, 255, 204, 0.3);
         }
 
+        /* --- New Button Styles --- */
+        .btn-small {
+            padding: 10px 25px;
+            font-size: 14px;
+            border-radius: 25px;
+            letter-spacing: 1px;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .in-game-controls {
+            position: absolute;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: none; /* Shown via JS when game starts */
+            gap: 15px;
+            z-index: 50;
+        }
+
         /* --- Advanced HUD --- */
         #hud {
             position: absolute;
@@ -213,6 +238,13 @@
             </div>
         </div>
 
+        <!-- In-Game Bottom Controls -->
+        <div id="in-game-controls" class="in-game-controls">
+            <button class="btn btn-small" onclick="window.location.href='game.html'">Home</button>
+            <button class="btn btn-small" onclick="window.location.href='index.html'">Homepage</button>
+            <button class="btn btn-small" onclick="restartGame()">Restart</button>
+        </div>
+
         <!-- Start Screen -->
         <div id="start-screen" class="screen-overlay">
             <h1>Cyber Archery</h1>
@@ -226,7 +258,12 @@
         <div id="game-over-screen" class="screen-overlay" style="display: none;">
             <h1 style="color: #ff3366; text-shadow: 0 0 30px rgba(255,51,102,0.8);">Game Over</h1>
             <div class="score-board">Final Score: <span id="final-score">0</span></div>
-            <button class="btn" onclick="restartGame()">Restart</button>
+            
+            <div class="btn-group">
+                <button class="btn" onclick="restartGame()">Restart</button>
+                <button class="btn" onclick="window.location.href='game.html'">Home</button>
+                <button class="btn" onclick="window.location.href='index.html'">Homepage</button>
+            </div>
         </div>
 
         <!-- Canvas -->
@@ -247,7 +284,8 @@
             wind: document.getElementById("wind-txt"),
             comboBox: document.getElementById("combo-box"),
             comboTxt: document.getElementById("combo-txt"),
-            container: document.getElementById("game-container")
+            container: document.getElementById("game-container"),
+            inGameControls: document.getElementById("in-game-controls") // New UI element
         };
 
         // Advanced Game State Object (Programmable Structure)
@@ -320,7 +358,10 @@
             else if (ui.container.webkitRequestFullscreen) ui.container.webkitRequestFullscreen();
             
             ui.start.style.opacity = '0';
-            setTimeout(() => ui.start.style.display = 'none', 400);
+            setTimeout(() => {
+                ui.start.style.display = 'none';
+                ui.inGameControls.style.display = 'flex'; // Show in-game buttons
+            }, 400);
             
             if(!Game.isSetup) {
                 setupControls();
@@ -343,6 +384,9 @@
         function setupControls() {
             const startDrag = (e) => {
                 if (Game.isOver || arrow.isFlying) return;
+                // Ignore button clicks from triggering drag
+                if(e.target.tagName === 'BUTTON') return; 
+
                 let coords = getCanvasCoords(e);
                 if (Math.hypot(coords.x - bow.x, coords.y - bow.y) < 150) {
                     arrow.isDragging = true;
@@ -477,6 +521,7 @@
                     playSound('gameover');
                     ui.finalScore.innerText = Game.score;
                     ui.gameOver.style.display = "flex";
+                    ui.inGameControls.style.display = "none"; // Hide in-game controls on game over
                 }
             }
         }
@@ -490,6 +535,7 @@
             ui.arrows.innerText = Game.arrows;
             ui.comboBox.style.display = "none";
             ui.gameOver.style.display = "none";
+            ui.inGameControls.style.display = "flex"; // Show in-game controls again
             
             updateWind();
             resetArrow(false);
