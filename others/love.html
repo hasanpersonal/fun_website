@@ -3,192 +3,249 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A Special Question for You</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <title>For Someone Special</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@300;700;900&display=swap" rel="stylesheet">
     <style>
-        /* Base Styles */
+        /* Modern Dark/Neon Romantic Background */
         body {
             margin: 0;
             padding: 0;
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
+            font-family: 'Montserrat', sans-serif;
+            background: radial-gradient(circle at center, #2c001e 0%, #0c000b 100%);
             height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             overflow: hidden;
-            color: #333;
+            color: #fff;
         }
 
-        /* Glassmorphism Container */
+        /* Glassmorphic Cyber-Romantic Card */
         .card {
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            border-radius: 20px;
-            padding: 40px;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            padding: 50px 40px;
             text-align: center;
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-            max-width: 400px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(255, 71, 126, 0.1);
+            max-width: 450px;
             width: 90%;
             z-index: 10;
-            transition: all 0.5s ease-in-out;
+            position: relative;
         }
 
-        /* Authentication Section */
+        /* Passcode Section */
         #auth-section h2 {
-            color: #fff;
-            margin-bottom: 20px;
-            font-weight: 600;
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+            margin-bottom: 30px;
+            color: #ff477e;
+            text-shadow: 0 0 10px rgba(255, 71, 126, 0.5);
+        }
+
+        .passcode-wrapper {
+            position: relative;
+            margin-bottom: 30px;
         }
 
         .passcode-input {
             width: 80%;
-            padding: 12px;
-            border: none;
-            border-radius: 25px;
+            padding: 15px;
+            border: 2px solid rgba(255, 71, 126, 0.3);
+            border-radius: 50px;
             outline: none;
             text-align: center;
-            font-size: 16px;
-            letter-spacing: 2px;
-            margin-bottom: 20px;
-            background: rgba(255, 255, 255, 0.8);
+            font-size: 18px;
+            letter-spacing: 4px;
+            background: rgba(0, 0, 0, 0.4);
+            color: #fff;
+            transition: all 0.3s;
+        }
+
+        .passcode-input:focus {
+            border-color: #ff477e;
+            box-shadow: 0 0 15px rgba(255, 71, 126, 0.4);
         }
 
         .btn {
-            background: #ff477e;
+            background: linear-gradient(45deg, #ff477e, #ff85a2);
             color: white;
             border: none;
-            padding: 12px 30px;
-            border-radius: 25px;
+            padding: 14px 40px;
+            border-radius: 50px;
             font-size: 16px;
             cursor: pointer;
-            transition: background 0.3s, transform 0.2s;
-            font-family: 'Poppins', sans-serif;
-            font-weight: 600;
+            font-weight: 700;
+            letter-spacing: 1px;
+            box-shadow: 0 5px 15px rgba(255, 71, 126, 0.4);
+            transition: all 0.3s ease;
         }
 
         .btn:hover {
-            background: #ff1453;
-            transform: scale(1.05);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 71, 126, 0.6);
         }
 
         #error-msg {
-            color: #ffe6e6;
+            color: #ff4d4d;
             font-size: 14px;
-            margin-top: 10px;
+            margin-top: 15px;
             display: none;
         }
 
-        /* Proposal Section */
+        /* Love Proposal Section */
         #proposal-section {
             display: none;
             opacity: 0;
-            transform: scale(0.8);
-            transition: all 1s ease-in-out;
         }
 
-        #proposal-section h1 {
+        /* Tomar Custom Text Morphing/Shrinking Animation */
+        .text-container {
+            height: 120px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .proposal-text {
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -2px;
+            position: absolute;
+            width: 100%;
+            text-shadow: 0 0 20px rgba(255, 71, 126, 0.6);
+        }
+
+        /* 3 Steps of Text Animation */
+        #text-step1 {
+            font-size: 3.5rem;
+            color: #fff;
+            animation: shrinkOut 3s forwards ease-in-out;
+        }
+
+        #text-step2 {
+            font-size: 2.8rem;
+            color: #ff85a2;
+            opacity: 0;
+            animation: fadeInShrink 3s forwards ease-in-out;
+            animation-delay: 3s;
+        }
+
+        #text-step3 {
+            font-size: 2.2rem;
+            color: #ff477e;
+            opacity: 0;
+            animation: finalGlow 2s infinite alternate ease-in-out;
+            animation-delay: 6s;
+        }
+
+        @keyframes shrinkOut {
+            0% { transform: scale(1); opacity: 1; filter: blur(0px); }
+            80% { transform: scale(0.8); opacity: 1; }
+            100% { transform: scale(0.5); opacity: 0; filter: blur(10px); display: none; }
+        }
+
+        @keyframes fadeInShrink {
+            0% { transform: scale(1.3); opacity: 0; filter: blur(10px); }
+            20% { transform: scale(1); opacity: 1; filter: blur(0px); }
+            80% { transform: scale(0.8); opacity: 1; }
+            100% { transform: scale(0.6); opacity: 0; filter: blur(5px); display: none; }
+        }
+
+        @keyframes finalGlow {
+            0% { transform: scale(0.9); opacity: 1; text-shadow: 0 0 10px #ff477e; }
+            100% { transform: scale(1.1); opacity: 1; text-shadow: 0 0 30px #ff477e, 0 0 50px #ff85a2; }
+        }
+
+        .sub-text {
             font-family: 'Dancing Script', cursive;
-            font-size: 3rem;
+            font-size: 2rem;
             color: #fff;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            margin-bottom: 40px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1s forwards ease-out;
+            animation-delay: 6.5s; /* Final text er por ashbe */
         }
 
-        #proposal-section p {
-            color: #fff;
-            font-size: 1.1rem;
-            margin-bottom: 30px;
-            line-height: 1.6;
+        @keyframes fadeInUp {
+            to { opacity: 1; transform: translateY(0); }
         }
 
+        /* Modern Action Buttons */
         .action-buttons {
             display: flex;
             justify-content: center;
             gap: 20px;
-            position: relative;
-            height: 50px;
+            opacity: 0;
+            animation: fadeInUp 1s forwards ease-out;
+            animation-delay: 7s;
         }
 
         #yes-btn {
-            background: #4caf50;
+            background: linear-gradient(45deg, #00b4db, #0083b0);
+            box-shadow: 0 5px 15px rgba(0, 180, 219, 0.4);
         }
-
         #yes-btn:hover {
-            background: #45a049;
-            box-shadow: 0 0 15px #4caf50;
+            box-shadow: 0 8px 25px rgba(0, 180, 219, 0.6);
         }
 
         #no-btn {
-            background: #f44336;
-            position: relative;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: none;
         }
 
-        /* Floating Hearts Animation */
-        .heart {
+        /* Glowing Floating Hearts & Stars */
+        .particle {
             position: absolute;
-            bottom: -100px;
-            width: 20px;
-            height: 20px;
-            background: #ff477e;
-            transform: rotate(-45deg);
-            animation: floatUp 4s ease-in infinite;
+            bottom: -50px;
+            pointer-events: none;
+            animation: floatUp linear infinite;
             z-index: 1;
         }
 
-        .heart::before, .heart::after {
-            content: '';
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            background: #ff477e;
-            border-radius: 50%;
-        }
-
-        .heart::before {
-            top: -10px;
-            left: 0;
-        }
-
-        .heart::after {
-            top: 0;
-            right: -10px;
-        }
-
         @keyframes floatUp {
-            0% { transform: translateY(0) rotate(-45deg) scale(0.5); opacity: 1; }
-            100% { transform: translateY(-100vh) rotate(-45deg) scale(1.5); opacity: 0; }
+            0% { transform: translateY(0) rotate(0deg) scale(0); opacity: 0; }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.6; }
+            100% { transform: translateY(-105vh) rotate(360deg) scale(1.5); opacity: 0; }
         }
 
-        /* Shake animation for wrong password */
+        /* Shake & Fade Utility */
+        .shake { animation: shake 0.4s; }
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
             25% { transform: translateX(-10px); }
             50% { transform: translateX(10px); }
             75% { transform: translateX(-10px); }
         }
-        .shake {
-            animation: shake 0.4s;
-        }
     </style>
 </head>
 <body>
 
-    <!-- Authentication Card -->
     <div class="card" id="auth-section">
-        <h2>Enter Passcode</h2>
-        <input type="password" id="passcode" class="passcode-input" placeholder="******">
-        <br>
-        <button class="btn" onclick="checkPasscode()">Unlock</button>
-        <p id="error-msg">Incorrect Passcode. Try again!</p>
+        <h2>ENTER PRIVACY CODE</h2>
+        <div class="passcode-wrapper">
+            <input type="password" id="passcode" class="passcode-input" placeholder="••••••" maxlength="6">
+        </div>
+        <button class="btn" onclick="checkPasscode()">ACCESS</button>
+        <p id="error-msg">Wrong Code. Think again! 😉</p>
     </div>
 
-    <!-- Proposal Card -->
     <div class="card" id="proposal-section">
-        <h1>Will You Marry Me?</h1>
-        <p>You are the best thing that ever happened to me. I want to spend the rest of my life making you smile. Will you be mine forever?</p>
+        <div class="text-container">
+            <div class="proposal-text" id="text-step1">I Love You</div>
+            <div class="proposal-text" id="text-step2">I ❤️ you</div>
+            <div class="proposal-text" id="text-step3">I ❤️ U</div>
+        </div>
+        
+        <div class="sub-text" id="sub-message">Will you be my forever?</div>
+        
         <div class="action-buttons">
             <button class="btn" id="yes-btn" onclick="sayYes()">YES!</button>
             <button class="btn" id="no-btn" onmouseover="dodgeNo()">NO</button>
@@ -202,63 +259,71 @@
             const proposalSection = document.getElementById('proposal-section');
             const errorMsg = document.getElementById('error-msg');
 
-            // 200819 Passcode Check
             if (passcode === "200819") {
-                // Hide Auth
-                authSection.style.display = 'none';
-                
-                // Show Proposal with animation
-                proposalSection.style.display = 'block';
+                authSection.style.opacity = '0';
                 setTimeout(() => {
-                    proposalSection.style.opacity = '1';
-                    proposalSection.style.transform = 'scale(1)';
-                }, 50);
-
-                // Start Hearts Animation
-                startHearts();
+                    authSection.style.display = 'none';
+                    proposalSection.style.display = 'block';
+                    setTimeout(() => {
+                        proposalSection.style.opacity = '1';
+                    }, 50);
+                    // Ambient particles chalu hobe
+                    startParticles();
+                }, 500);
             } else {
-                // Show Error and Shake
                 errorMsg.style.display = 'block';
                 authSection.classList.add('shake');
-                setTimeout(() => {
-                    authSection.classList.remove('shake');
-                }, 400);
+                setTimeout(() => authSection.classList.remove('shake'), 400);
             }
         }
 
         function dodgeNo() {
             const noBtn = document.getElementById('no-btn');
-            // Fun feature: The 'NO' button runs away when hovered!
-            const x = Math.random() * (window.innerWidth - 100) - (window.innerWidth / 2 - 50);
-            const y = Math.random() * (window.innerHeight - 50) - (window.innerHeight / 2 - 25);
+            // 'NO' button screen er jekono jaygay smoothly baje bhabe dore palabe
+            const x = Math.random() * (window.innerWidth - 120) - (window.innerWidth / 2 - 60);
+            const y = Math.random() * (window.innerHeight - 60) - (window.innerHeight / 2 - 30);
             
             noBtn.style.position = 'fixed';
+            noBtn.style.zIndex = '99';
             noBtn.style.transform = `translate(${x}px, ${y}px)`;
+            noBtn.style.transition = 'transform 0.2s ease-out';
         }
 
         function sayYes() {
             const proposalSection = document.getElementById('proposal-section');
-            proposalSection.innerHTML = "<h1>I Love You! ❤️</h1><p>Thank you for making me the happiest person alive!</p>";
-            // Make hearts spawn faster!
-            setInterval(createHeart, 100);
+            proposalSection.innerHTML = `
+                <h1 style="font-family:'Dancing Script', cursive; font-size: 3.5rem; color: #ff477e; text-shadow: 0 0 20px rgba(255,71,126,0.6); margin-0;">Forever Yours! ❤️</h1>
+                <p style="font-size: 1.1rem; margin-top: 15px; color: #ff85a2;">You just made me the happiest person in the universe!</p>
+            `;
+            // Blast of speed for hearts
+            setInterval(() => createParticle('❤️'), 50);
         }
 
-        function startHearts() {
-            setInterval(createHeart, 400);
+        function startParticles() {
+            // Background slow moving neon particles
+            setInterval(() => createParticle('❤️'), 600);
+            setInterval(() => createParticle('✨'), 800);
         }
 
-        function createHeart() {
-            const heart = document.createElement('div');
-            heart.classList.add('heart');
-            heart.style.left = Math.random() * 100 + "vw";
-            heart.style.animationDuration = Math.random() * 2 + 3 + "s";
+        function createParticle(symbol) {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            particle.innerText = symbol;
             
-            document.body.appendChild(heart);
-
-            // Remove heart after animation to prevent lag
-            setTimeout(() => {
-                heart.remove();
-            }, 5000);
+            // Random properties for gorgeous look
+            particle.style.left = Math.random() * 100 + "vw";
+            particle.style.fontSize = Math.random() * 15 + 15 + "px";
+            particle.style.animationDuration = Math.random() * 3 + 4 + "s";
+            
+            // Neon pink or soft white glow based on symbol
+            if(symbol === '❤️') {
+                particle.style.textShadow = "0 0 10px #ff477e";
+            } else {
+                particle.style.textShadow = "0 0 10px #fff";
+            }
+            
+            document.body.appendChild(particle);
+            setTimeout(() => particle.remove(), 7000);
         }
     </script>
 
