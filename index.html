@@ -6,25 +6,24 @@ layout: default
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 <style>
-    /* ১. বক্স সাইজিং রিসেট - এটি পেজ ডানদিকে বা স্ক্রিনের বাইরে চলে যাওয়া বন্ধ করবে */
+    /* বক্স সাইজিং রিসেট */
     .minimal-hero, .minimal-hero * {
         box-sizing: border-box;
     }
 
     :root {
-        --bg-color: #2adb91; 
+        /* Jekyll-এর সাথে মানানসই White-Gray থিম */
+        --bg-color: #f8fafc; 
         --card-bg: #ffffff;
         --text-main: #0f172a; 
         --text-muted: #64748b;
-        --primary-color: #0ea5e9; 
-        --primary-hover: #0284c7;
     }
 
     /* হিরো সেকশন */
     .minimal-hero {
         font-family: 'Inter', sans-serif;
         min-height: 100vh;
-        width: 100%; /* ফুল উইডথ নিশ্চিত করা হলো */
+        width: 100%; 
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -37,33 +36,40 @@ layout: default
         color: var(--text-main);
     }
 
-    /* মেইন কার্ড ডিজাইন */
+    /* লোডিং অ্যানিমেশন */
+    @keyframes fadeInUp {
+        0% { opacity: 0; transform: translateY(30px); }
+        100% { opacity: 1; transform: translateY(0); }
+    }
+
+    /* মেইন কার্ড ডিজাইন - আলট্রা প্রিমিয়াম লুক */
     .clean-container {
         background: var(--card-bg);
         padding: 50px 40px;
         border-radius: 24px;
-        box-shadow: 0 20px 40px -10px rgba(0,0,0,0.08), 0 0 10px rgba(0,0,0,0.02);
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08), 0 0 15px rgba(0, 0, 0, 0.02);
         width: 100%;
-        max-width: 450px; /* মোবাইলে পারফেক্ট ফিটিংয়ের জন্য কিছুটা কমানো হলো */
-        border: 1px solid #f1f5f9;
-        transition: transform 0.3s ease;
+        max-width: 450px; 
+        border: 1px solid rgba(255, 255, 255, 0.8);
+        transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+        animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
-    /* ২. মোবাইল রেস্পন্সিভ কোড - স্ক্রিন ছোট হলে কন্টেইনার ও টেক্সট নিজে থেকেই মানিয়ে নেবে */
     @media (max-width: 480px) {
         .minimal-hero {
             padding: 20px 10px;
         }
         .clean-container {
-            padding: 40px 20px; /* মোবাইলে ভেতরের স্পেস বা প্যাডিং কমানো হলো */
+            padding: 40px 20px; 
         }
         .clean-container h1 {
-            font-size: 2.8rem; /* মোবাইলের জন্য লেখার সাইজ পারফেক্ট করা হলো */
+            font-size: 2.8rem; 
         }
     }
 
     .clean-container:hover {
         transform: translateY(-5px);
+        box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.1), 0 0 20px rgba(0, 0, 0, 0.03);
     }
 
     .clean-container h1 {
@@ -88,10 +94,8 @@ layout: default
         gap: 14px;
     }
 
+    /* বেসিক বাটন স্টাইল */
     .clean-btn {
-        background-color: #ffffff;
-        color: #334155;
-        border: 2px solid #e2e8f0;
         padding: 16px 20px;
         font-size: 1.05rem;
         font-weight: 600;
@@ -102,38 +106,67 @@ layout: default
         align-items: center;
         justify-content: center;
         gap: 12px;
-        transition: all 0.3s ease;
-    }
-
-    .clean-btn:hover {
-        border-color: var(--primary-color);
-        color: var(--primary-color);
-        background-color: #f0f9ff;
-        box-shadow: 0 10px 15px -3px rgba(14, 165, 233, 0.1);
-    }
-    
-    .clean-btn.highlight {
-        background-color: var(--primary-color);
-        color: #ffffff;
-        border: none;
-        box-shadow: 0 8px 20px rgba(14, 165, 233, 0.25);
-    }
-
-    .clean-btn.highlight:hover {
-        background-color: var(--primary-hover);
-        color: #ffffff;
-        transform: translateY(-2px);
-        box-shadow: 0 12px 25px rgba(14, 165, 233, 0.4);
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        position: relative;
+        overflow: hidden;
     }
 
     .clean-btn i {
         font-size: 1.2rem;
+        transition: transform 0.3s ease;
     }
+
+    .clean-btn:hover i {
+        transform: scale(1.15);
+    }
+
+    /* আউটলাইন বাটন (Light) */
+    .btn-outline {
+        background-color: #ffffff;
+        color: #334155;
+        border: 2px solid #e2e8f0;
+    }
+
+    .btn-outline i {
+        color: var(--btn-color);
+    }
+
+    .btn-outline:hover {
+        border-color: var(--btn-color);
+        color: var(--btn-color);
+        background-color: var(--btn-bg-hover);
+        box-shadow: 0 10px 20px -5px rgba(0,0,0,0.05);
+        transform: translateY(-2px);
+    }
+
+    /* ফিল্ড বাটন (Highlight) */
+    .btn-filled {
+        background-color: var(--btn-color);
+        color: #ffffff;
+        border: none;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+
+    .btn-filled:hover {
+        filter: brightness(1.08);
+        transform: translateY(-3px);
+        box-shadow: 0 15px 25px -5px var(--btn-color-shadow);
+    }
+
+    /* ডাইনামিক বাটন কালারস */
+    .btn-rocket { --btn-color: #f97316; --btn-bg-hover: #fff7ed; } /* অরেঞ্জ */
+    .btn-file { --btn-color: #3b82f6; --btn-bg-hover: #eff6ff; } /* ব্লু */
+    .btn-game { --btn-color: #8b5cf6; --btn-color-shadow: rgba(139, 92, 246, 0.4); } /* পার্পল */
+    .btn-heart { --btn-color: #f43f5e; --btn-color-shadow: rgba(244, 63, 94, 0.4); } /* রোজ/রেড */
+    .btn-support { --btn-color: #0d9488; --btn-bg-hover: #f0fdfa; } /* টিল/সবুজ-নীল */
 
     /* ফুটার */
     .minimal-footer {
         margin-top: 50px;
         text-align: center;
+        animation: fadeInUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        animation-delay: 0.2s;
+        opacity: 0;
     }
 
     .footer-highlight {
@@ -160,6 +193,7 @@ layout: default
         font-size: 0.8rem;
         font-weight: 700;
         letter-spacing: 1px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
     }
 </style>
 
@@ -169,19 +203,24 @@ layout: default
         <p>This is my first online website</p>
     
         <div class="button-stack">
-            <a href="page1.html" class="clean-btn">
+            <!-- Rocket (Orange) -->
+            <a href="page1.html" class="clean-btn btn-outline btn-rocket">
                 <i class="fa-solid fa-rocket"></i> Go to Page 1
             </a>
-            <a href="page2.html" class="clean-btn">
+            <!-- File (Blue) -->
+            <a href="page2.html" class="clean-btn btn-outline btn-file">
                 <i class="fa-regular fa-file-lines"></i> Explore Page 2
             </a>
-            <a href="games/game.html" class="clean-btn highlight">
+            <!-- Gamepad (Purple Highlight) -->
+            <a href="games/game.html" class="clean-btn btn-filled btn-game">
                 <i class="fa-solid fa-gamepad"></i> Games by me
             </a>
-            <a href="others/other.html" class="clean-btn highlight">
+            <!-- Heart (Red/Pink Highlight) -->
+            <a href="others/other.html" class="clean-btn btn-filled btn-heart">
                 <i class="fas fa-heart"></i> Only for You
             </a>
-            <a href="pagecontact.html" class="clean-btn">
+            <!-- Support (Teal) -->
+            <a href="pagecontact.html" class="clean-btn btn-outline btn-support">
                 <i class="fa-solid fa-headset"></i> Contact & Support
             </a>
         </div>
