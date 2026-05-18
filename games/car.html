@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>NEON DRIVE PRO - Premium Mobile Experience</title>
+    <title>NEON DRIVE PRO - Ultimate Edition</title>
     <style>
         * {
             margin: 0;
@@ -16,7 +16,7 @@
         }
 
         body, html {
-            background: #020208;
+            background: #000;
             width: 100%;
             height: 100%;
             overflow: hidden;
@@ -32,9 +32,9 @@
             height: 100%;
             max-width: 480px; 
             max-height: 920px;
-            background: #060612;
+            background: #03030b;
             overflow: hidden;
-            box-shadow: 0 0 40px rgba(0, 240, 255, 0.15);
+            box-shadow: 0 0 50px rgba(122, 0, 255, 0.2);
         }
 
         canvas {
@@ -43,16 +43,13 @@
             height: 100%;
         }
 
-        /* Glassmorphism Overlays */
         .overlay {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(5, 5, 15, 0.9);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(3, 3, 10, 0.9);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -69,113 +66,116 @@
         }
 
         h1 {
-            font-size: 2.8rem;
+            font-size: 3rem;
             font-weight: 900;
-            letter-spacing: 3px;
+            letter-spacing: 4px;
             text-transform: uppercase;
-            background: linear-gradient(45deg, #ff0055, #00f0ff);
+            background: linear-gradient(45deg, #ffea00, #ff0055, #00f0ff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 5px;
-            filter: drop-shadow(0 0 15px rgba(0,240,255,0.4));
+            filter: drop-shadow(0 0 15px rgba(255, 0, 85, 0.4));
         }
 
         .subtitle {
-            color: #697cb6;
-            font-size: 0.9rem;
+            color: #8da1d6;
+            font-size: 0.95rem;
             margin-bottom: 40px;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
         }
 
-        /* Buttons Style */
         .btn-main {
-            padding: 16px 45px;
+            padding: 16px 50px;
             font-size: 1.1rem;
             font-weight: bold;
             text-transform: uppercase;
             letter-spacing: 2px;
             color: #fff;
-            background: linear-gradient(45deg, #ff0055, #7a00ff);
+            background: linear-gradient(45deg, #ff0055, #00f0ff);
             border: none;
             border-radius: 50px;
             cursor: pointer;
-            box-shadow: 0 0 25px rgba(255, 0, 85, 0.5);
+            box-shadow: 0 0 30px rgba(255, 0, 85, 0.6);
             transition: transform 0.2s;
         }
+        .btn-main:active { transform: scale(0.92); }
 
-        .btn-main:active {
-            transform: scale(0.95);
-        }
-
-        /* Micro UI Buttons for Game Over */
-        .button-group {
-            display: flex;
-            gap: 15px;
-            margin-top: 20px;
-        }
-
+        .button-group { display: flex; gap: 15px; margin-top: 20px; }
         .btn-small {
-            padding: 10px 22px;
-            font-size: 0.85rem;
+            padding: 12px 25px;
+            font-size: 0.9rem;
             font-weight: bold;
             text-transform: uppercase;
             letter-spacing: 1px;
-            border: 2px solid #ff0055;
-            background: rgba(255, 0, 85, 0.1);
+            border: 2px solid #ffea00;
+            background: rgba(255, 234, 0, 0.1);
             color: #fff;
             border-radius: 8px;
             cursor: pointer;
             transition: all 0.2s;
         }
-        
         .btn-home {
             border-color: #00f0ff;
             background: rgba(0, 240, 255, 0.1);
         }
-
-        .btn-small:active {
-            transform: scale(0.92);
-        }
+        .btn-small:active { transform: scale(0.92); }
 
         /* Premium HUD */
         #hud {
             position: absolute;
-            top: 25px;
-            left: 20px;
-            right: 20px;
+            top: 20px;
+            left: 15px;
+            right: 15px;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        .hud-top {
             display: flex;
             justify-content: space-between;
-            pointer-events: none;
-            z-index: 10;
+            margin-bottom: 10px;
         }
 
         .hud-item {
-            background: rgba(10, 10, 25, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 8px 16px;
-            border-radius: 10px;
+            background: rgba(10, 10, 25, 0.6);
+            border: 1px solid rgba(0, 240, 255, 0.2);
+            padding: 8px 15px;
+            border-radius: 8px;
             backdrop-filter: blur(5px);
         }
 
-        .hud-label { font-size: 0.7rem; color: #697cb6; letter-spacing: 1px; }
-        .hud-val { font-size: 1.3rem; font-weight: bold; color: #00f0ff; font-family: monospace; }
+        .hud-label { font-size: 0.65rem; color: #8da1d6; letter-spacing: 1.5px; }
+        .hud-val { font-size: 1.4rem; font-weight: 900; color: #fff; font-family: monospace; text-shadow: 0 0 10px #00f0ff; }
 
-        /* Mobile Controller Layout */
+        /* Nitro Bar UI */
+        #nitro-bar-bg {
+            width: 100%;
+            height: 8px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            border: 1px solid rgba(255,0,85,0.3);
+        }
+        #nitro-bar-fill {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #ffea00, #ff0055);
+            box-shadow: 0 0 10px #ff0055;
+            transition: width 0.1s linear;
+        }
+
+        /* Mobile Controls */
         #mobile-ui {
             position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            bottom: 0; left: 0;
+            width: 100%; height: 100%;
             pointer-events: none;
             z-index: 5;
         }
-
         .touch-zone {
             position: absolute;
             bottom: 120px;
-            width: 45%;
-            height: 60%;
+            width: 45%; height: 60%;
             pointer-events: auto;
         }
         #touch-left { left: 0; }
@@ -186,31 +186,36 @@
             bottom: 30px;
             left: 50%;
             transform: translateX(-50%);
-            width: 80px;
-            height: 80px;
-            background: radial-gradient(circle, rgba(255,0,85,0.8) 0%, rgba(122,0,255,0.4) 100%);
-            border: 2px solid #ff0055;
+            width: 85px; height: 85px;
+            background: radial-gradient(circle, rgba(255,0,85,0.8) 0%, rgba(122,0,255,0.6) 100%);
+            border: 3px solid #ffea00;
             border-radius: 50%;
             pointer-events: auto;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             font-weight: 900;
             letter-spacing: 1px;
-            box-shadow: 0 0 20px rgba(255, 0, 85, 0.6);
+            box-shadow: 0 0 25px rgba(255, 0, 85, 0.8);
             text-shadow: 0 0 5px #fff;
+            transition: all 0.2s;
         }
-        #nitro-btn:active {
-            background: #ff0055;
-            box-shadow: 0 0 35px #00f0ff;
+        #nitro-btn:active { transform: translateX(-50%) scale(0.9); }
+        
+        /* Disabled Nitro Button */
+        #nitro-btn.empty {
+            background: rgba(50, 50, 50, 0.5);
+            border-color: #555;
+            color: #777;
+            box-shadow: none;
+            text-shadow: none;
         }
 
-        /* Dynamic Orientation Lock Screen */
         #rotate-overlay {
             position: fixed;
             top:0; left:0; width:100vw; height:100vh;
-            background: #04040c;
+            background: #020205;
             z-index: 100;
             display: none;
             flex-direction: column;
@@ -218,29 +223,19 @@
             align-items: center;
             text-align: center;
         }
-
         .phone-icon {
-            width: 50px;
-            height: 90px;
-            border: 3px solid #00f0ff;
+            width: 50px; height: 90px;
+            border: 3px solid #ffea00;
             border-radius: 8px;
             margin-bottom: 20px;
             animation: rotateDevice 2s infinite ease-in-out;
             position: relative;
         }
-        .phone-icon::after {
-            content: '';
-            position: absolute;
-            bottom: 5px; left: 50%; transform: translateX(-50%);
-            width: 8px; height: 8px; background: #00f0ff; border-radius: 50%;
-        }
-
         @keyframes rotateDevice {
             0% { transform: rotate(90deg); }
             50% { transform: rotate(0deg); }
             100% { transform: rotate(90deg); }
         }
-
         @media (orientation: landscape) and (max-device-width: 950px), (orientation: landscape) and (max-height: 550px) {
             #rotate-overlay { display: flex; }
         }
@@ -248,52 +243,56 @@
 </head>
 <body>
 
-    <!-- Orientation Check Overlay -->
     <div id="rotate-overlay">
         <div class="phone-icon"></div>
-        <h2 style="color: #00f0ff; letter-spacing: 1px;">PORTRAIT MODE REQUIRED</h2>
-        <p style="color: #697cb6; margin-top: 10px; font-size: 0.9rem;">Please rotate your device upright to drive.</p>
+        <h2 style="color: #ffea00; letter-spacing: 1px;">ROTATE PHONE</h2>
+        <p style="color: #8da1d6; margin-top: 10px;">Portrait mode is required for this experience.</p>
     </div>
 
     <div id="game-container">
-        <!-- HUD Overlay -->
+        <!-- HUD -->
         <div id="hud">
-            <div class="hud-item">
-                <div class="hud-label">SCORE</div>
-                <div id="score-txt" class="hud-val">00000</div>
+            <div class="hud-top">
+                <div class="hud-item">
+                    <div class="hud-label">SCORE</div>
+                    <div id="score-txt" class="hud-val">00000</div>
+                </div>
+                <div class="hud-item" style="text-align: right;">
+                    <div class="hud-label">SPEED</div>
+                    <div id="speed-txt" class="hud-val">0 KMH</div>
+                </div>
             </div>
-            <div class="hud-item" style="text-align: right;">
-                <div class="hud-label">SPEED</div>
-                <div id="speed-txt" class="hud-val">0 KMH</div>
+            <!-- Nitro Progress Bar -->
+            <div id="nitro-bar-bg">
+                <div id="nitro-bar-fill"></div>
             </div>
         </div>
 
-        <!-- Touch Controls Layout -->
         <div id="mobile-ui">
             <div id="touch-left" class="touch-zone"></div>
             <div id="touch-right" class="touch-zone"></div>
-            <div id="nitro-btn">NITRO</div>
+            <div id="nitro-btn" class="empty">NITRO</div>
         </div>
 
-        <!-- Start Game Screen -->
+        <!-- Start Screen -->
         <div id="start-screen" class="overlay">
             <h1>NEON DRIVE</h1>
-            <div class="subtitle">PREMIUM CYBERPUNK RACER</div>
-            <button class="btn-main" onclick="initGameAndFullscreen()">DRIVE NOW</button>
-            <p style="margin-top: 40px; font-size: 0.8rem; color: #4e5d8c; line-height: 1.5;">
-                MOBILE: Tap Left/Right sides to steer. Hold NITRO.<br>
-                DESKTOP: Use A/D or Arrows. Spacebar for Nitro.
+            <div class="subtitle">HARDCORE EDITION</div>
+            <button class="btn-main" onclick="initGameAndFullscreen()">START ENGINE</button>
+            <p style="margin-top: 30px; font-size: 0.8rem; color: #6272a4; line-height: 1.6;">
+                Collect <b style="color:#ffea00">STARS</b> to fill Nitro.<br>
+                1 Star = 20% Nitro = 3 Seconds Boost.<br>
+                Survive the Heavy Traffic!
             </p>
         </div>
 
         <!-- Game Over Screen -->
         <div id="gameover-screen" class="overlay hidden">
-            <h1 style="background: linear-gradient(45deg, #ff0055, #ffcc00);">SYSTEM CRASH</h1>
+            <h1 style="background: linear-gradient(45deg, #ff0000, #ff5500);">WRECKED</h1>
             <div class="subtitle" id="final-score-lbl">FINAL SCORE: 0</div>
-            
             <div class="button-group">
-                <button class="btn-small" onclick="restartGame()">Restart</button>
-                <button class="btn-small btn-home" onclick="location.href='game.html'">Home</button>
+                <button class="btn-small" onclick="restartGame()">Try Again</button>
+                <button class="btn-small btn-home" onclick="location.href='game.html'">Quit</button>
             </div>
         </div>
 
@@ -311,13 +310,15 @@
 
         let gameActive = false;
         let score = 0, speed = 0, targetSpeed = 0;
-        let nitro = 100, isNitro = false;
+        let nitro = 0; // Starts at 0 now
+        let isNitro = false;
         let screenShake = 0, roadOffset = 0;
 
         let player;
         let enemies = [];
+        let stars = [];
         let particles = [];
-        let buildings = [];
+        let lines = [];
 
         const controls = { left: false, right: false, nitro: false };
 
@@ -354,50 +355,60 @@
             
             let filter = audioCtx.createBiquadFilter();
             filter.type = 'lowpass';
-            filter.frequency.setValueAtTime(180, audioCtx.currentTime);
+            filter.frequency.setValueAtTime(200, audioCtx.currentTime);
 
             engineOsc.connect(filter);
             filter.connect(engineGain);
             engineGain.connect(audioCtx.destination);
-            engineGain.gain.setValueAtTime(0.01, audioCtx.currentTime);
+            engineGain.gain.setValueAtTime(0.015, audioCtx.currentTime);
             engineOsc.start(0);
+        }
+
+        // Play SFX for collecting star or crashing
+        function playSfx(freq, type, dur, vol) {
+            if(!audioCtx) return;
+            let osc = audioCtx.createOscillator();
+            let gain = audioCtx.createGain();
+            osc.type = type;
+            osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+            if(type==='sine') osc.frequency.exponentialRampToValueAtTime(freq*2, audioCtx.currentTime + dur);
+            gain.gain.setValueAtTime(vol, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + dur);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start(); osc.stop(audioCtx.currentTime + dur);
         }
 
         function initGameAndFullscreen() {
             let container = document.getElementById('game-container');
             if (container.requestFullscreen) container.requestFullscreen().catch(()=>{});
             else if (container.webkitRequestFullscreen) container.webkitRequestFullscreen();
-
-            setupAudio();
-            restartGame();
+            setupAudio(); restartGame();
             document.getElementById('start-screen').classList.add('hidden');
         }
 
         class Player {
             constructor() {
-                this.w = 42; this.h = 82;
+                this.w = 44; this.h = 85;
                 this.x = gameWidth / 2 - this.w / 2;
                 this.y = gameHeight - 160;
-                this.vx = 0;
-                this.angle = 0;
+                this.vx = 0; this.angle = 0;
             }
             update() {
                 let dir = 0;
                 if (controls.left) dir = -1;
                 if (controls.right) dir = 1;
-
-                this.vx += dir * 0.9;
-                this.vx *= 0.82;
+                this.vx += dir * 1.2; // Sharper handling
+                this.vx *= 0.80;
                 this.x += this.vx;
+                this.angle += (dir * 0.1 - this.angle) * 0.15;
 
-                this.angle += (dir * 0.08 - this.angle) * 0.15;
+                if(this.x < 55) { this.x = 55; this.vx = 0; }
+                if(this.x > gameWidth - 55 - this.w) { this.x = gameWidth - 55 - this.w; this.vx = 0; }
 
-                if(this.x < 60) { this.x = 60; this.vx = 0; }
-                if(this.x > gameWidth - 60 - this.w) { this.x = gameWidth - 60 - this.w; this.vx = 0; }
-
-                if(speed > 20 && Math.random() < 0.5) {
+                if(speed > 50 && Math.random() < 0.6) {
                     let col = isNitro ? '#00f0ff' : '#ff0055';
-                    particles.push(new Particle(this.x + this.w/2 + (Math.random()*6-3), this.y + this.h, col, -speed*0.04, Math.random()*4+1));
+                    particles.push(new Particle(this.x + this.w/2 + (Math.random()*8-4), this.y + this.h, col, -speed*0.04, Math.random()*5+1));
                 }
             }
             draw() {
@@ -405,47 +416,49 @@
                 ctx.translate(this.x + this.w/2, this.y + this.h/2);
                 ctx.rotate(this.angle);
 
-                ctx.shadowBlur = 15;
+                ctx.shadowBlur = 20;
                 ctx.shadowColor = isNitro ? '#00f0ff' : '#ff0055';
                 
+                // Main Body
                 ctx.fillStyle = '#0a0a18';
                 ctx.strokeStyle = isNitro ? '#00f0ff' : '#ff0055';
                 ctx.lineWidth = 3;
                 ctx.beginPath();
-                // Using standard rect for broader compatibility
                 ctx.rect(-this.w/2, -this.h/2, this.w, this.h);
                 ctx.fill(); ctx.stroke();
 
+                // Cabin
                 ctx.shadowBlur = 0;
-                ctx.fillStyle = '#121232';
-                ctx.strokeStyle = '#697cb6';
+                ctx.fillStyle = '#1a1a3a';
+                ctx.strokeStyle = '#8da1d6';
                 ctx.lineWidth = 1;
                 ctx.beginPath();
-                ctx.rect(-this.w/3, -this.h/5, (this.w/3)*2, this.h/2.2);
+                ctx.rect(-this.w/3, -this.h/6, (this.w/3)*2, this.h/2.5);
                 ctx.fill(); ctx.stroke();
 
+                // Headlights
                 ctx.fillStyle = '#fff';
-                ctx.fillRect(-this.w/2+4, -this.h/2, 6, 3);
-                ctx.fillRect(this.w/2-10, -this.h/2, 6, 3);
+                ctx.fillRect(-this.w/2+4, -this.h/2, 8, 4);
+                ctx.fillRect(this.w/2-12, -this.h/2, 8, 4);
                 ctx.restore();
             }
         }
 
         class Enemy {
             constructor() {
-                this.w = 42; this.h = 82;
-                const lanes = [75, 175, 275, 365];
-                this.x = lanes[Math.floor(Math.random() * lanes.length)];
+                this.w = 44; this.h = 85;
+                const lanes = [70, 165, 260, 360];
+                this.x = lanes[Math.floor(Math.random() * lanes.length)] + (Math.random()*10 - 5);
                 this.y = -100;
-                this.vShift = Math.random() * 2 + 2;
-                const colors = ['#00f0ff', '#7a00ff', '#ffeb3b', '#00ff66'];
+                this.vShift = Math.random() * 4 + 3; // Faster traffic base speed
+                const colors = ['#00f0ff', '#a200ff', '#00ff66', '#ff8800'];
                 this.color = colors[Math.floor(Math.random() * colors.length)];
             }
-            update() { this.y += this.vShift + (speed * 0.07); }
+            update() { this.y += this.vShift + (speed * 0.08); }
             draw() {
                 ctx.save();
-                ctx.shadowBlur = 12; ctx.shadowColor = this.color;
-                ctx.fillStyle = '#080814';
+                ctx.shadowBlur = 15; ctx.shadowColor = this.color;
+                ctx.fillStyle = '#050510';
                 ctx.strokeStyle = this.color;
                 ctx.lineWidth = 2.5;
                 ctx.beginPath();
@@ -455,24 +468,37 @@
             }
         }
 
-        class Building {
-            constructor(side) {
-                this.side = side;
-                this.w = Math.random() * 30 + 20;
-                this.h = Math.random() * 60 + 40;
-                this.x = side === 'left' ? Math.random() * 20 : gameWidth - this.w - Math.random() * 20;
-                this.y = -this.h;
-                this.color = Math.random() < 0.5 ? 'rgba(255, 0, 85, 0.15)' : 'rgba(0, 240, 255, 0.15)';
-                this.strokeColor = Math.random() < 0.5 ? '#ff0055' : '#00f0ff';
+        // NEW: Star Collectible Class
+        class Star {
+            constructor() {
+                this.r = 18; // Radius
+                const lanes = [90, 185, 280, 380];
+                this.x = lanes[Math.floor(Math.random() * lanes.length)];
+                this.y = -50;
+                this.rot = 0;
             }
-            update() { this.y += speed * 0.08; }
+            update() { 
+                this.y += speed * 0.08; 
+                this.rot += 0.05; // Spinning effect
+            }
             draw() {
                 ctx.save();
-                ctx.fillStyle = this.color;
-                ctx.strokeStyle = this.strokeColor;
-                ctx.lineWidth = 1;
-                ctx.fillRect(this.x, this.y, this.w, this.h);
-                ctx.strokeRect(this.x, this.y, this.w, this.h);
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.rot);
+                ctx.shadowBlur = 20;
+                ctx.shadowColor = '#ffea00';
+                ctx.fillStyle = '#ffea00';
+                
+                // Draw 5 Point Star Geometry
+                ctx.beginPath();
+                for (let i = 0; i < 5; i++) {
+                    ctx.lineTo(Math.cos((18 + i * 72) * Math.PI / 180) * this.r,
+                               -Math.sin((18 + i * 72) * Math.PI / 180) * this.r);
+                    ctx.lineTo(Math.cos((54 + i * 72) * Math.PI / 180) * (this.r/2),
+                               -Math.sin((54 + i * 72) * Math.PI / 180) * (this.r/2));
+                }
+                ctx.closePath();
+                ctx.fill();
                 ctx.restore();
             }
         }
@@ -480,10 +506,10 @@
         class Particle {
             constructor(x, y, color, vy, size) {
                 this.x = x; this.y = y; this.color = color;
-                this.vx = Math.random() * 2 - 1; this.vy = vy;
+                this.vx = Math.random() * 4 - 2; this.vy = vy;
                 this.alpha = 1; this.size = size;
             }
-            update() { this.x += this.vx; this.y += this.vy; this.alpha -= 0.05; }
+            update() { this.x += this.vx; this.y += this.vy; this.alpha -= 0.04; }
             draw() {
                 ctx.save(); ctx.globalAlpha = this.alpha;
                 ctx.fillStyle = this.color;
@@ -494,15 +520,16 @@
 
         function restartGame() {
             player = new Player();
-            enemies = []; particles = []; buildings = [];
-            score = 0; speed = 0; nitro = 100;
+            enemies = []; stars = []; particles = [];
+            score = 0; speed = 0; nitro = 0;
             gameActive = true;
             document.getElementById('gameover-screen').classList.add('hidden');
         }
 
         function triggerCrash() {
             gameActive = false;
-            screenShake = 25;
+            screenShake = 30;
+            playSfx(100, 'sawtooth', 1, 0.4);
             if(engineGain) engineGain.gain.setValueAtTime(0, audioCtx.currentTime);
             document.getElementById('final-score-lbl').innerText = `FINAL SCORE: ${Math.floor(score)}`;
             document.getElementById('gameover-screen').classList.remove('hidden');
@@ -518,46 +545,60 @@
             }
 
             if(gameActive) {
-                isNitro = controls.nitro && nitro > 1;
-                if(isNitro) { targetSpeed = 240; nitro -= 0.5; screenShake = Math.max(screenShake, 1.5); }
-                else { targetSpeed = 140; if(nitro < 100) nitro += 0.1; }
+                // UI Button State Management
+                if(nitro <= 0) nitroBtn.classList.add('empty');
+                else nitroBtn.classList.remove('empty');
 
-                speed += (targetSpeed - speed) * 0.06;
-                score += (speed * 0.01);
+                // Advanced Nitro Drain Math: 20% drain per 3 seconds at 60FPS (0.1111 per frame)
+                isNitro = controls.nitro && nitro > 0;
+                
+                if(isNitro) { 
+                    targetSpeed = 450; // Increased Nitro Speed
+                    nitro -= 0.1111; 
+                    if(nitro < 0) nitro = 0;
+                    screenShake = Math.max(screenShake, 2.5); 
+                }
+                else { 
+                    targetSpeed = 220; // Increased Normal Speed
+                }
+
+                speed += (targetSpeed - speed) * 0.08;
+                score += (speed * 0.015);
                 roadOffset += (speed * 0.08);
 
                 if(engineOsc) {
-                    engineOsc.frequency.setValueAtTime(35 + (speed/240)*150, audioCtx.currentTime);
-                    engineGain.gain.setValueAtTime(0.01 + (speed/240)*0.03, audioCtx.currentTime);
+                    engineOsc.frequency.setValueAtTime(40 + (speed/450)*160, audioCtx.currentTime);
+                    engineGain.gain.setValueAtTime(0.015 + (speed/450)*0.03, audioCtx.currentTime);
                 }
 
                 document.getElementById('score-txt').innerText = String(Math.floor(score)).padStart(5, '0');
                 document.getElementById('speed-txt').innerText = `${Math.floor(speed)} KMH`;
+                document.getElementById('nitro-bar-fill').style.width = `${nitro}%`;
             } else {
-                speed += (0 - speed) * 0.08;
+                speed += (0 - speed) * 0.1;
                 roadOffset += (speed * 0.08);
             }
 
-            if(gameActive && Math.random() < 0.04 && buildings.length < 15) {
-                buildings.push(new Building(Math.random() < 0.5 ? 'left' : 'right'));
-            }
-            for(let i = buildings.length-1; i >= 0; i--) {
-                buildings[i].update(); buildings[i].draw();
-                if(buildings[i].y > gameHeight) buildings.splice(i, 1);
-            }
+            // Draw Premium Grid Background & Road
+            ctx.fillStyle = '#020205';
+            ctx.fillRect(0, 0, gameWidth, gameHeight);
+            
+            ctx.fillStyle = '#070714';
+            ctx.fillRect(45, 0, gameWidth - 90, gameHeight);
 
-            ctx.fillStyle = '#080816';
-            ctx.fillRect(55, 0, gameWidth - 110, gameHeight);
+            // Glowing Outer Road Bounds
+            ctx.shadowBlur = 20; ctx.shadowColor = '#00f0ff';
+            ctx.fillStyle = '#00f0ff'; ctx.fillRect(43, 0, 4, gameHeight);
+            ctx.shadowColor = '#ff0055'; ctx.fillStyle = '#ff0055'; ctx.fillRect(gameWidth - 47, 0, 4, gameHeight);
+            ctx.shadowBlur = 0;
 
-            ctx.fillStyle = '#ff0055'; ctx.fillRect(52, 0, 3, gameHeight);
-            ctx.fillStyle = '#00f0ff'; ctx.fillRect(gameWidth - 55, 0, 3, gameHeight);
-
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.15)';
-            let lineY = roadOffset % 60;
-            for(let y = -60; y < gameHeight; y += 60) {
-                ctx.fillRect(gameWidth/2 - 3, y + lineY, 6, 30);
-                ctx.fillRect(gameWidth/3 + 10, y + lineY, 2, 30);
-                ctx.fillRect((gameWidth/3)*2 - 10, y + lineY, 2, 30);
+            // Speedy Dashed Lines
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
+            let lineY = roadOffset % 80;
+            for(let y = -80; y < gameHeight; y += 80) {
+                ctx.fillRect(gameWidth/2 - 3, y + lineY, 6, 40);
+                ctx.fillRect(gameWidth/3 + 5, y + lineY, 2, 40);
+                ctx.fillRect((gameWidth/3)*2 - 5, y + lineY, 2, 40);
             }
 
             for(let i = particles.length - 1; i >= 0; i--) {
@@ -565,27 +606,55 @@
                 if(particles[i].alpha <= 0) particles.splice(i,1);
             }
 
-            if(gameActive && Math.random() < 0.018 && enemies.length < 4) enemies.push(new Enemy());
+            // STAR LOGIC (Spawn & Collect)
+            if(gameActive && Math.random() < 0.015 && stars.length < 2) stars.push(new Star());
+            
+            for(let i = stars.length - 1; i >= 0; i--) {
+                stars[i].update(); stars[i].draw();
+
+                // Star Hitbox Detection
+                if(gameActive && player &&
+                   Math.abs(player.x + player.w/2 - stars[i].x) < player.w/2 + stars[i].r &&
+                   Math.abs(player.y + player.h/2 - stars[i].y) < player.h/2 + stars[i].r) {
+                    
+                    // Collect Star Math: Add exactly 20% Nitro
+                    nitro = Math.min(100, nitro + 20);
+                    score += 150; // Bonus score
+                    playSfx(800, 'sine', 0.2, 0.2); // Collection Ping Sound
+                    
+                    // Golden Burst Particles
+                    for(let k=0; k<15; k++) {
+                        particles.push(new Particle(stars[i].x, stars[i].y, '#ffea00', (Math.random()-0.5)*10, Math.random()*4+2));
+                    }
+                    stars.splice(i, 1);
+                    continue;
+                }
+
+                if(stars[i].y > gameHeight + 100) stars.splice(i, 1);
+            }
+
+            // ENEMY LOGIC (Traffic Spawn & Crash) - Increased Difficulty
+            if(gameActive && Math.random() < 0.035 && enemies.length < 6) enemies.push(new Enemy());
+            
             for(let i = enemies.length - 1; i >= 0; i--) {
                 enemies[i].update(); enemies[i].draw();
 
                 if(gameActive && player &&
-                   player.x < enemies[i].x + enemies[i].w - 5 &&
-                   player.x + player.w > enemies[i].x + 5 &&
-                   player.y < enemies[i].y + enemies[i].h - 5 &&
-                   player.y + player.h > enemies[i].y + 5) {
+                   player.x < enemies[i].x + enemies[i].w - 6 &&
+                   player.x + player.w > enemies[i].x + 6 &&
+                   player.y < enemies[i].y + enemies[i].h - 6 &&
+                   player.y + player.h > enemies[i].y + 6) {
                     
-                    for(let k=0; k<30; k++) particles.push(new Particle(player.x+player.w/2, player.y+player.h/2, '#ffcc00', (Math.random()-0.5)*12, Math.random()*6+2));
+                    for(let k=0; k<40; k++) particles.push(new Particle(player.x+player.w/2, player.y+player.h/2, '#ff5500', (Math.random()-0.5)*15, Math.random()*8+2));
                     triggerCrash();
                 }
 
                 if(enemies[i].y > gameHeight + 100) {
                     enemies.splice(i, 1);
-                    if(gameActive) score += 25; 
+                    if(gameActive) score += 30; 
                 }
             }
 
-            // FIX: Player will only draw if it exists
             if(player) {
                 if(gameActive) player.update();
                 player.draw();
@@ -595,7 +664,6 @@
             requestAnimationFrame(render);
         }
 
-        // FIX: Initialize the player instantly so the game loop doesn't crash
         player = new Player();
         requestAnimationFrame(render);
     </script>
