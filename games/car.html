@@ -172,21 +172,11 @@
             min-width: 40px; text-align: right; text-shadow: 0 0 5px #00f0ff;
         }
 
-        /* UPDATED CONTROLS UI */
-        #control-panel {
+        /* NEW DUAL SHOOT BUTTONS SYSTEM */
+        .shoot-btn {
             position: absolute;
-            bottom: 25px; left: 0; width: 100%;
-            padding: 0 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 15;
-            pointer-events: none;
-        }
-
-        /* Futuristic Shoot Button (Now Left Side) */
-        #shoot-btn {
-            width: 85px; height: 85px;
+            bottom: 30px;
+            width: 82px; height: 82px;
             background: radial-gradient(circle, #ff0055 0%, #7a0023 100%);
             border: 3px solid #ffea00;
             border-radius: 50%;
@@ -195,49 +185,46 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            box-shadow: 0 0 25px rgba(255, 0, 85, 0.7);
+            box-shadow: 0 0 25px rgba(255, 0, 85, 0.6);
             cursor: pointer;
-            transition: all 0.2s;
+            z-index: 16;
+            transition: transform 0.1s;
         }
-        #shoot-btn:active { transform: scale(0.9); }
-        #shoot-btn .btn-title { font-size: 0.85rem; font-weight: 900; letter-spacing: 1px; text-shadow: 0 0 5px #fff; }
-        #shoot-btn .ammo-count { font-size: 0.7rem; font-weight: bold; color: #ffea00; margin-top: 2px; }
+        #shoot-btn-left { left: 20px; }
+        #shoot-btn-right { right: 20px; }
+        .shoot-btn:active { transform: scale(0.9); }
+        .shoot-btn .btn-title { font-size: 0.8rem; font-weight: 900; letter-spacing: 1px; text-shadow: 0 0 5px #fff; }
+        .shoot-btn .ammo-count { font-size: 0.65rem; font-weight: bold; color: #ffea00; margin-top: 2px; }
         
-        #shoot-btn.empty {
+        .shoot-btn.empty {
             background: rgba(40, 40, 40, 0.6);
             border-color: #555;
             box-shadow: none;
         }
-        #shoot-btn.empty .btn-title { color: #666; text-shadow: none; }
-        #shoot-btn.empty .ammo-count { color: #666; }
+        .shoot-btn.empty .btn-title { color: #666; text-shadow: none; }
+        .shoot-btn.empty .ammo-count { color: #666; }
 
-        /* Enlarged Two-Line Slider / Joystick System (Now Right Side) */
+        /* DYNAMIC POPUP JOYSTICK */
         #joystick-container {
-            width: 185px; height: 135px; /* Sightly bigger container */
-            background: rgba(10, 10, 25, 0.4);
-            border-top: 2px solid rgba(0, 240, 255, 0.4);
-            border-bottom: 2px solid rgba(0, 240, 255, 0.4);
-            border-radius: 14px;
-            position: relative;
-            pointer-events: auto;
-            box-shadow: inset 0 0 15px rgba(0, 240, 255, 0.1);
-        }
-        #joystick-container::before {
-            content: 'UP: NITRO | DOWN: BRAKE';
-            position: absolute; top: -18px; left: 0; width: 100%;
-            text-align: center; font-size: 0.55rem; color: rgba(0, 240, 255, 0.6);
-            letter-spacing: 1px; font-weight: bold;
+            position: absolute;
+            width: 135px; height: 135px;
+            background: rgba(10, 10, 25, 0.5);
+            border: 2px solid rgba(0, 240, 255, 0.5);
+            border-radius: 50%;
+            display: none; /* Hidden by default */
+            pointer-events: none;
+            z-index: 15;
+            box-shadow: 0 0 25px rgba(0, 240, 255, 0.25);
+            transform: translate(-50%, -50%); /* Center on finger touch */
         }
         #joystick-knob {
-            width: 52px; height: 52px; /* Slightly bigger knob */
+            width: 52px; height: 52px;
             background: radial-gradient(circle, #00f0ff 0%, #0044ff 100%);
             border: 3px solid #fff;
             border-radius: 50%;
             position: absolute;
             left: calc(50% - 26px); top: calc(50% - 26px);
             box-shadow: 0 0 20px #00f0ff;
-            cursor: pointer;
-            transition: transform 0.05s linear;
         }
     </style>
 </head>
@@ -257,7 +244,7 @@
                 </div>
             </div>
             
-            <!-- Stylish Nitro Bar Display -->
+            <!-- Nitro Bar Display -->
             <div class="nitro-container">
                 <div class="nitro-title">NITRO</div>
                 <div class="nitro-bar-bg">
@@ -267,30 +254,31 @@
             </div>
         </div>
 
-        <!-- Integrated Control Panel -->
-        <div id="control-panel">
-            <!-- Bullet Shoot Button (Left) -->
-            <div id="shoot-btn" class="empty">
-                <div class="btn-title">SHOOT</div>
-                <div id="ammo-txt" class="ammo-count">0 BULLETS</div>
-            </div>
+        <!-- Two Shoot Buttons (Left & Right) -->
+        <div id="shoot-btn-left" class="shoot-btn empty">
+            <div class="btn-title">SHOOT</div>
+            <div class="ammo-count">0 BULLETS</div>
+        </div>
 
-            <!-- Two Line Sliding Joystick (Right) -->
-            <div id="joystick-container">
-                <div id="joystick-knob"></div>
-            </div>
+        <div id="shoot-btn-right" class="shoot-btn empty">
+            <div class="btn-title">SHOOT</div>
+            <div class="ammo-count">0 BULLETS</div>
+        </div>
+
+        <!-- Dynamic Pop-up Joystick Structure -->
+        <div id="joystick-container">
+            <div id="joystick-knob"></div>
         </div>
 
         <!-- Start Screen -->
         <div id="start-screen" class="overlay">
             <h1>NEON DRIVE</h1>
-            <div class="subtitle">OVERDRIVE ACTION</div>
+            <div class="subtitle">DYNAMIC OVERDRIVE</div>
             <button class="btn-main" onclick="initGameAndFullscreen()">START ENGINE</button>
-            <p style="margin-top: 30px; font-size: 0.75rem; color: #6272a4; line-height: 1.6; max-width: 280px;">
-                Use the <b style="color:#00f0ff">Right Slider</b> to steer left/right.<br>
-                Push it <b style="color:#00f0ff">UP for Nitro</b> | Pull it <b style="color:#ff0055">DOWN to Brake</b>.<br><br>
-                Collect <b style="color:#ffea00">STARS</b> to get <b style="color:#ffea00">+20% Nitro & +1 Bullet</b>.<br>
-                Press <b style="color:#ff0055">SHOOT</b> on the left to blast traffic!
+            <p style="margin-top: 30px; font-size: 0.75rem; color: #6272a4; line-height: 1.6; max-width: 290px;">
+                Touch <b style="color:#00f0ff">ANYWHERE on the right side</b> to spawn the Joystick!<br>
+                Drag <b style="color:#00f0ff">UP for Nitro</b> | Drag <b style="color:#ff0055">DOWN to Brake (60 KMH)</b>.<br><br>
+                Press <b style="color:#ff0055">SHOOT</b> on either the left or right corners to destroy vehicles!
             </p>
         </div>
 
@@ -328,50 +316,96 @@
         let activeBullets = []; 
         let particles = [];
 
-        // Joystick Input Logic
+        // Dynamic Joystick Core Logic
+        const gameContainer = document.getElementById('game-container');
         const joyContainer = document.getElementById('joystick-container');
         const joyKnob = document.getElementById('joystick-knob');
+        
         let joyActive = false;
         let joyStartX = 0, joyStartY = 0;
         let joyDX = 0, joyDY = 0;
-        const maxRangeX = 70; // Adjusted for larger size
-        const maxRangeY = 50; // Adjusted for larger size
+        const maxRange = 55; // Circular boundaries
 
-        function handleJoyStart(e) {
-            joyActive = true;
-            const touch = e.touches ? e.touches[0] : e;
-            joyStartX = touch.clientX;
-            joyStartY = touch.clientY;
-            e.preventDefault();
-        }
+        // Track joystick creation on container touch
+        gameContainer.addEventListener('touchstart', (e) => {
+            if (!gameActive) return;
 
-        function handleJoyMove(e) {
+            // Find the touch target
+            if (e.target.closest('.shoot-btn')) return; // Ignore if user clicked a shoot button
+
+            const rect = gameContainer.getBoundingClientRect();
+            // Loop to check if a touch occurred on the right half
+            for (let i = 0; i < e.touches.length; i++) {
+                const touch = e.touches[i];
+                const touchX = touch.clientX - rect.left;
+                const touchY = touch.clientY - rect.top;
+
+                // Right side check + make sure joystick isn't active already
+                if (touchX > rect.width / 2 && !joyActive) {
+                    joyActive = true;
+                    joyStartX = touch.clientX;
+                    joyStartY = touch.clientY;
+
+                    // Display and reposition the joystick container right at finger point
+                    joyContainer.style.display = 'block';
+                    joyContainer.style.left = `${touchX}px`;
+                    joyContainer.style.top = `${touchY}px`;
+                    joyKnob.style.transform = 'translate(0px, 0px)';
+                    break;
+                }
+            }
+        });
+
+        gameContainer.addEventListener('touchmove', (e) => {
             if (!joyActive) return;
-            const touch = e.touches ? e.touches[0] : e;
-            
-            joyDX = touch.clientX - joyStartX;
-            joyDY = touch.clientY - joyStartY;
 
-            // Constrain positions
-            joyDX = Math.max(-maxRangeX, Math.min(maxRangeX, joyDX));
-            joyDY = Math.max(-maxRangeY, Math.min(maxRangeY, joyDY));
+            // Find the specific touch tracking the right side joystick
+            let targetTouch = null;
+            const rect = gameContainer.getBoundingClientRect();
+            for (let i = 0; i < e.touches.length; i++) {
+                if ((e.touches[i].clientX - rect.left) > rect.width / 2) {
+                    targetTouch = e.touches[i];
+                    break;
+                }
+            }
 
-            // Visual adjustment of Knob
+            if (!targetTouch) targetTouch = e.touches[0];
+
+            joyDX = targetTouch.clientX - joyStartX;
+            joyDY = targetTouch.clientY - joyStartY;
+
+            // Circular clamp logic
+            const distance = Math.sqrt(joyDX * joyDX + joyDY * joyDY);
+            if (distance > maxRange) {
+                joyDX = (joyDX / distance) * maxRange;
+                joyDY = (joyDY / distance) * maxRange;
+            }
+
             joyKnob.style.transform = `translate(${joyDX}px, ${joyDY}px)`;
-            e.preventDefault();
-        }
+        });
 
-        function handleJoyEnd() {
-            joyActive = false;
-            joyDX = 0; joyDY = 0;
-            joyKnob.style.transform = 'translate(0px, 0px)';
-        }
+        gameContainer.addEventListener('touchend', (e) => {
+            if (!joyActive) return;
 
-        joyContainer.addEventListener('touchstart', handleJoyStart);
-        joyContainer.addEventListener('touchmove', handleJoyMove);
-        joyContainer.addEventListener('touchend', handleJoyEnd);
+            // Check if there are still any active touches on the right side
+            const rect = gameContainer.getBoundingClientRect();
+            let rightTouchActive = false;
+            for (let i = 0; i < e.touches.length; i++) {
+                if ((e.touches[i].clientX - rect.left) > rect.width / 2) {
+                    rightTouchActive = true;
+                    break;
+                }
+            }
 
-        // Keyboard support for Desktop testing
+            // Remove joystick visually if finger lifted from right side
+            if (!rightTouchActive) {
+                joyActive = false;
+                joyDX = 0; joyDY = 0;
+                joyContainer.style.display = 'none';
+            }
+        });
+
+        // Keyboard testing for desktop
         const keys = { a: false, d: false, w: false, s: false };
         window.addEventListener('keydown', e => {
             if(e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') keys.a = true;
@@ -387,9 +421,12 @@
             if(e.key === 'ArrowDown' || e.key === 's' || e.key === 'S') keys.s = false;
         });
 
-        // Shoot Button trigger
-        const shootBtn = document.getElementById('shoot-btn');
-        shootBtn.addEventListener('touchstart', (e) => { shootBullet(); e.preventDefault(); });
+        // Set up Listeners for both shoot buttons
+        const btnLeft = document.getElementById('shoot-btn-left');
+        const btnRight = document.getElementById('shoot-btn-right');
+
+        btnLeft.addEventListener('touchstart', (e) => { shootBullet(); e.preventDefault(); e.stopPropagation(); });
+        btnRight.addEventListener('touchstart', (e) => { shootBullet(); e.preventDefault(); e.stopPropagation(); });
 
         function shootBullet() {
             if(!gameActive || bullets <= 0) return;
@@ -405,10 +442,14 @@
         }
 
         function updateAmmoUI() {
-            const ammoTxt = document.getElementById('ammo-txt');
-            ammoTxt.innerText = `${bullets} ${bullets === 1 ? 'BULLET' : 'BULLETS'}`;
-            if(bullets <= 0) shootBtn.classList.add('empty');
-            else shootBtn.classList.remove('empty');
+            const counts = document.querySelectorAll('.ammo-count');
+            counts.forEach(c => c.innerText = `${bullets} ${bullets === 1 ? 'BULLET' : 'BULLETS'}`);
+            
+            const btns = document.querySelectorAll('.shoot-btn');
+            btns.forEach(b => {
+                if(bullets <= 0) b.classList.add('empty');
+                else b.classList.remove('empty');
+            });
         }
 
         let audioCtx, engineOsc, engineGain;
@@ -455,13 +496,13 @@
             constructor() {
                 this.w = 44; this.h = 85;
                 this.x = gameWidth / 2 - this.w / 2;
-                this.y = gameHeight - 240; // Shifted slightly to clear larger UI comfortably
+                this.y = gameHeight - 250; 
                 this.vx = 0; this.angle = 0;
             }
             update() {
                 let targetVX = 0;
                 if (joyActive) {
-                    targetVX = (joyDX / maxRangeX) * 9.5; 
+                    targetVX = (joyDX / maxRange) * 10; 
                 } else {
                     if (keys.a) targetVX = -8;
                     if (keys.d) targetVX = 8;
@@ -554,7 +595,8 @@
             enemies = []; stars = []; particles = []; activeBullets = [];
             score = 0; speed = 0; nitro = 0; bullets = 0;
             gameActive = true;
-            handleJoyEnd();
+            joyActive = false;
+            joyContainer.style.display = 'none';
             updateAmmoUI();
             document.getElementById('gameover-screen').classList.add('hidden');
         }
@@ -577,23 +619,23 @@
             }
 
             if(gameActive) {
-                // Dynamic Input Condition Tracking
-                let nitroRequested = (joyActive && joyDY < -18) || keys.w;
-                let brakeRequested = (joyActive && joyDY > 18) || keys.s; // Pull down or S key
+                // Tracking Inputs
+                let nitroRequested = (joyActive && joyDY < -14) || keys.w;
+                let brakeRequested = (joyActive && joyDY > 14) || keys.s; 
                 
                 isNitro = nitroRequested && nitro > 0;
                 
                 if(isNitro) { 
-                    targetSpeed = 270; // Nitro top speed
+                    targetSpeed = 270; 
                     nitro -= 0.12; 
                     if(nitro < 0) nitro = 0;
                     screenShake = Math.max(screenShake, 2.0); 
                 }
                 else if (brakeRequested) {
-                    targetSpeed = 60; // Dynamic Engine Brake down to 60 KMH
+                    targetSpeed = 60; 
                 }
                 else { 
-                    targetSpeed = 130; // Standard speed
+                    targetSpeed = 130; 
                 }
 
                 speed += (targetSpeed - speed) * 0.08;
@@ -614,7 +656,7 @@
                 roadOffset += (speed * 0.08);
             }
 
-            // Draw Base Layout Track
+            // Render Track Environment
             ctx.fillStyle = '#020206'; ctx.fillRect(0, 0, gameWidth, gameHeight);
             ctx.fillStyle = '#060612'; ctx.fillRect(45, 0, gameWidth - 90, gameHeight);
 
@@ -631,7 +673,7 @@
                 ctx.fillRect((gameWidth/3)*2 - 5, y + lineY, 2, 40);
             }
 
-            // UPDATE AND DRAW FLYING BULLETS
+            // Bullet Physics & Hit Detection
             ctx.save();
             ctx.fillStyle = '#ffea00'; ctx.shadowBlur = 15; ctx.shadowColor = '#ffea00';
             for(let i = activeBullets.length - 1; i >= 0; i--) {
@@ -661,7 +703,7 @@
                 if(particles[i].alpha <= 0) particles.splice(i,1);
             }
 
-            // Star Spawning & Collection (+20% Nitro & +1 Bullet)
+            // Stars Logic
             if(gameActive && Math.random() < 0.015 && stars.length < 2) stars.push(new Star());
             for(let i = stars.length - 1; i >= 0; i--) {
                 stars[i].update(); stars[i].draw();
