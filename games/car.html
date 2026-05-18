@@ -172,7 +172,7 @@
             min-width: 40px; text-align: right; text-shadow: 0 0 5px #00f0ff;
         }
 
-        /* NEW CONTROLS UI */
+        /* UPDATED CONTROLS UI */
         #control-panel {
             position: absolute;
             bottom: 25px; left: 0; width: 100%;
@@ -184,36 +184,7 @@
             pointer-events: none;
         }
 
-        /* Two-Line Slider / Joystick System */
-        #joystick-container {
-            width: 160px; height: 110px;
-            background: rgba(10, 10, 25, 0.4);
-            border-top: 2px solid rgba(0, 240, 255, 0.4);
-            border-bottom: 2px solid rgba(0, 240, 255, 0.4);
-            border-radius: 12px;
-            position: relative;
-            pointer-events: auto;
-            box-shadow: inset 0 0 15px rgba(0, 240, 255, 0.1);
-        }
-        #joystick-container::before {
-            content: 'DRAG UP FOR NITRO';
-            position: absolute; top: -18px; left: 0; width: 100%;
-            text-align: center; font-size: 0.55rem; color: rgba(0, 240, 255, 0.6);
-            letter-spacing: 1px; font-weight: bold;
-        }
-        #joystick-knob {
-            width: 44px; height: 44px;
-            background: radial-gradient(circle, #00f0ff 0%, #0044ff 100%);
-            border: 3px solid #fff;
-            border-radius: 50%;
-            position: absolute;
-            left: calc(50% - 22px); top: calc(50% - 22px);
-            box-shadow: 0 0 20px #00f0ff;
-            cursor: pointer;
-            transition: transform 0.05s linear;
-        }
-
-        /* Futuristic Shoot Button */
+        /* Futuristic Shoot Button (Now Left Side) */
         #shoot-btn {
             width: 85px; height: 85px;
             background: radial-gradient(circle, #ff0055 0%, #7a0023 100%);
@@ -239,6 +210,35 @@
         }
         #shoot-btn.empty .btn-title { color: #666; text-shadow: none; }
         #shoot-btn.empty .ammo-count { color: #666; }
+
+        /* Enlarged Two-Line Slider / Joystick System (Now Right Side) */
+        #joystick-container {
+            width: 185px; height: 135px; /* Sightly bigger container */
+            background: rgba(10, 10, 25, 0.4);
+            border-top: 2px solid rgba(0, 240, 255, 0.4);
+            border-bottom: 2px solid rgba(0, 240, 255, 0.4);
+            border-radius: 14px;
+            position: relative;
+            pointer-events: auto;
+            box-shadow: inset 0 0 15px rgba(0, 240, 255, 0.1);
+        }
+        #joystick-container::before {
+            content: 'UP: NITRO | DOWN: BRAKE';
+            position: absolute; top: -18px; left: 0; width: 100%;
+            text-align: center; font-size: 0.55rem; color: rgba(0, 240, 255, 0.6);
+            letter-spacing: 1px; font-weight: bold;
+        }
+        #joystick-knob {
+            width: 52px; height: 52px; /* Slightly bigger knob */
+            background: radial-gradient(circle, #00f0ff 0%, #0044ff 100%);
+            border: 3px solid #fff;
+            border-radius: 50%;
+            position: absolute;
+            left: calc(50% - 26px); top: calc(50% - 26px);
+            box-shadow: 0 0 20px #00f0ff;
+            cursor: pointer;
+            transition: transform 0.05s linear;
+        }
     </style>
 </head>
 <body>
@@ -269,15 +269,15 @@
 
         <!-- Integrated Control Panel -->
         <div id="control-panel">
-            <!-- Two Line Sliding Joystick -->
-            <div id="joystick-container" id="joy-container">
-                <div id="joystick-knob"></div>
-            </div>
-
-            <!-- Bullet Shoot Button -->
+            <!-- Bullet Shoot Button (Left) -->
             <div id="shoot-btn" class="empty">
                 <div class="btn-title">SHOOT</div>
                 <div id="ammo-txt" class="ammo-count">0 BULLETS</div>
+            </div>
+
+            <!-- Two Line Sliding Joystick (Right) -->
+            <div id="joystick-container">
+                <div id="joystick-knob"></div>
             </div>
         </div>
 
@@ -287,9 +287,10 @@
             <div class="subtitle">OVERDRIVE ACTION</div>
             <button class="btn-main" onclick="initGameAndFullscreen()">START ENGINE</button>
             <p style="margin-top: 30px; font-size: 0.75rem; color: #6272a4; line-height: 1.6; max-width: 280px;">
-                Use the <b style="color:#00f0ff">Bottom Slider</b> to steer left/right. Push it <b style="color:#00f0ff">UP</b> for Nitro!<br><br>
+                Use the <b style="color:#00f0ff">Right Slider</b> to steer left/right.<br>
+                Push it <b style="color:#00f0ff">UP for Nitro</b> | Pull it <b style="color:#ff0055">DOWN to Brake</b>.<br><br>
                 Collect <b style="color:#ffea00">STARS</b> to get <b style="color:#ffea00">+20% Nitro & +1 Bullet</b>.<br>
-                Press <b style="color:#ff0055">SHOOT</b> to vaporize traffic!
+                Press <b style="color:#ff0055">SHOOT</b> on the left to blast traffic!
             </p>
         </div>
 
@@ -317,14 +318,14 @@
         let gameActive = false;
         let score = 0, speed = 0, targetSpeed = 0;
         let nitro = 0; 
-        let bullets = 0; // Bullet Count
+        let bullets = 0; 
         let isNitro = false;
         let screenShake = 0, roadOffset = 0;
 
         let player;
         let enemies = [];
         let stars = [];
-        let activeBullets = []; // Bullets flying on screen
+        let activeBullets = []; 
         let particles = [];
 
         // Joystick Input Logic
@@ -333,8 +334,8 @@
         let joyActive = false;
         let joyStartX = 0, joyStartY = 0;
         let joyDX = 0, joyDY = 0;
-        const maxRangeX = 60; // Max drag distance left/right
-        const maxRangeY = 40; // Max drag distance up/down
+        const maxRangeX = 70; // Adjusted for larger size
+        const maxRangeY = 50; // Adjusted for larger size
 
         function handleJoyStart(e) {
             joyActive = true;
@@ -370,18 +371,20 @@
         joyContainer.addEventListener('touchmove', handleJoyMove);
         joyContainer.addEventListener('touchend', handleJoyEnd);
 
-        // Keyboard support for testing (Desktop)
-        const keys = { a: false, d: false, w: false };
+        // Keyboard support for Desktop testing
+        const keys = { a: false, d: false, w: false, s: false };
         window.addEventListener('keydown', e => {
             if(e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') keys.a = true;
             if(e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') keys.d = true;
             if(e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W') keys.w = true;
+            if(e.key === 'ArrowDown' || e.key === 's' || e.key === 'S') keys.s = true;
             if(e.code === 'Space') { shootBullet(); e.preventDefault(); }
         });
         window.addEventListener('keyup', e => {
             if(e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') keys.a = false;
             if(e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') keys.d = false;
             if(e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W') keys.w = false;
+            if(e.key === 'ArrowDown' || e.key === 's' || e.key === 'S') keys.s = false;
         });
 
         // Shoot Button trigger
@@ -393,7 +396,6 @@
             bullets--;
             playSfx(600, 'triangle', 0.15, 0.3);
             
-            // Spawn bullet at front of player car
             activeBullets.push({
                 x: player.x + player.w / 2,
                 y: player.y,
@@ -453,14 +455,13 @@
             constructor() {
                 this.w = 44; this.h = 85;
                 this.x = gameWidth / 2 - this.w / 2;
-                this.y = gameHeight - 210; // Shifted up slightly to fit control UI nicely
+                this.y = gameHeight - 240; // Shifted slightly to clear larger UI comfortably
                 this.vx = 0; this.angle = 0;
             }
             update() {
-                // Calculate movement speed from Joystick OR Keys
                 let targetVX = 0;
                 if (joyActive) {
-                    targetVX = (joyDX / maxRangeX) * 9; // Precise sliding control
+                    targetVX = (joyDX / maxRangeX) * 9.5; 
                 } else {
                     if (keys.a) targetVX = -8;
                     if (keys.d) targetVX = 8;
@@ -470,11 +471,10 @@
                 this.x += this.vx;
                 this.angle = this.vx * 0.04;
 
-                // Boundaries
                 if(this.x < 55) { this.x = 55; this.vx = 0; }
                 if(this.x > gameWidth - 55 - this.w) { this.x = gameWidth - 55 - this.w; this.vx = 0; }
 
-                if(speed > 50 && Math.random() < 0.6) {
+                if(speed > 40 && Math.random() < 0.6) {
                     let col = isNitro ? '#00f0ff' : '#ff0055';
                     particles.push(new Particle(this.x + this.w/2, this.y + this.h, col, -speed*0.03, Math.random()*4+1));
                 }
@@ -485,13 +485,11 @@
                 ctx.rotate(this.angle);
                 ctx.shadowBlur = 20; ctx.shadowColor = isNitro ? '#00f0ff' : '#ff0055';
                 
-                // Car Body
                 ctx.fillStyle = '#0a0a18';
                 ctx.strokeStyle = isNitro ? '#00f0ff' : '#ff0055';
                 ctx.lineWidth = 3;
                 ctx.beginPath(); ctx.rect(-this.w/2, -this.h/2, this.w, this.h); ctx.fill(); ctx.stroke();
 
-                // Cabin Windshield
                 ctx.shadowBlur = 0; ctx.fillStyle = '#1a1a3a'; ctx.strokeStyle = '#8da1d6';
                 ctx.beginPath(); ctx.rect(-this.w/3, -this.h/6, (this.w/3)*2, this.h/2.5); ctx.fill(); ctx.stroke();
                 ctx.restore();
@@ -579,18 +577,23 @@
             }
 
             if(gameActive) {
-                // Nitro trigger check: if knob pushed UP (negative joyDY) OR key 'w' is pressed
+                // Dynamic Input Condition Tracking
                 let nitroRequested = (joyActive && joyDY < -18) || keys.w;
+                let brakeRequested = (joyActive && joyDY > 18) || keys.s; // Pull down or S key
+                
                 isNitro = nitroRequested && nitro > 0;
                 
                 if(isNitro) { 
-                    targetSpeed = 270; // Nitro Speed Locked
-                    nitro -= 0.12; // Depletes smoothly
+                    targetSpeed = 270; // Nitro top speed
+                    nitro -= 0.12; 
                     if(nitro < 0) nitro = 0;
                     screenShake = Math.max(screenShake, 2.0); 
                 }
+                else if (brakeRequested) {
+                    targetSpeed = 60; // Dynamic Engine Brake down to 60 KMH
+                }
                 else { 
-                    targetSpeed = 130; // Normal Speed Locked
+                    targetSpeed = 130; // Standard speed
                 }
 
                 speed += (targetSpeed - speed) * 0.08;
@@ -604,7 +607,6 @@
                 document.getElementById('score-txt').innerText = String(Math.floor(score)).padStart(5, '0');
                 document.getElementById('speed-txt').innerText = `${Math.floor(speed)} KMH`;
                 
-                // Update Stylish Nitro Bar Progress & Digital Counter
                 document.getElementById('nitro-bar-fill').style.width = `${nitro}%`;
                 document.getElementById('nitro-percent-txt').innerText = `${Math.floor(nitro)}%`;
             } else {
@@ -612,17 +614,15 @@
                 roadOffset += (speed * 0.08);
             }
 
-            // Draw Cyberpunk Background Track
+            // Draw Base Layout Track
             ctx.fillStyle = '#020206'; ctx.fillRect(0, 0, gameWidth, gameHeight);
             ctx.fillStyle = '#060612'; ctx.fillRect(45, 0, gameWidth - 90, gameHeight);
 
-            // Neon Roadside Borders
             ctx.shadowBlur = 15; ctx.shadowColor = '#00f0ff';
             ctx.fillStyle = '#00f0ff'; ctx.fillRect(43, 0, 4, gameHeight);
             ctx.shadowColor = '#ff0055'; ctx.fillStyle = '#ff0055'; ctx.fillRect(gameWidth - 47, 0, 4, gameHeight);
             ctx.shadowBlur = 0;
 
-            // Track Marking Lanes
             ctx.fillStyle = 'rgba(255, 255, 255, 0.15)';
             let lineY = roadOffset % 80;
             for(let y = -80; y < gameHeight; y += 80) {
@@ -636,31 +636,26 @@
             ctx.fillStyle = '#ffea00'; ctx.shadowBlur = 15; ctx.shadowColor = '#ffea00';
             for(let i = activeBullets.length - 1; i >= 0; i--) {
                 let b = activeBullets[i];
-                b.y -= 18; // Bullet Speed moving forward
+                b.y -= 18; 
                 ctx.fillRect(b.x - b.w/2, b.y, b.w, b.h);
 
-                // Check bullet hitting enemies
                 for(let j = enemies.length - 1; j >= 0; j--) {
                     let e = enemies[j];
                     if(b.x > e.x && b.x < e.x + e.w && b.y > e.y && b.y < e.y + e.h) {
-                        // Explosion effect!
                         for(let k=0; k<25; k++) {
                             particles.push(new Particle(e.x + e.w/2, e.y + e.h/2, '#ff0055', (Math.random()-0.5)*12, Math.random()*5+2));
                         }
                         playSfx(300, 'sawtooth', 0.2, 0.25);
-                        enemies.splice(j, 1); // Enemy completely disappears!
-                        activeBullets.splice(i, 1); // Remove bullet
-                        score += 100; // Bonus score for killing enemy
+                        enemies.splice(j, 1); 
+                        activeBullets.splice(i, 1); 
+                        score += 100; 
                         break;
                     }
                 }
-
-                // Remove bullet if offscreen
                 if(b && b.y < -50) activeBullets.splice(i, 1);
             }
             ctx.restore();
 
-            // Particles Update Loop
             for(let i = particles.length - 1; i >= 0; i--) {
                 particles[i].update(); particles[i].draw();
                 if(particles[i].alpha <= 0) particles.splice(i,1);
@@ -675,8 +670,8 @@
                    Math.abs(player.x + player.w/2 - stars[i].x) < player.w/2 + stars[i].r &&
                    Math.abs(player.y + player.h/2 - stars[i].y) < player.h/2 + stars[i].r) {
                     
-                    nitro = Math.min(100, nitro + 20); // Add 20% Nitro
-                    bullets++; // Reward 1 Bullet!
+                    nitro = Math.min(100, nitro + 20); 
+                    bullets++; 
                     updateAmmoUI();
                     score += 150;
                     playSfx(900, 'sine', 0.25, 0.3);
@@ -697,7 +692,7 @@
                    player.x < enemies[i].x + enemies[i].w - 5 &&
                    player.x + player.w > enemies[i].x + 5 &&
                    player.y < enemies[i].y + enemies[i].h - 5 &&
-                   player.y + player.h > enemies[i].y + 5) {
+                   player.y + player.h > enemies[i].y + 6) {
                     
                     for(let k=0; k<40; k++) particles.push(new Particle(player.x+player.w/2, player.y+player.h/2, '#ff5500', (Math.random()-0.5)*16, Math.random()*7+2));
                     triggerCrash();
