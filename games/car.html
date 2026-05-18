@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>NEON DRIVE - LANDSCAPE OVERDRIVE</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: none;
+        }
+
+        body, html {
+            background: #000;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+        }
+
+        #game-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            max-width: 900px; 
+            max-height: 500px;
+            background: #020208;
+            overflow: hidden;
+            box-shadow: 0 0 60px rgba(0, 240, 255, 0.2);
+            perspective: 600px; /* Adjusted for Landscape */
+        }
+
+        /* 3D Perspective for Retro Look - Landscape Optimized */
+        canvas {
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            transform: rotateX(28deg) scale(1.4); 
+            transform-origin: center 80%;
+            z-index: 1;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(3, 3, 10, 0.94);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 30;
+            transition: opacity 0.4s ease;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .overlay.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* ROTATION ALERT SCREEN - TRIGGERS ON PORTRAIT */
+        #orientation-screen {
+            display: none;
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #020208;
+            z-index: 100;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        /* Trigger when phone is held vertically (Portrait) */
+        @media (orientation: portrait) {
+            #orientation-screen {
+                display: flex;
+            }
+        }
+
+        .rotate-icon {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            animation: tilt 2s ease-in-out infinite;
+        }
+        @keyframes tilt {
+            0% { transform: rotate(0deg); }
+            50% { transform: rotate(-90deg); }
+            100% { transform: rotate(0deg); }
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 900;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            background: linear-gradient(45deg, #00f0ff, #ff0055, #ffea00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 5px;
+            filter: drop-shadow(0 0 20px rgba(0, 240, 255, 0.5));
+        }
+
+        .subtitle {
+            color: #8da1d6;
+            font-size: 1rem;
+            margin-bottom: 40px;
+            letter-spacing: 4px;
+        }
+
+        .btn-main {
+            padding: 16px 60px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #fff;
+            background: linear-gradient(45deg, #00f0ff, #ff0055);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 0 30px rgba(0, 240, 255, 0.5);
+            transition: transform 0.2s;
+        }
+        .btn-main:active { transform: scale(0.92); }
+
+        .btn-small {
+            padding: 12px 40px;
+            font-size: 1rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            border: 2px solid #00f0ff;
+            background: rgba(0, 240, 255, 0.1);
+            color: #fff;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
+        }
+        .btn-small:active { transform: scale(0.95); }
+
+        /* HUD Styling (Landscape adapted) */
+        #hud {
+            position: absolute;
+            top: 20px; left: 20px; right: 20px;
+            z-index: 10;
+            pointer-events: none;
+            display: flex;
+            justify-content: space-between;
+        }
+        .hud-item {
+            background: rgba(5, 5, 15, 0.85);
+            border: 2px solid rgba(0, 240, 255, 0.4);
+            padding: 8px 20px;
+            border-radius: 4px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0 30%);
+            min-width: 130px;
+            text-align: center;
+        }
+        .hud-item.center-box {
+            clip-path: polygon(5% 0, 95% 0, 100% 30%, 100% 70%, 95% 100%, 5% 100%, 0 70%, 0 30%);
+            border-color: #ffea00;
+        }
+        .hud-item.right-box {
+            clip-path: polygon(0 0, 90% 0, 100% 30%, 100% 100%, 10% 100%, 0 70%);
+        }
+        .hud-label { font-size: 0.7rem; color: #00f0ff; letter-spacing: 2px; font-weight: bold; }
+        .center-box .hud-label { color: #ffea00; }
+        .hud-val { font-size: 1.5rem; font-weight: 900; color: #fff; font-family: monospace; text-shadow: 0 0 8px #00f0ff; }
+        .center-box .hud-val { text-shadow: 0 0 8px #ffea00; }
+
+        /* Combat Buttons */
+        .shoot-btn {
+            position: absolute;
+            bottom: 25px;
+            width: 120px; height: 60px;
+            background: linear-gradient(to bottom, #4a0011, #1a0005);
+            border: 2px solid #ff0055;
+            pointer-events: auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 20px rgba(255, 0, 85, 0.4), inset 0 0 10px rgba(255, 0, 85, 0.5);
+            cursor: pointer;
+            z-index: 20;
+            transition: transform 0.1s;
+            clip-path: polygon(15% 0, 85% 0, 100% 30%, 100% 70%, 85% 100%, 15% 100%, 0 70%, 0 30%);
+        }
+        #shoot-btn-left { left: 25px; }
+        #shoot-btn-right { right: 25px; }
+        
+        /* BURST Button Special Styling */
+        #burst-btn {
+            left: 50%;
+            transform: translateX(-50%);
+            width: 160px; height: 65px;
+            background: linear-gradient(to bottom, #4a0044, #1a0022);
+            border: 2px solid #d400ff;
+            box-shadow: 0 0 25px rgba(212, 0, 255, 0.5), inset 0 0 15px rgba(212, 0, 255, 0.6);
+        }
+        #burst-btn:active { transform: translateX(-50%) scale(0.9); background: #d400ff; }
+        #burst-btn .btn-title { color: #fff; text-shadow: 0 0 8px #d400ff; font-size: 1.2rem; }
+        #burst-btn .ammo-count { color: #ffea00; }
+
+        .shoot-btn:active { transform: scale(0.9); background: #ff0055; }
+        .shoot-btn .btn-title { font-size: 1.1rem; font-weight: 900; letter-spacing: 2px; text-shadow: 0 0 5px #fff; color: #fff; }
+        .shoot-btn .ammo-count { font-size: 0.75rem; font-weight: bold; color: #ffea00; margin-top: 2px; }
+        
+        .shoot-btn.empty {
+            background: rgba(40, 40, 40, 0.6) !important;
+            border-color: #555 !important;
+            box-shadow: none !important;
+        }
+        .shoot-btn.empty .btn-title { color: #666 !important; text-shadow: none !important; }
+        .shoot-btn.empty .ammo-count { color: #666 !important; }
+
+        /* Popup Virtual Joystick */
+        #joystick-container {
+            position: absolute;
+            width: 140px; height: 140px;
+            background: rgba(10, 10, 25, 0.5);
+            border: 2px solid rgba(0, 240, 255, 0.4);
+            border-radius: 50%;
+            display: none;
+            pointer-events: none;
+            z-index: 15;
+            box-shadow: 0 0 25px rgba(0, 240, 255, 0.2);
+            transform: translate(-50%, -50%);
+        }
+        #joystick-knob {
+            width: 50px; height: 50px;
+            background: radial-gradient(circle, #00f0ff 0%, #0044ff 100%);
+            border: 2px solid #fff;
+            border-radius: 50%;
+            position: absolute;
+            left: calc(50% - 25px); top: calc(50% - 25px);
+            box-shadow: 0 0 15px #00f0ff;
+        }
+
+        .controls-info {
+            display: flex; gap: 20px; justify-content: center; margin-top: 30px;
+        }
+        .info-box {
+            background: rgba(0,0,0,0.5); padding: 10px 15px; border-radius: 8px; border: 1px solid #333; font-size: 0.8rem; color: #aaa;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="orientation-screen">
+        <div class="rotate-icon">📱➔ 📳</div>
+        <h2>PLEASE ROTATE DEVICE</h2>
+        <p style="color: #8da1d6; margin-top: 10px; font-size: 1rem;">Please play in Landscape Mode <br>(ফোনটি বাঁকা/ল্যান্ডস্কেপ করে ধরুন)</p>
+    </div>
+
+    <div id="game-container">
+        <div id="hud">
+            <div class="hud-item">
+                <div class="hud-label">SCORE</div>
+                <div id="score-txt" class="hud-val">00000</div>
+            </div>
+            <div class="hud-item center-box">
+                <div class="hud-label">STARS</div>
+                <div id="star-txt" class="hud-val">0 / 10</div>
+            </div>
+            <div class="hud-item right-box">
+                <div class="hud-label">SPEED</div>
+                <div id="speed-txt" class="hud-val">0 KMH</div>
+            </div>
+        </div>
+
+        <div id="shoot-btn-left" class="shoot-btn">
+            <div class="btn-title">SHOOT</div>
+            <div class="ammo-count">3 BULLETS</div>
+        </div>
+
+        <div id="burst-btn" class="shoot-btn empty">
+            <div class="btn-title">BURST</div>
+            <div id="burst-count" class="ammo-count">0 READY</div>
+        </div>
+
+        <div id="shoot-btn-right" class="shoot-btn">
+            <div class="btn-title">SHOOT</div>
+            <div class="ammo-count">3 BULLETS</div>
+        </div>
+
+        <div id="joystick-container">
+            <div id="joystick-knob"></div>
+        </div>
+
+        <div id="start-screen" class="overlay">
+            <h1>NEON DRIVE</h1>
+            <div class="subtitle">LANDSCAPE OVERDRIVE</div>
+            <button class="btn-main" onclick="initGameAndFullscreen()">START ENGINE</button>
+            <div class="controls-info">
+                <div class="info-box">
+                    <b style="color:#00f0ff">JOYSTICK</b><br>Touch & Drag ANYWHERE
+                </div>
+                <div class="info-box">
+                    <b style="color:#ffea00">BURST WEAPON</b><br>Collect 10 Stars to unlock!
+                </div>
+            </div>
+        </div>
+
+        <div id="gameover-screen" class="overlay hidden">
+            <h1 style="background: linear-gradient(45deg, #ff0000, #ff5500);">WRECKED</h1>
+            <div class="subtitle" id="final-score-lbl">FINAL SCORE: 0</div>
+            <button class="btn-small" onclick="restartGame()">Try Again</button>
+        </div>
+
+        <canvas id="canvas"></canvas>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        // New Resolution for Landscape
+        const gameWidth = 800;
+        const gameHeight = 480;
+        canvas.width = gameWidth;
+        canvas.height = gameHeight;
+
+        let gameActive = false;
+        let score = 0, speed = 0, targetSpeed = 0;
+        let nitro = 60; 
+        let bullets = 3; 
+        let starCount = 0; // Stars towards next burst
+        let bursts = 0;    // Available bursts
+        
+        let isNitro = false;
+        let screenShake = 0, roadOffset = 0;
+        let screenFlash = 0;
+        let shockwaves = []; // For burst visual effect
+
+        let player;
+        let enemies = [];
+        let stars = [];
+        let activeBullets = []; 
+        let particles = [];
+
+        // Track Dimensions
+        const trackLeft = 150;
+        const trackRight = 650;
+        const trackWidth = trackRight - trackLeft;
+        // Lanes (3 lanes distributed evenly)
+        const lanes = [233, 400, 566];
+
+        // Joystick Core Logic
+        const gameContainer = document.getElementById('game-container');
+        const joyContainer = document.getElementById('joystick-container');
+        const joyKnob = document.getElementById('joystick-knob');
+        
+        let joyActive = false;
+        let joyTouchId = null; 
+        let joyStartX = 0, joyStartY = 0;
+        let joyDX = 0, joyDY = 0;
+        const maxRange = 60; 
+
+        gameContainer.addEventListener('touchstart', (e) => {
+            if (!gameActive) return;
+            // Prevent joystick if touching buttons
+            if (e.target.closest('.shoot-btn')) return;
+
+            const rect = gameContainer.getBoundingClientRect();
+            for (let i = 0; i < e.touches.length; i++) {
+                const touch = e.touches[i];
+                if (!joyActive) {
+                    joyActive = true;
+                    joyTouchId = touch.identifier;
+                    joyStartX = touch.clientX;
+                    joyStartY = touch.clientY;
+
+                    const touchX = touch.clientX - rect.left;
+                    const touchY = touch.clientY - rect.top;
+
+                    joyContainer.style.display = 'block';
+                    joyContainer.style.left = `${touchX}px`;
+                    joyContainer.style.top = `${touchY}px`;
+                    joyKnob.style.transform = 'translate(0px, 0px)';
+                    break;
+                }
+            }
+        });
+
+        gameContainer.addEventListener('touchmove', (e) => {
+            if (!joyActive) return;
+            let targetTouch = null;
+            for (let i = 0; i < e.touches.length; i++) {
+                if (e.touches[i].identifier === joyTouchId) {
+                    targetTouch = e.touches[i];
+                    break;
+                }
+            }
+            if (!targetTouch) return;
+
+            joyDX = targetTouch.clientX - joyStartX;
+            joyDY = targetTouch.clientY - joyStartY;
+
+            const distance = Math.sqrt(joyDX * joyDX + joyDY * joyDY);
+            if (distance > maxRange) {
+                joyDX = (joyDX / distance) * maxRange;
+                joyDY = (joyDY / distance) * maxRange;
+            }
+            joyKnob.style.transform = `translate(${joyDX}px, ${joyDY}px)`;
+        });
+
+        gameContainer.addEventListener('touchend', (e) => {
+            if (!joyActive) return;
+            let stillActive = false;
+            for (let i = 0; i < e.touches.length; i++) {
+                if (e.touches[i].identifier === joyTouchId) {
+                    stillActive = true;
+                    break;
+                }
+            }
+            if (!stillActive) {
+                joyActive = false;
+                joyTouchId = null;
+                joyDX = 0; joyDY = 0;
+                joyContainer.style.display = 'none';
+            }
+        });
+
+        // Keyboard Controls
+        const keys = { a: false, d: false, w: false, s: false };
+        window.addEventListener('keydown', e => {
+            if(e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') keys.a = true;
+            if(e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') keys.d = true;
+            if(e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W') keys.w = true;
+            if(e.key === 'ArrowDown' || e.key === 's' || e.key === 'S') keys.s = true;
+            if(e.code === 'Space') { shootBullet(); e.preventDefault(); }
+            if(e.key === 'b' || e.key === 'B') { triggerBurst(); e.preventDefault(); }
+        });
+        window.addEventListener('keyup', e => {
+            if(e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') keys.a = false;
+            if(e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') keys.d = false;
+            if(e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W') keys.w = false;
+            if(e.key === 'ArrowDown' || e.key === 's' || e.key === 'S') keys.s = false;
+        });
+
+        const btnLeft = document.getElementById('shoot-btn-left');
+        const btnRight = document.getElementById('shoot-btn-right');
+        const btnBurst = document.getElementById('burst-btn');
+
+        // Prevent events from passing to the joystick
+        const stopProp = (e) => { e.stopPropagation(); e.preventDefault(); };
+        btnLeft.addEventListener('touchstart', (e) => { stopProp(e); shootBullet(); });
+        btnRight.addEventListener('touchstart', (e) => { stopProp(e); shootBullet(); });
+        btnBurst.addEventListener('touchstart', (e) => { stopProp(e); triggerBurst(); });
+        btnBurst.addEventListener('click', (e) => { stopProp(e); triggerBurst(); });
+
+        function shootBullet() {
+            if(!gameActive || bullets <= 0) return;
+            bullets--;
+            playSfx(650, 'triangle', 0.15, 0.3);
+            activeBullets.push({ x: player.x, y: player.y - 40, w: 6, h: 22 });
+            updateHUDUI();
+        }
+
+        // NEW: Burst Function
+        function triggerBurst() {
+            if(!gameActive || bursts <= 0) return;
+            bursts--;
+            
+            screenFlash = 1.0;
+            screenShake = 40; // Massive shake
+            playSfx(100, 'square', 0.8, 0.6); // Explosion sound
+            
+            // Add shockwave center
+            shockwaves.push({ x: player.x, y: player.y, radius: 10, alpha: 1 });
+
+            // Destroy all enemies
+            enemies.forEach(e => {
+                for(let k=0; k<35; k++) {
+                    particles.push(new Particle(e.x, e.y, '#d400ff', (Math.random()-0.5)*18, Math.random()*8+2));
+                    particles.push(new Particle(e.x, e.y, '#ffffff', (Math.random()-0.5)*12, Math.random()*5+1));
+                }
+                score += 250; // Bonus points
+            });
+            enemies = []; // Clear the road
+            updateHUDUI();
+        }
+
+        function updateHUDUI() {
+            // Update Bullets
+            const counts = document.querySelectorAll('#shoot-btn-left .ammo-count, #shoot-btn-right .ammo-count');
+            counts.forEach(c => c.innerText = `${bullets} BULLET${bullets !== 1 ? 'S' : ''}`);
+            document.getElementById('shoot-btn-left').classList.toggle('empty', bullets <= 0);
+            document.getElementById('shoot-btn-right').classList.toggle('empty', bullets <= 0);
+
+            // Update Burst
+            document.getElementById('star-txt').innerText = `${starCount} / 10`;
+            const burstCount = document.getElementById('burst-count');
+            burstCount.innerText = `${bursts} READY`;
+            document.getElementById('burst-btn').classList.toggle('empty', bursts <= 0);
+        }
+
+        let audioCtx, engineOsc, engineGain;
+        function setupAudio() {
+            if(audioCtx) return;
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            engineOsc = audioCtx.createOscillator();
+            engineGain = audioCtx.createGain();
+            engineOsc.type = 'sawtooth';
+            engineOsc.frequency.setValueAtTime(45, audioCtx.currentTime);
+            
+            let filter = audioCtx.createBiquadFilter();
+            filter.type = 'lowpass';
+            filter.frequency.setValueAtTime(180, audioCtx.currentTime);
+
+            engineOsc.connect(filter);
+            filter.connect(engineGain);
+            engineGain.connect(audioCtx.destination);
+            engineGain.gain.setValueAtTime(0.015, audioCtx.currentTime);
+            engineOsc.start(0);
+        }
+
+        function playSfx(freq, type, dur, vol) {
+            if(!audioCtx) return;
+            let osc = audioCtx.createOscillator();
+            let gain = audioCtx.createGain();
+            osc.type = type;
+            osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+            
+            // For explosive sounds, rapid drop off
+            if(type === 'square') {
+                osc.frequency.exponentialRampToValueAtTime(10, audioCtx.currentTime + dur);
+            }
+            
+            gain.gain.setValueAtTime(vol, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + dur);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start(); osc.stop(audioCtx.currentTime + dur);
+        }
+
+        function initGameAndFullscreen() {
+            let container = document.getElementById('game-container');
+            if (container.requestFullscreen) container.requestFullscreen().catch(()=>{});
+            setupAudio(); 
+            restartGame();
+            document.getElementById('start-screen').classList.add('hidden');
+        }
+
+        class Player {
+            constructor() {
+                this.w = 50; this.h = 80;
+                this.x = gameWidth / 2;
+                this.y = gameHeight - 120; // Adjusted for landscape height
+                this.vx = 0; this.angle = 0;
+            }
+            update() {
+                let targetVX = 0;
+                if (joyActive) {
+                    targetVX = (joyDX / maxRange) * 13; 
+                } else {
+                    if (keys.a) targetVX = -11;
+                    if (keys.d) targetVX = 11;
+                }
+
+                this.vx += (targetVX - this.vx) * 0.25;
+                this.x += this.vx;
+                this.angle = this.vx * 0.04;
+
+                // Restrict inside track
+                const limitMargin = trackLeft + 35;
+                const limitRight = trackRight - 35;
+                if(this.x < limitMargin) { this.x = limitMargin; this.vx = 0; }
+                if(this.x > limitRight) { this.x = limitRight; this.vx = 0; }
+            }
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                
+                // Nitro Floating Bar
+                ctx.save();
+                ctx.translate(0, -60);
+                ctx.font = "bold 16px monospace";
+                ctx.fillStyle = "#00f0ff";
+                ctx.textAlign = "center";
+                ctx.shadowBlur = 8; ctx.shadowColor = "#00f0ff";
+                ctx.fillText(`${Math.floor(nitro)}%`, 0, -8);
+                
+                ctx.shadowBlur = 0;
+                ctx.fillStyle = "rgba(5, 5, 12, 0.8)";
+                ctx.strokeStyle = "rgba(0, 240, 255, 0.4)";
+                ctx.lineWidth = 1;
+                ctx.fillRect(-30, 0, 60, 10);
+                ctx.strokeRect(-30, 0, 60, 10);
+                
+                let grad = ctx.createLinearGradient(-30, 0, 30, 0);
+                grad.addColorStop(0, "#ff0055");
+                grad.addColorStop(0.5, "#ffea00");
+                grad.addColorStop(1, "#00ff66");
+                ctx.fillStyle = grad;
+                ctx.fillRect(-29, 1, 58 * (nitro/100), 8);
+                ctx.restore();
+
+                ctx.rotate(this.angle);
+
+                // Car Body
+                ctx.shadowBlur = 15; ctx.shadowColor = isNitro ? '#00f0ff' : '#00aaff';
+                ctx.fillStyle = 'rgba(8, 10, 24, 0.95)';
+                ctx.strokeStyle = '#00f0ff';
+                ctx.lineWidth = 2;
+                
+                ctx.beginPath();
+                ctx.moveTo(-this.w/2, this.h/2);
+                ctx.lineTo(this.w/2, this.h/2);
+                ctx.lineTo(this.w/2.4, -this.h/2);
+                ctx.lineTo(-this.w/2.4, -this.h/2);
+                ctx.closePath();
+                ctx.fill(); ctx.stroke();
+
+                // Windshield
+                ctx.fillStyle = 'rgba(0, 240, 255, 0.15)';
+                ctx.beginPath();
+                ctx.moveTo(-this.w/2.8, -this.h/8);
+                ctx.lineTo(this.w/2.8, -this.h/8);
+                ctx.lineTo(this.w/3.2, -this.h/2 + 6);
+                ctx.lineTo(-this.w/3.2, -this.h/2 + 6);
+                ctx.closePath();
+                ctx.fill(); ctx.stroke();
+
+                // Tail Lights
+                ctx.shadowBlur = 18; ctx.shadowColor = '#ff0055';
+                ctx.fillStyle = '#ff3366';
+                ctx.fillRect(-this.w/2.2, this.h/2 - 12, 14, 6); 
+                ctx.fillRect(this.w/2.2 - 14, this.h/2 - 12, 14, 6); 
+                ctx.fillStyle = '#fff';
+                ctx.fillRect(-this.w/2.2 + 2, this.h/2 - 11, 10, 3);
+                ctx.fillRect(this.w/2.2 - 12, this.h/2 - 11, 10, 3);
+
+                ctx.restore();
+            }
+        }
+
+        class Enemy {
+            constructor() {
+                this.w = 48; this.h = 78;
+                this.x = lanes[Math.floor(Math.random() * lanes.length)];
+                this.y = -800; // স্পন পজিশন অনেক দূরে সরিয়ে দেওয়া হলো (-100 থেকে -800)
+                this.vShift = Math.random() * 3 + 2.5; 
+                this.color = '#ff00aa'; 
+            }
+            update() { this.y += this.vShift + (speed * 0.08); }
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.shadowBlur = 18; ctx.shadowColor = this.color;
+                ctx.fillStyle = '#100018'; ctx.strokeStyle = this.color; ctx.lineWidth = 2;
+                
+                ctx.beginPath();
+                ctx.moveTo(-this.w/2, this.h/2);
+                ctx.lineTo(this.w/2, this.h/2);
+                ctx.lineTo(this.w/2.4, -this.h/2);
+                ctx.lineTo(-this.w/2.4, -this.h/2);
+                ctx.closePath();
+                ctx.fill(); ctx.stroke();
+
+                ctx.fillStyle = '#ff66cc';
+                ctx.fillRect(-this.w/2.3, this.h/2 - 9, 10, 5);
+                ctx.fillRect(this.w/2.3 - 10, this.h/2 - 9, 10, 5);
+                ctx.restore();
+            }
+        }
+
+        class Star {
+            constructor() {
+                this.r = 18;
+                this.x = lanes[Math.floor(Math.random() * lanes.length)];
+                this.y = -800; // স্টারের স্পন পজিশন অনেক দূরে সরিয়ে দেওয়া হলো
+                this.rot = 0;
+            }
+            update() { this.y += speed * 0.085; this.rot += 0.05; }
+            draw() {
+                ctx.save(); ctx.translate(this.x, this.y); ctx.rotate(this.rot);
+                ctx.shadowBlur = 25; ctx.shadowColor = '#ffea00'; ctx.fillStyle = '#ffea00';
+                ctx.beginPath();
+                for (let i = 0; i < 5; i++) {
+                    ctx.lineTo(Math.cos((18 + i * 72) * Math.PI / 180) * this.r, -Math.sin((18 + i * 72) * Math.PI / 180) * this.r);
+                    ctx.lineTo(Math.cos((54 + i * 72) * Math.PI / 180) * (this.r/2), -Math.sin((54 + i * 72) * Math.PI / 180) * (this.r/2));
+                }
+                ctx.closePath(); ctx.fill(); ctx.restore();
+            }
+        }
+
+        class Particle {
+            constructor(x, y, color, vx, vy) {
+                this.x = x; this.y = y; this.color = color;
+                this.vx = vx; this.vy = vy;
+                this.alpha = 1; this.size = Math.random()*4 + 2;
+            }
+            update() { this.x += this.vx; this.y += this.vy; this.alpha -= 0.035; }
+            draw() {
+                ctx.save(); ctx.globalAlpha = Math.max(0, this.alpha); ctx.fillStyle = this.color;
+                ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI*2); ctx.fill(); ctx.restore();
+            }
+        }
+
+        function restartGame() {
+            player = new Player();
+            enemies = []; stars = []; particles = []; activeBullets = []; shockwaves = [];
+            score = 0; 
+            speed = 0; 
+            nitro = 60; 
+            bullets = 3; 
+            starCount = 0;
+            bursts = 0;
+            
+            gameActive = true;
+            joyActive = false;
+            joyTouchId = null;
+            screenFlash = 0;
+            joyContainer.style.display = 'none';
+            updateHUDUI();
+            
+            if(engineGain && audioCtx) engineGain.gain.setValueAtTime(0.015, audioCtx.currentTime);
+            document.getElementById('gameover-screen').classList.add('hidden');
+        }
+
+        function triggerCrash() {
+            gameActive = false; screenShake = 25;
+            playSfx(100, 'sawtooth', 1.0, 0.5);
+            if(engineGain) engineGain.gain.setValueAtTime(0, audioCtx.currentTime);
+            document.getElementById('final-score-lbl').innerText = `FINAL SCORE: ${Math.floor(score)}`;
+            document.getElementById('gameover-screen').classList.remove('hidden');
+        }
+
+        function render() {
+            ctx.clearRect(0,0, gameWidth, gameHeight);
+
+            ctx.save();
+            if(screenShake > 0) {
+                ctx.translate((Math.random()-0.5)*screenShake, (Math.random()-0.5)*screenShake);
+                screenShake *= 0.88;
+                if(screenShake < 0.5) screenShake = 0;
+            }
+
+            if(gameActive) {
+                let nitroRequested = (joyActive && joyDY < -15) || keys.w;
+                let brakeRequested = (joyActive && joyDY > 15) || keys.s; 
+                
+                isNitro = nitroRequested && nitro > 0;
+                
+                if(isNitro) { 
+                    targetSpeed = 280; 
+                    nitro -= 0.15; 
+                    if(nitro < 0) nitro = 0;
+                    screenShake = Math.max(screenShake, 1.5); 
+                }
+                else if (brakeRequested) { targetSpeed = 60; }
+                else { targetSpeed = 140; } 
+
+                speed += (targetSpeed - speed) * 0.08;
+                score += (speed * 0.015);
+                roadOffset += (speed * 0.1);
+
+                if(engineOsc) engineOsc.frequency.setValueAtTime(45 + (speed/280)*140, audioCtx.currentTime);
+
+                document.getElementById('score-txt').innerText = String(Math.floor(score)).padStart(5, '0');
+                document.getElementById('speed-txt').innerText = `${Math.floor(speed)} KMH`;
+            } else {
+                speed += (0 - speed) * 0.08;
+                roadOffset += (speed * 0.1);
+            }
+
+            // Dark space background
+            ctx.fillStyle = '#020207'; 
+            ctx.fillRect(0, 0, gameWidth, gameHeight);
+
+            // Sci-Fi Glowing Cyber Grid Line Floor
+            ctx.strokeStyle = 'rgba(0, 240, 255, 0.18)';
+            ctx.lineWidth = 1;
+            let gridY = roadOffset % 60;
+            // দিগন্ত পর্যন্ত গ্রিড আঁকার জন্য রেন্ডার লিমিট -1000 করা হলো
+            for(let y = -1000; y < gameHeight; y += 60) {
+                ctx.beginPath(); ctx.moveTo(0, y + gridY); ctx.lineTo(gameWidth, y + gridY); ctx.stroke();
+            }
+            for(let x = 0; x <= gameWidth; x += 60) {
+                ctx.beginPath(); ctx.moveTo(x, -1000); ctx.lineTo(x, gameHeight); ctx.stroke();
+            }
+
+            // Central Main Speed Highway
+            ctx.fillStyle = 'rgba(4, 6, 16, 0.92)';
+            ctx.fillRect(trackLeft, -1000, trackWidth, gameHeight + 1000);
+
+            // Neon Pink Hyper-Glowing Track Borders
+            ctx.shadowBlur = 30; ctx.shadowColor = '#ff00aa';
+            ctx.fillStyle = '#ff00aa';
+            ctx.fillRect(trackLeft - 8, -1000, 8, gameHeight + 1000); // Left border
+            ctx.fillRect(trackLeft + 2, -1000, 3, gameHeight + 1000);
+            ctx.fillRect(trackRight, -1000, 8, gameHeight + 1000); // Right border
+            ctx.fillRect(trackRight - 5, -1000, 3, gameHeight + 1000);
+            ctx.shadowBlur = 0;
+
+            // Dashed Lanes Dividers (Neon Cyan)
+            ctx.fillStyle = 'rgba(0, 240, 255, 0.7)';
+            ctx.shadowBlur = 10; ctx.shadowColor = '#00f0ff';
+            let lineY = roadOffset % 100;
+            for(let y = -1000; y < gameHeight; y += 100) {
+                ctx.fillRect(316, y + lineY, 4, 50); // Div 1
+                ctx.fillRect(482, y + lineY, 4, 50); // Div 2
+            }
+            ctx.shadowBlur = 0;
+
+            // Burst Shockwaves
+            for(let i = shockwaves.length - 1; i >= 0; i--) {
+                let sw = shockwaves[i];
+                sw.radius += 40; // Expand rapidly
+                sw.alpha -= 0.05;
+                
+                ctx.save();
+                ctx.beginPath();
+                ctx.arc(sw.x, sw.y, sw.radius, 0, Math.PI * 2);
+                ctx.lineWidth = 15;
+                ctx.strokeStyle = `rgba(212, 0, 255, ${Math.max(0, sw.alpha)})`;
+                ctx.shadowBlur = 30;
+                ctx.shadowColor = '#d400ff';
+                ctx.stroke();
+                ctx.restore();
+
+                if(sw.alpha <= 0) shockwaves.splice(i, 1);
+            }
+
+            // Bullet Physics
+            ctx.save();
+            ctx.fillStyle = '#ffea00'; ctx.shadowBlur = 15; ctx.shadowColor = '#ffea00';
+            for(let i = activeBullets.length - 1; i >= 0; i--) {
+                let b = activeBullets[i];
+                b.y -= 25; 
+                ctx.fillRect(b.x - b.w/2, b.y, b.w, b.h);
+
+                let hit = false;
+                for(let j = enemies.length - 1; j >= 0; j--) {
+                    let e = enemies[j];
+                    if(b.x > e.x - e.w/2 && b.x < e.x + e.w/2 && b.y > e.y - e.h/2 && b.y < e.y + e.h/2) {
+                        for(let k=0; k<25; k++) particles.push(new Particle(e.x, e.y, '#ff0055', (Math.random()-0.5)*15, (Math.random()-0.5)*15));
+                        playSfx(280, 'sawtooth', 0.2, 0.2);
+                        enemies.splice(j, 1); 
+                        score += 150; 
+                        hit = true;
+                        break;
+                    }
+                }
+                // বুলেটের গায়েব হওয়ার রেঞ্জ -800 করা হলো
+                if(hit || (b && b.y < -800)) activeBullets.splice(i, 1);
+            }
+            ctx.restore();
+
+            // FX Particles Loop
+            for(let i = particles.length - 1; i >= 0; i--) {
+                particles[i].update(); particles[i].draw();
+                if(particles[i].alpha <= 0) particles.splice(i,1);
+            }
+
+            // Stars Logic (Score & Burst Mechanics) - স্টার লিমিট ৫ করা হলো
+            if(gameActive && Math.random() < 0.015 && stars.length < 5) stars.push(new Star());
+            for(let i = stars.length - 1; i >= 0; i--) {
+                stars[i].update(); stars[i].draw();
+
+                if(gameActive && player &&
+                   Math.abs(player.x - stars[i].x) < player.w/2 + stars[i].r &&
+                   Math.abs(player.y - stars[i].y) < player.h/2 + stars[i].r) {
+                    
+                    nitro = Math.min(100, nitro + 15); 
+                    bullets += 2; 
+                    score += 100;
+
+                    // BURST LOGIC UPDATE
+                    starCount++;
+                    if(starCount >= 10) {
+                        bursts++;
+                        starCount = 0;
+                        playSfx(900, 'square', 0.3, 0.3); // Powerup sound
+                        // Extra large particle pop
+                        for(let k=0; k<30; k++) particles.push(new Particle(stars[i].x, stars[i].y, '#d400ff', (Math.random()-0.5)*20, (Math.random()-0.5)*20));
+                    } else {
+                        playSfx(850, 'sine', 0.2, 0.25);
+                    }
+                    
+                    updateHUDUI();
+                    
+                    for(let k=0; k<15; k++) particles.push(new Particle(stars[i].x, stars[i].y, '#ffea00', (Math.random()-0.5)*12, (Math.random()-0.5)*12));
+                    stars.splice(i, 1);
+                    continue;
+                }
+                if(stars[i].y > gameHeight + 100) stars.splice(i, 1);
+            }
+
+            // Traffic Vehicles Collision Engine - এনিমি লিমিট ১৫ করা হলো
+            if(gameActive && Math.random() < 0.038 && enemies.length < 15) enemies.push(new Enemy());
+            for(let i = enemies.length - 1; i >= 0; i--) {
+                enemies[i].update(); enemies[i].draw();
+
+                if(gameActive && player &&
+                   Math.abs(player.x - enemies[i].x) < (player.w/2 + enemies[i].w/2 - 8) &&
+                   Math.abs(player.y - enemies[i].y) < (player.h/2 + enemies[i].h/2 - 8)) {
+                    
+                    for(let k=0; k<45; k++) particles.push(new Particle(player.x, player.y, '#ff5500', (Math.random()-0.5)*20, (Math.random()-0.5)*20));
+                    triggerCrash();
+                }
+                if(enemies[i].y > gameHeight + 100) { enemies.splice(i, 1); if(gameActive) score += 20; }
+            }
+
+            if(player) {
+                if(gameActive) player.update();
+                player.draw();
+            }
+
+            if (screenFlash > 0) {
+                ctx.fillStyle = `rgba(255, 255, 255, ${screenFlash})`;
+                ctx.fillRect(0, 0, gameWidth, gameHeight);
+                screenFlash -= 0.04;
+            }
+
+            ctx.restore();
+            requestAnimationFrame(render);
+        }
+
+        player = new Player();
+        requestAnimationFrame(render);
+    </script>
+</body>
+</html>
