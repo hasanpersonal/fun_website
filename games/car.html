@@ -35,12 +35,20 @@
             background: #020208;
             overflow: hidden;
             box-shadow: 0 0 60px rgba(0, 240, 255, 0.15);
+            /* Perspective wrapper element concept directly implemented on canvas */
         }
 
+        /* 3D Perspective Transformation */
         canvas {
             display: block;
             width: 100%;
-            height: 100%;
+            height: 130%; /* Stretched to cover the empty space when tilted */
+            position: absolute;
+            bottom: -5%;
+            left: 0;
+            transform: perspective(600px) rotateX(40deg);
+            transform-origin: bottom center;
+            z-index: 1;
         }
 
         .overlay {
@@ -101,6 +109,7 @@
         .btn-main:active { transform: scale(0.92); }
 
         .button-group { display: flex; gap: 15px; margin-top: 20px; }
+        
         .btn-small {
             padding: 12px 25px;
             font-size: 0.9rem;
@@ -111,6 +120,10 @@
             color: #fff;
             border-radius: 8px;
             cursor: pointer;
+        }
+        .btn-home {
+            border-color: #00f0ff;
+            background: rgba(0, 240, 255, 0.1);
         }
 
         /* Sci-Fi Premium HUD */
@@ -275,10 +288,11 @@
             <h1>NEON DRIVE</h1>
             <div class="subtitle">DYNAMIC OVERDRIVE</div>
             <button class="btn-main" onclick="initGameAndFullscreen()">START ENGINE</button>
-            <p style="margin-top: 30px; font-size: 0.75rem; color: #6272a4; line-height: 1.6; max-width: 290px;">
-                Touch <b style="color:#00f0ff">ANYWHERE on the right side</b> to spawn the Joystick!<br>
+            <p style="margin-top: 30px; font-size: 0.75rem; color: #6272a4; line-height: 1.6; max-width: 320px;">
+                Touch <b style="color:#00f0ff">ANYWHERE</b> to spawn the Joystick!<br>
                 Drag <b style="color:#00f0ff">UP for Nitro</b> | Drag <b style="color:#ff0055">DOWN to Brake (60 KMH)</b>.<br><br>
-                Press <b style="color:#ff0055">SHOOT</b> on either the left or right corners to destroy vehicles!
+                <b style="color:#ffea00">DOUBLE TAP</b> screen to use 10 Bullets and clear all enemies!<br>
+                Press <b style="color:#ff0055">SHOOT</b> on corners to destroy vehicles!
             </p>
         </div>
 
@@ -287,6 +301,7 @@
             <h1 style="background: linear-gradient(45deg, #ff0000, #ff5500);">WRECKED</h1>
             <div class="subtitle" id="final-score-lbl">FINAL SCORE: 0</div>
             <div class="button-group">
+                <button class="btn-small btn-home" onclick="window.location.href='game.html'">Home</button>
                 <button class="btn-small" onclick="restartGame()">Try Again</button>
             </div>
         </div>
@@ -309,6 +324,7 @@
         let bullets = 0; 
         let isNitro = false;
         let screenShake = 0, roadOffset = 0;
+        let screenFlash = 0; // For ultimate explosion
 
         let player;
         let enemies = [];
@@ -322,29 +338,61 @@
         const joyKnob = document.getElementById('joystick-knob');
         
         let joyActive = false;
+        let joyTouchId = null; // Track specific finger
         let joyStartX = 0, joyStartY = 0;
         let joyDX = 0, joyDY = 0;
         const maxRange = 55; // Circular boundaries
 
-        // Track joystick creation on container touch
+        let lastTapTime = 0; // For double tap detection
+
         gameContainer.addEventListener('touchstart', (e) => {
             if (!gameActive) return;
 
-            // Find the touch target
-            if (e.target.closest('.shoot-btn')) return; // Ignore if user clicked a shoot button
+            // Ignore if user clicked a shoot button
+            if (e.target.closest('.shoot-btn')) return;
+
+            // Double Tap Ultimate Attack Logic
+            let currentTime = new Date().getTime();
+            let tapLength = currentTime - lastTapTime;
+            
+            if (tapLength < 300 && tapLength > 0) {
+                if (bullets >= 10) {
+                    bullets -= 10;
+                    updateAmmoUI();
+                    
+                    // Destroy all enemies
+                    enemies.forEach(en => {
+                        for(let k=0; k<25; k++) {
+                            particles.push(new Particle(en.x + en.w/2, en.y + en.h/2, '#ff0055', (Math.random()-0.5)*12, Math.random()*5+2));
+                        }
+                        score += 100;
+                    });
+                    enemies = []; 
+                    
+                    playSfx(150, 'square', 0.6, 0.6); // Ultimate sound
+                    screenShake = 30; // Big shake
+                    screenFlash = 1.0; // Flash screen white
+
+                    lastTapTime = 0; // Reset tap
+                    e.preventDefault();
+                    return; // Don't spawn joystick on double tap
+                }
+            }
+            lastTapTime = currentTime;
 
             const rect = gameContainer.getBoundingClientRect();
-            // Loop to check if a touch occurred on the right half
+            
+            // Allow joystick to spawn anywhere if not already active
             for (let i = 0; i < e.touches.length; i++) {
                 const touch = e.touches[i];
-                const touchX = touch.clientX - rect.left;
-                const touchY = touch.clientY - rect.top;
-
-                // Right side check + make sure joystick isn't active already
-                if (touchX > rect.width / 2 && !joyActive) {
+                if (!joyActive) {
                     joyActive = true;
+                    joyTouchId = touch.identifier;
                     joyStartX = touch.clientX;
                     joyStartY = touch.clientY;
+
+                    const touchX = touch.clientX - rect.left;
+                    const touchY = touch.clientY - rect.top;
 
                     // Display and reposition the joystick container right at finger point
                     joyContainer.style.display = 'block';
@@ -359,17 +407,16 @@
         gameContainer.addEventListener('touchmove', (e) => {
             if (!joyActive) return;
 
-            // Find the specific touch tracking the right side joystick
             let targetTouch = null;
-            const rect = gameContainer.getBoundingClientRect();
+            // Find the specific touch that started the joystick
             for (let i = 0; i < e.touches.length; i++) {
-                if ((e.touches[i].clientX - rect.left) > rect.width / 2) {
+                if (e.touches[i].identifier === joyTouchId) {
                     targetTouch = e.touches[i];
                     break;
                 }
             }
 
-            if (!targetTouch) targetTouch = e.touches[0];
+            if (!targetTouch) return;
 
             joyDX = targetTouch.clientX - joyStartX;
             joyDY = targetTouch.clientY - joyStartY;
@@ -387,19 +434,18 @@
         gameContainer.addEventListener('touchend', (e) => {
             if (!joyActive) return;
 
-            // Check if there are still any active touches on the right side
-            const rect = gameContainer.getBoundingClientRect();
-            let rightTouchActive = false;
+            // Check if the finger that controlled the joystick was lifted
+            let stillActive = false;
             for (let i = 0; i < e.touches.length; i++) {
-                if ((e.touches[i].clientX - rect.left) > rect.width / 2) {
-                    rightTouchActive = true;
+                if (e.touches[i].identifier === joyTouchId) {
+                    stillActive = true;
                     break;
                 }
             }
 
-            // Remove joystick visually if finger lifted from right side
-            if (!rightTouchActive) {
+            if (!stillActive) {
                 joyActive = false;
+                joyTouchId = null;
                 joyDX = 0; joyDY = 0;
                 joyContainer.style.display = 'none';
             }
@@ -496,7 +542,8 @@
             constructor() {
                 this.w = 44; this.h = 85;
                 this.x = gameWidth / 2 - this.w / 2;
-                this.y = gameHeight - 250; 
+                // Car is moved to the middle area for 3D effect
+                this.y = gameHeight - 380; 
                 this.vx = 0; this.angle = 0;
             }
             update() {
@@ -596,6 +643,8 @@
             score = 0; speed = 0; nitro = 0; bullets = 0;
             gameActive = true;
             joyActive = false;
+            joyTouchId = null;
+            screenFlash = 0;
             joyContainer.style.display = 'none';
             updateAmmoUI();
             document.getElementById('gameover-screen').classList.add('hidden');
@@ -616,6 +665,7 @@
             if(screenShake > 0) {
                 ctx.translate((Math.random()-0.5)*screenShake, (Math.random()-0.5)*screenShake);
                 screenShake *= 0.9;
+                if(screenShake < 0.5) screenShake = 0;
             }
 
             if(gameActive) {
@@ -745,6 +795,13 @@
             if(player) {
                 if(gameActive) player.update();
                 player.draw();
+            }
+
+            // Draw ultimate flash
+            if (screenFlash > 0) {
+                ctx.fillStyle = `rgba(255, 255, 255, ${screenFlash})`;
+                ctx.fillRect(0, 0, gameWidth, gameHeight);
+                screenFlash -= 0.05;
             }
 
             ctx.restore();
