@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Special Letter For You 💌</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #0b0f19; /* প্রিমিয়াম ডার্ক ব্যাকগ্রাউন্ড */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* ================= PRIVACY LOCK SCREEN ================= */
+        .lock-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(135deg, #0f172a 0%, #070913 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .lock-box {
+            background: #fff0f5;
+            padding: 40px 30px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(255, 64, 129, 0.25);
+            border: 3px solid #fff;
+            width: 90%;
+            max-width: 380px;
+        }
+
+        .lock-box h2 {
+            color: #d81b60;
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+        }
+
+        .lock-box p {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+
+        .lock-box input {
+            width: 100%;
+            padding: 12px;
+            font-size: 1.2rem;
+            letter-spacing: 4px;
+            text-align: center;
+            border: 2px solid #ff80ab;
+            border-radius: 10px;
+            outline: none;
+            color: #333;
+            background: #fff;
+            margin-bottom: 15px;
+            transition: all 0.3s;
+        }
+
+        .lock-box input:focus {
+            border-color: #ff4081;
+            box-shadow: 0 0 10px rgba(255, 64, 129, 0.2);
+        }
+
+        .lock-box button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(45deg, #ff416c, #ff4b2b);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(255, 65, 108, 0.4);
+            transition: transform 0.2s, opacity 0.2s;
+        }
+
+        .lock-box button:active {
+            transform: scale(0.98);
+        }
+
+        .error-msg {
+            color: #e91e63;
+            font-size: 0.85rem;
+            margin-top: 10px;
+            font-weight: 600;
+            display: none;
+        }
+
+        /* ================= MAIN CARD CONATINER ================= */
+        .birthday-card {
+            width: 600px;
+            height: 400px;
+            background: #fff0f5; 
+            border-radius: 20px;
+            position: relative;
+            box-shadow: 0 25px 50px rgba(255, 64, 129, 0.2);
+            border: 4px solid #fff;
+            transition: all 1s ease-in-out;
+            z-index: 2;
+            opacity: 0; /* শুরুতে হাইড থাকবে */
+            transform: scale(0.9);
+        }
+
+        /* আনলক হওয়ার পর মেইন কার্ড শো করবে */
+        .unlocked .birthday-card {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* ১ম ও ২য় পেজ ভ্যানিশ করার ক্লাস */
+        .card-fade-out {
+            opacity: 0 !important;
+            transform: scale(0.8) !important;
+            pointer-events: none;
+        }
+
+        .bunting {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 40px;
+            background-image: radial-gradient(circle at 50% 0%, #ff6584 15px, transparent 16px);
+            background-size: 40px 40px;
+            z-index: 10;
+        }
+
+        .content {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            display: flex;
+            padding-top: 3rem;
+        }
+
+        .content .left, .content .right {
+            width: 50%;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .content .right {
+            padding-right: 20px;
+        }
+
+        .title {
+            font-size: 2.3rem;
+            color: #d81b60;
+            text-shadow: 2px 2px #fff;
+            margin-bottom: 20px;
+            font-weight: 900;
+            text-align: center;
+            z-index: 2;
+        }
+
+        .badge {
+            background: #fff;
+            color: #ff4081;
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.95rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            border: 2px solid #ff80ab;
+            margin-bottom: 10px;
+            transform: scale(0);
+        }
+
+        /* শুধুমাত্র আনলক হওয়ার পরেই অ্যানিমেশন স্টার্ট হবে */
+        .unlocked .badge {
+            animation: popUp 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        .unlocked .name-badge { animation-delay: 0.8s; }
+        .unlocked .date-badge { animation-delay: 1.6s; }
+        .unlocked .cutie-badge { animation-delay: 2.4s; margin-top: 10px; }
+
+        .character-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transform: scale(0);
+        }
+
+        .unlocked .character-wrapper {
+            animation: popUp 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            animation-delay: 2s;
+        }
+
+        .character {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+        }
+
+        /* ২য় পেজ: মেসেজ বক্স */
+        .message-card {
+            position: absolute;
+            width: 88%;
+            height: 78%;
+            background: #ffffff;
+            border-radius: 15px;
+            top: 13%;
+            left: 6%;
+            box-shadow: 0 15px 35px rgba(255, 64, 129, 0.15);
+            border: 2px solid #f8bbd0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 5;
+            transform: scale(0);
+            transform-origin: center;
+        }
+
+        .unlocked .message-card {
+            animation: openCard 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            animation-delay: 4s; 
+        }
+
+        .card-header {
+            font-weight: bold;
+            color: #d81b60;
+            margin-bottom: 12px;
+            font-size: 1.3rem;
+            letter-spacing: 1px;
+        }
+
+        .card-body {
+            text-align: center;
+        }
+
+        .card-body p {
+            font-size: 0.95rem;
+            color: #555;
+            line-height: 1.5;
+            margin-top: 12px;
+            font-weight: 500;
+        }
+
+        .gift-images {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .gift-images img {
+            width: 75px;
+            height: 75px;
+        }
+
+        /* ================= ৩য় পেজ (The Grand Proposal) ================= */
+        .page-3-container {
+            position: absolute;
+            width: 100%;
+            height: 100vh;
+            top: 0;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 1.2s ease-in-out;
+            background: radial-gradient(circle, #1e112a 0%, #070913 100%);
+            z-index: 1;
+        }
+
+        .page-3-container.active {
+            opacity: 1;
+            pointer-events: auto;
+            z-index: 10;
+        }
+
+        .p3-text {
+            opacity: 0;
+            text-align: center;
+            margin: 15px 0;
+            color: #fff;
+            padding: 0 20px;
+        }
+
+        /* টেক্সট ১: উপর থেকে ড্রপ */
+        .p3-text-1 {
+            font-size: 1.5rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+            color: #ff80ab;
+            transform: translateY(-20px);
+            transition: all 1s ease;
+        }
+
+        /* টেক্সট ২: বাম থেকে স্লাইড */
+        .p3-text-2 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #fff;
+            transform: translateX(-50px);
+            transition: all 1s ease;
+        }
+
+        /* টেক্সট ৩: জুমিং গ্লো এফেক্ট */
+        .p3-text-3 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #ff4081;
+            text-shadow: 0 0 15px rgba(255, 64, 129, 0.6);
+            transform: scale(0.5);
+            transition: all 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        /* টেক্সট ৪: হার্টবিট পালস এফেক্ট */
+        .p3-text-4 {
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: #ffffff;
+            background: linear-gradient(45deg, #ff416c, #ff4b2b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            transform: translateY(30px);
+            transition: all 1.5s ease;
+        }
+
+        /* অ্যাক্টিভ ক্লাসের অ্যানিমেশন ডিলে */
+        .active .p3-text-1 { opacity: 1; transform: translateY(0); transition-delay: 0.5s; }
+        .active .p3-text-2 { opacity: 1; transform: translateX(0); transition-delay: 2.5s; }
+        .active .p3-text-3 { opacity: 1; transform: scale(1); transition-delay: 4.5s; }
+        .active .p3-text-4 { 
+            opacity: 1; 
+            transform: translateY(0); 
+            transition-delay: 6.5s;
+            animation: heartBeat 1.5s infinite alternate ease-in-out 8s;
+        }
+
+        /* ব্যাকগ্রাউন্ড হার্ট অ্যানিমেশন */
+        .heart {
+            position: absolute;
+            background: rgba(255, 64, 129, 0.2);
+            display: inline-block;
+            height: 20px;
+            width: 20px;
+            transform: rotate(-45deg);
+            animation: floatHearts 4s infinite linear;
+            bottom: -20px;
+        }
+        .heart:before, .heart:after {
+            content: "";
+            background: rgba(255, 64, 129, 0.2);
+            border-radius: 50%;
+            height: 20px;
+            width: 20px;
+            position: absolute;
+        }
+        .heart:before { top: -10px; left: 0; }
+        .heart:after { left: 10px; top: 0; }
+
+        /* ফুটার স্টাইল */
+        .footer {
+            position: absolute;
+            bottom: 15px;
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.4);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            z-index: 100;
+            font-weight: 600;
+            pointer-events: none;
+        }
+
+        /* অ্যানিমেশন কী-ফ্রেমসমূহ */
+        @keyframes popUp { to { transform: scale(1); } }
+        @keyframes openCard { to { transform: scale(1); } }
+        
+        @keyframes heartBeat {
+            0% { transform: scale(1); filter: drop-shadow(0 0 5px rgba(255,65,108,0.6)); }
+            100% { transform: scale(1.1); filter: drop-shadow(0 0 20px rgba(255,65,108,1)); }
+        }
+
+        @keyframes floatHearts {
+            0% { transform: translateY(0) rotate(-45deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-105vh) rotate(-45deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ================= PRIVACY LOCK SCREEN ================= -->
+    <div class="lock-screen" id="lockScreen">
+        <div class="lock-box">
+            <h2>Enter Privacy Code 🔒</h2>
+            <p>Only for someone very special</p>
+            <input type="password" id="privacyCode" placeholder="••••••" maxlength="6">
+            <button onclick="unlockPage()">Unlock Letter ❤️</button>
+            <div class="error-msg" id="errorMsg">Wrong code! Please try again. ❌</div>
+        </div>
+    </div>
+
+    <!-- ১ম ও ২য় পেজের মূল কার্ড -->
+    <div class="birthday-card" id="mainCard">
+        <div class="bunting"></div>
+
+        <div class="content">
+            <div class="left">
+                <h1 class="title">Hey Cutie... 🌹</h1>
+                <div class="badge name-badge">Someone Special</div>
+                <div class="badge date-badge">Propose Day ✨</div>
+            </div>
+
+            <div class="right">
+                <div class="character-wrapper">
+                    <img class="character" src="https://media.tenor.com/968Yf0WvG3wAAAAi/peach-goma.gif" alt="Cute Bear">
+                    <div class="badge cutie-badge">For You ❤️</div>
+                </div>
+            </div>
+
+            <!-- ২য় পেজ (মেসেজ বক্স) -->
+            <div class="message-card">
+                <div class="card-header">I have a secret... 🤫</div>
+                <div class="card-body">
+                    <div class="gift-images">
+                        <img src="https://media.tenor.com/y267gS7Atm8AAAAi/cute-bear.gif" alt="Bear 1">
+                        <img src="https://media.tenor.com/Yt3sc77vN80AAAAi/goma-happy-birthday.gif" alt="Bear 2">
+                    </div>
+                    <p>Every time I see you, my heart skips a beat.<br>I kept these feelings hidden for so long,<br>but today, I just can't hold back anymore...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= ৩য় পেজ (The Grand Proposal View) ================= -->
+    <div class="page-3-container" id="page3">
+        <!-- আপনার বড় বড় প্যারাগুলো নিচে পরিবর্তন করে লিখে নিতে পারেন -->
+        <div class="p3-text p3-text-1">In a world full of temporary things...</div>
+        <div class="p3-text p3-text-2">You are my absolute forever. ✨</div>
+        <div class="p3-text p3-text-3">My heart chose you, and it chooses you every day. 🔒</div>
+        <div class="p3-text p3-text-4">Will You Be Mine? 💖</div>
+    </div>
+
+    <!-- ফুটার -->
+    <div class="footer">Designed by Imrul Hasan</div>
+
+    <!-- জাভাস্ক্রিপ্ট কন্ট্রোল -->
+    <script>
+        function unlockPage() {
+            const inputCode = document.getElementById('privacyCode').value;
+            const errorElement = document.getElementById('errorMsg');
+            const lockScreen = document.getElementById('lockScreen');
+
+            if (inputCode === '200819') {
+                // লক স্ক্রিন ট্রানজিশন দিয়ে রিমুভ করা
+                lockScreen.style.opacity = '0';
+                lockScreen.style.transform = 'scale(1.1)';
+                
+                setTimeout(() => {
+                    lockScreen.style.display = 'none';
+                    // মূল অ্যানিমেশনগুলো শুরু করার জন্য বডিতে ক্লাস এড করা
+                    document.body.classList.add('unlocked');
+                    
+                    // মেসেজ কার্ড পুরোপুরি ৪ সেকেন্ডে খুলবে + ৩ সেকেন্ড অপেক্ষা = ৭.৫ সেকেন্ড পর ৩য় পেজ আসবে
+                    startPage3Timer();
+                }, 600);
+            } else {
+                // ভুল পাসওয়ার্ড দিলে এরর মেসেজ দেখাবে
+                errorElement.style.display = 'block';
+                document.getElementById('privacyCode').value = ''; // ইনপুট ক্লিয়ার
+            }
+        }
+
+        // এন্টার চাপলেও যেন লক আনলক হয় তার ব্যবস্থা
+        document.getElementById('privacyCode').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                unlockPage();
+            }
+        });
+
+        function startPage3Timer() {
+            setTimeout(() => {
+                // ১ম ও ২য় পেজ হাইড করা
+                document.getElementById('mainCard').classList.add('card-fade-out');
+                
+                // ৩য় পেজ একটিভ করা
+                document.getElementById('page3').classList.add('active');
+                
+                // ব্যাকগ্রাউন্ডে ডায়নামিক ফ্লোটিং লাভ তৈরি করা
+                createHearts();
+            }, 7500);
+        }
+
+        // ফ্লোটিং হার্ট জেনারেটর ফাংশন
+        function createHearts() {
+            const container = document.getElementById('page3');
+            for (let i = 0; i < 20; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDelay = Math.random() * 4 + 's';
+                heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                const size = Math.random() * 15 + 10;
+                heart.style.width = size + 'px';
+                heart.style.height = size + 'px';
+                container.appendChild(heart);
+            }
+        }
+    </script>
+
+</body>
+</html>
