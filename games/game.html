@@ -7,7 +7,7 @@ title: Game Zone
 
 <style>
     /* ==========================================================================
-       ১. থিম আইসোলেশন এবং রিসেট (যাতে মেইন থিম কোড নষ্ট না করতে পারে)
+       ১. থিম আইসোলেশন এবং রিসেট
        ========================================================================== */
     .gz-main-wrapper, .gz-main-wrapper * {
         box-sizing: border-box !important;
@@ -16,21 +16,21 @@ title: Game Zone
     .gz-main-wrapper {
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
         width: 100% !important;
-        max-width: 450px !important; /* মোবাইলের জন্য পারফেক্ট সাইড স্পেসিং */
-        margin: 20px auto !important;
+        max-width: 450px !important; /* Mobiler jonno perfect width */
+        margin: 40px auto !important; /* White-gray background e top-bottom spacing er jonno */
         padding: 10px !important;
     }
 
     /* ==========================================================================
-       ২. প্রিমিয়াম গ্লাস কন্টেইনার
+       ২. প্রিমিয়াম ডার্ক কন্টেইনার (Color 1: Deep Midnight Blue)
        ========================================================================== */
     .gz-card-box {
-        background: #a9a9a9 !important; /* সলিড ডার্ক কালার যাতে টেক্সট ক্লিয়ার দেখা যায় */
+        background: #0f172a !important; /* Jekyll er white-gray background theke puro alada */
         border-radius: 24px !important;
         padding: 30px 20px !important;
         position: relative !important;
-        box-shadow: 0 20px 40px rgba(0,0,0,0.5) !important;
-        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        box-shadow: 0 20px 40px rgba(15, 23, 42, 0.25) !important; /* Soft deep shadow */
+        border: 1px solid rgba(255, 255, 255, 0.05) !important;
         text-align: center !important;
     }
 
@@ -39,7 +39,7 @@ title: Game Zone
         content: "" !important;
         position: absolute !important;
         top: 0 !important; left: 0 !important; right: 0 !important;
-        height: 3px !important;
+        height: 4px !important;
         background: linear-gradient(90deg, #00f0ff, #d946ef) !important;
         border-top-left-radius: 24px !important;
         border-top-right-radius: 24px !important;
@@ -59,7 +59,7 @@ title: Game Zone
     }
 
     /* ==========================================================================
-       ৩. গেম লিস্ট ও আল্ট্রা প্রিমিয়াম কার্ডস
+       ৩. গেম লিস্ট ও বাটন (Color 2: Sleek Slate Blue)
        ========================================================================== */
     .gz-list-stack {
         display: flex !important;
@@ -71,20 +71,21 @@ title: Game Zone
     .gz-game-item {
         display: flex !important;
         align-items: center !important;
-        background: rgba(255, 255, 255, 0.04) !important;
-        padding: 12px 16px !important;
+        background: #1e293b !important; /* Container background theke puro alada color */
+        padding: 14px 16px !important;
         border-radius: 16px !important;
         text-decoration: none !important;
-        border: 1px solid rgba(255, 255, 255, 0.05) !important;
+        border: 1px solid rgba(255, 255, 255, 0.03) !important;
         transition: all 0.25s ease-in-out !important;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15) !important;
     }
 
     /* হোভার করলে গ্লো এবং স্লাইট আপ ইফেক্ট */
     .gz-game-item:not(.gz-locked):hover {
-        background: rgba(255, 255, 255, 0.08) !important;
-        transform: translateY(-2px) !important;
-        border-color: rgba(0, 240, 255, 0.3) !important;
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4) !important;
+        background: #243146 !important; /* Hover e buttion color ektu light hobe */
+        transform: translateY(-3px) !important;
+        border-color: rgba(0, 240, 255, 0.4) !important;
+        box-shadow: 0 8px 20px rgba(0, 240, 255, 0.15) !important;
     }
 
     /* আইকন বক্স */
@@ -103,12 +104,12 @@ title: Game Zone
     .gz-bg-archer { background: linear-gradient(135deg, #ff416c, #ff4b2b) !important; }
     .gz-bg-car { background: linear-gradient(135deg, #00b4db, #0083b0) !important; }
     .gz-bg-lock { 
-        background: rgba(255, 255, 255, 0.02) !important; 
+        background: #111827 !important; /* Locked er background aro deep */
         border: 1.5px dashed rgba(255, 255, 255, 0.15) !important;
         color: rgba(255, 255, 255, 0.3) !important;
     }
 
-    /* টেক্সট কন্টেন্ট (ফোর্স ভিজিবিলিটি) */
+    /* টেক্সট কন্টেন্ট */
     .gz-info-holder {
         margin-left: 14px !important;
         text-align: left !important;
@@ -119,7 +120,7 @@ title: Game Zone
         margin: 0 !important;
         font-size: 1.05rem !important;
         font-weight: 600 !important;
-        color: #ffffff !important; /* লেখা ফুটিয়ে তোলার জন্য ফিক্সড হোয়াইট */
+        color: #ffffff !important; /* Dark background e white text jhogjhoge dekhabe */
         display: block !important;
         line-height: 1.3 !important;
     }
@@ -133,7 +134,7 @@ title: Game Zone
 
     /* রাইট অ্যারো */
     .gz-arrow {
-        color: rgba(255, 255, 255, 0.2) !important;
+        color: rgba(255, 255, 255, 0.3) !important;
         font-size: 0.85rem !important;
     }
 
@@ -145,6 +146,7 @@ title: Game Zone
     .gz-locked {
         cursor: not-allowed !important;
         opacity: 0.5 !important;
+        background: #0b0f19 !important; /* Locked asset ektu blackish thakbe */
     }
 
     /* ==========================================================================
@@ -155,7 +157,7 @@ title: Game Zone
         align-items: center !important;
         justify-content: center !important;
         gap: 8px !important;
-        background: rgba(0, 240, 255, 0.1) !important;
+        background: rgba(0, 240, 255, 0.08) !important;
         color: #00f0ff !important;
         border: 1px solid rgba(0, 240, 255, 0.2) !important;
         padding: 12px 24px !important;
@@ -169,7 +171,7 @@ title: Game Zone
 
     .gz-btn-home:hover {
         background: #00f0ff !important;
-        color: #111524 !important;
+        color: #0f172a !important;
         box-shadow: 0 0 15px rgba(0, 240, 255, 0.4) !important;
     }
 
@@ -205,7 +207,7 @@ title: Game Zone
                 </div>
                 <div class="gz-info-holder">
                     <span class="gz-game-name">Archer Game</span>
-                    <span class="gz-game-desc">Arcade & deficilty • Play Now</span>
+                    <span class="gz-game-desc">Arcade & difficulty • Play Now</span>
                 </div>
                 <div class="gz-arrow"><i class="fa-solid fa-chevron-right"></i></div>
             </a>
