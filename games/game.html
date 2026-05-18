@@ -3,303 +3,200 @@ layout: default
 title: Game Zone
 ---
 
-<!-- Font Awesome CDN Link -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 <style>
     /* ==========================================================================
-       ১. প্রিমিয়াম গেমিং থিম ভেরিয়েবলস ও রিসেট
+       ১. গ্লোবাল রিসেট এবং প্রিমিয়াম কালার স্কিম
        ========================================================================== */
-    :root {
-        --neon-cyan: #00f3ff;
-        --neon-purple: #bc13fe;
-        --bg-dark-1: #0b0d14;
-        --bg-dark-2: #1a1d29;
-        --card-bg: rgba(20, 24, 36, 0.7);
-        --card-bg-hover: rgba(32, 38, 57, 0.9);
-        --text-primary: #ffffff;
-        --text-muted: #94a3b8;
-    }
-
-    body {
-        background: radial-gradient(circle at top center, var(--bg-dark-2), var(--bg-dark-1));
-        background-attachment: fixed;
-        color: var(--text-primary);
-        font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-        margin: 0;
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 40px 20px;
+    .game-page-wrapper, .game-page-wrapper * {
         box-sizing: border-box;
     }
 
-    /* ==========================================================================
-       ২. মেইন কন্টেইনার (গ্লাস-মরফিজম ও নিয়ন গ্লো)
-       ========================================================================== */
-    .game-showcase-container {
-        width: 100%;
-        max-width: 650px;
-        background: rgba(15, 18, 28, 0.75);
-        border-radius: 24px;
-        padding: 40px 30px;
-        position: relative;
-        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5),
-                    -10px 0 40px rgba(0, 243, 255, 0.08), 
-                    10px 0 40px rgba(188, 19, 254, 0.08);
-        border: 1px solid rgba(255, 255, 255, 0.05);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
+    :root {
+        --neon-blue: #00f0ff;
+        --neon-purple: #d946ef;
+        --card-bg: rgba(17, 24, 39, 0.7);
+        --card-border: rgba(255, 255, 255, 0.08);
+        --text-white: #ffffff;
+        --text-slate: #94a3b8;
     }
 
-    /* টপ নিয়ন বর্ডার অ্যানিমেশন */
+    /* মেইন পেজ র‍্যাপার - যা স্ক্রিন ব্লিডিং বা কেটে যাওয়া রোধ করবে */
+    .game-page-wrapper {
+        font-family: 'Poppins', sans-serif;
+        width: 100%;
+        max-width: 480px; /* মোবাইলের জন্য পারফেক্ট সাইড-ফিটিং */
+        margin: 0 auto;
+        padding: 15px;
+    }
+
+    /* ==========================================================================
+       ২. মেইন গ্লাস কন্টেইনার
+       ========================================================================== */
+    .game-showcase-container {
+        background: rgba(11, 15, 26, 0.85);
+        border-radius: 24px;
+        padding: 30px 20px;
+        position: relative;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5),
+                    0 0 30px rgba(0, 240, 255, 0.05);
+        border: 1px solid var(--card-border);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+    }
+
+    /* প্রিমিয়াম টপ গ্লো বর্ডার */
     .game-showcase-container::before {
         content: "";
         position: absolute;
         top: 0; left: 0; right: 0;
         height: 3px;
-        background: linear-gradient(90deg, transparent, var(--neon-cyan), var(--neon-purple), transparent);
+        background: linear-gradient(90deg, transparent, var(--neon-blue), var(--neon-purple), transparent);
         border-top-left-radius: 24px;
         border-top-right-radius: 24px;
-        animation: pulseGlow 3s infinite alternate;
     }
 
-    @keyframes pulseGlow {
-        0% { opacity: 0.5; filter: brightness(1); }
-        100% { opacity: 1; filter: brightness(1.6); }
-    }
-
-    /* টাইটেল স্টাইল */
+    /* টাইটেল ডিজাইন */
     .page-title {
         text-align: center;
-        font-size: 2.4rem;
+        font-size: 1.8rem;
         margin-top: 0;
-        margin-bottom: 35px;
+        margin-bottom: 25px;
         text-transform: uppercase;
-        letter-spacing: 3px;
-        font-weight: 900;
-        background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple));
+        letter-spacing: 2px;
+        font-weight: 800;
+        background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-        filter: drop-shadow(0 2px 8px rgba(0, 243, 255, 0.2));
     }
 
     /* ==========================================================================
-       ৩. গেম কার্ডস (લિસ્ટ এবং গ্রিড লেআউট)
+       ৩. রেস্পন্সিভ গেম কার্ডস
        ========================================================================== */
     .game-list {
         display: flex;
         flex-direction: column;
-        gap: 16px;
+        gap: 12px;
     }
 
     .game-card {
         display: flex;
         align-items: center;
         background: var(--card-bg);
-        padding: 16px 24px;
+        padding: 12px 16px;
         border-radius: 16px;
         text-decoration: none;
-        color: var(--text-primary);
-        border: 1px solid rgba(255, 255, 255, 0.03);
-        border-left: 4px solid transparent;
-        transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        color: var(--text-white);
+        border: 1px solid var(--card-border);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         position: relative;
         overflow: hidden;
     }
 
     /* হোভার ইফেক্ট */
     .game-card:not(.disabled):hover {
-        transform: translateX(8px) scale(1.01);
-        background: var(--card-bg-hover);
-        border-left: 4px solid var(--neon-cyan);
-        border-top-color: rgba(0, 243, 255, 0.1);
-        border-bottom-color: rgba(0, 243, 255, 0.1);
-        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4), 
-                    0 0 15px rgba(0, 243, 255, 0.1);
-    }
-
-    /* কার্ডের লাইট রিফ্লেকশন ইফেক্ট */
-    .game-card::after {
-        content: '';
-        position: absolute;
-        top: 0; left: -100%; width: 50%; height: 100%;
-        background: linear-gradient(to right, transparent, rgba(255,255,255,0.05), transparent);
-        transform: skewX(-25deg);
-        transition: 0.6s;
-    }
-    
-    .game-card:not(.disabled):hover::after {
-        left: 150%;
+        transform: translateY(-2px);
+        background: rgba(31, 41, 55, 0.8);
+        border-color: rgba(0, 240, 255, 0.3);
+        box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.3),
+                    0 0 15px rgba(0, 240, 255, 0.1);
     }
 
     /* ==========================================================================
-       ৪. আইকন এবং টেক্সট ইনফো
+       ৪. আইকন ও টেক্সট লেআউট (নো-র‍্যাপিং প্রোটেকশন)
        ========================================================================== */
     .logo-wrapper {
-        width: 50px;
-        height: 50px;
+        width: 44px;
+        height: 44px;
         border-radius: 12px;
-        margin-right: 20px;
-        flex-shrink: 0;
+        flex-shrink: 0; /* আইকন যেন ছোট স্ক্রিনে চেপে না যায় */
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 22px;
+        font-size: 18px;
         color: #ffffff;
-        transition: transform 0.3s ease;
     }
 
-    .game-card:not(.disabled):hover .logo-wrapper {
-        transform: scale(1.1) rotate(5deg);
-    }
-
-    /* গেমের কালার গ্রেডিয়েন্ট */
+    /* গেম ভিত্তিক ডাইনামিক ম্যাশড কালার */
     .bg-archer {
         background: linear-gradient(135deg, #ff416c, #ff4b2b);
-        box-shadow: 0 4px 15px rgba(255, 65, 108, 0.35);
+        box-shadow: 0 4px 12px rgba(255, 65, 108, 0.3);
     }
 
     .bg-car {
         background: linear-gradient(135deg, #00b4db, #0083b0);
-        box-shadow: 0 4px 15px rgba(0, 180, 219, 0.35);
+        box-shadow: 0 4px 12px rgba(0, 180, 219, 0.3);
     }
 
     .bg-empty {
         background: rgba(255, 255, 255, 0.03);
-        border: 2px dashed rgba(255, 255, 255, 0.1);
-        color: rgba(255, 255, 255, 0.3);
+        border: 1.5px dashed rgba(255, 255, 255, 0.15);
+        color: rgba(255, 255, 255, 0.25);
     }
 
     /* টেক্সট সেটিংস */
     .game-info {
+        margin-left: 14px;
         flex-grow: 1;
+        min-width: 0; /* টেক্সট ট্রাঙ্কেশন বা সেফটি ম্যানেজমেন্টের জন্য */
     }
 
     .game-info h2 {
         margin: 0;
-        font-size: 1.3rem;
-        font-weight: 700;
-        letter-spacing: 0.5px;
-        transition: color 0.3s;
+        font-size: 1.05rem;
+        font-weight: 600;
+        letter-spacing: 0.3px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis; /* নাম খুব বড় হলে কেটে সুন্দর ডট ডট হবে */
+        transition: color 0.2s;
     }
 
     .game-info p {
-        margin: 4px 0 0 0;
-        font-size: 0.85rem;
-        color: var(--text-muted);
+        margin: 2px 0 0 0;
+        font-size: 0.78rem;
+        color: var(--text-slate);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .game-card:not(.disabled):hover .game-info h2 {
-        color: var(--neon-cyan);
+        color: var(--neon-blue);
     }
 
-    /* অ্যাকশন অ্যারো (>) আইকন */
+    /* রাইট চ্যাভরন অ্যারো */
     .action-arrow {
-        color: var(--text-muted);
-        font-size: 0.9rem;
-        opacity: 0;
-        transform: translateX(-10px);
-        transition: all 0.3s ease;
+        color: rgba(255, 255, 255, 0.2);
+        font-size: 0.85rem;
+        margin-left: 8px;
+        transition: all 0.2s;
     }
 
     .game-card:not(.disabled):hover .action-arrow {
-        opacity: 1;
-        transform: translateX(0);
-        color: var(--neon-cyan);
+        color: var(--neon-blue);
+        transform: translateX(3px);
     }
 
     /* ==========================================================================
-       ৫. লকড/কামিং সুন স্লট স্টাইল (Holographic Pulse)
+       ৫. লকড বা নিষ্ক্রিয় কার্ড স্টাইল
        ========================================================================== */
     .game-card.disabled {
         cursor: not-allowed;
-        opacity: 0.5;
-        background: rgba(10, 12, 18, 0.4);
-        animation: breathing 4s ease-in-out infinite alternate;
-    }
-
-    @keyframes breathing {
-        0% { opacity: 0.4; }
-        100% { opacity: 0.6; }
-    }
-
-    .game-card.disabled .game-info p {
-        color: rgba(255, 255, 255, 0.2);
-    }
-
-    /* রেসপন্সিভ মোবাইল ডিজাইন */
-    @media (max-width: 480px) {
-        .game-showcase-container {
-            padding: 30px 20px;
-        }
-        .page-title {
-            font-size: 1.8rem;
-        }
-        .game-card {
-            padding: 14px 16px;
-        }
-        .logo-wrapper {
-            margin-right: 15px;
-        }
+        opacity: 0.45;
     }
 </style>
 
-<div class="game-showcase-container">
-    <h1 class="page-title">Games Collection</h1>
-    
-    <div class="game-list">
+<div class="game-page-wrapper">
+    <div class="game-showcase-container">
+        <h1 class="page-title">Games Collection</h1>
         
-        <!-- 1st Game: Archer -->
-        <a href="archer.html" class="game-card">
-            <div class="logo-wrapper bg-archer">
-                <i class="fa-solid fa-bullseye"></i>
-            </div>
-            <div class="game-info">
-                <h2>Archer Game</h2>
-                <p>Arcade & Action • Play Now</p>
-            </div>
-            <div class="action-arrow">
-                <i class="fa-solid fa-chevron-right"></i>
-            </div>
-        </a>
-
-        <!-- 2nd Game: Car -->
-        <a href="car.html" class="game-card">
-            <div class="logo-wrapper bg-car">
-                <i class="fa-solid fa-car"></i>
-            </div>
-            <div class="game-info">
-                <h2>Car Game</h2>
-                <p>Racing & Speed • Play Now</p>
-            </div>
-            <div class="action-arrow">
-                <i class="fa-solid fa-chevron-right"></i>
-            </div>
-        </a>
-
-        <!-- 3rd Game: Empty Slot -->
-        <a href="#" class="game-card disabled" onclick="return false;">
-            <div class="logo-wrapper bg-empty">
-                <i class="fa-solid fa-lock"></i>
-            </div>
-            <div class="game-info">
-                <h2>Coming Soon</h2>
-                <p>New game under development</p>
-            </div>
-        </a>
-
-        <!-- 4th Game: Empty Slot -->
-        <a href="#" class="game-card disabled" onclick="return false;">
-            <div class="logo-wrapper bg-empty">
-                <i class="fa-solid fa-lock"></i>
-            </div>
-            <div class="game-info">
-                <h2>Coming Soon</h2>
-                <p>New game under development</p>
-            </div>
-        </a>
-
-    </div>
-</div>
+        <div class="game-list">
+            
+            <a href="archer.html" class="game-card">
+                <div class="logo-wrapper bg-archer">
+                    <i class="fa-solid fa-bullseye"></i>
+                </div>
+                <div class="game-info
