@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Special Question for You</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        /* Base Styles */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            color: #333;
+        }
+
+        /* Glassmorphism Container */
+        .card {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            max-width: 400px;
+            width: 90%;
+            z-index: 10;
+            transition: all 0.5s ease-in-out;
+        }
+
+        /* Authentication Section */
+        #auth-section h2 {
+            color: #fff;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .passcode-input {
+            width: 80%;
+            padding: 12px;
+            border: none;
+            border-radius: 25px;
+            outline: none;
+            text-align: center;
+            font-size: 16px;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .btn {
+            background: #ff477e;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+        }
+
+        .btn:hover {
+            background: #ff1453;
+            transform: scale(1.05);
+        }
+
+        #error-msg {
+            color: #ffe6e6;
+            font-size: 14px;
+            margin-top: 10px;
+            display: none;
+        }
+
+        /* Proposal Section */
+        #proposal-section {
+            display: none;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 1s ease-in-out;
+        }
+
+        #proposal-section h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3rem;
+            color: #fff;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        #proposal-section p {
+            color: #fff;
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            position: relative;
+            height: 50px;
+        }
+
+        #yes-btn {
+            background: #4caf50;
+        }
+
+        #yes-btn:hover {
+            background: #45a049;
+            box-shadow: 0 0 15px #4caf50;
+        }
+
+        #no-btn {
+            background: #f44336;
+            position: relative;
+        }
+
+        /* Floating Hearts Animation */
+        .heart {
+            position: absolute;
+            bottom: -100px;
+            width: 20px;
+            height: 20px;
+            background: #ff477e;
+            transform: rotate(-45deg);
+            animation: floatUp 4s ease-in infinite;
+            z-index: 1;
+        }
+
+        .heart::before, .heart::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #ff477e;
+            border-radius: 50%;
+        }
+
+        .heart::before {
+            top: -10px;
+            left: 0;
+        }
+
+        .heart::after {
+            top: 0;
+            right: -10px;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(-45deg) scale(0.5); opacity: 1; }
+            100% { transform: translateY(-100vh) rotate(-45deg) scale(1.5); opacity: 0; }
+        }
+
+        /* Shake animation for wrong password */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            50% { transform: translateX(10px); }
+            75% { transform: translateX(-10px); }
+        }
+        .shake {
+            animation: shake 0.4s;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Authentication Card -->
+    <div class="card" id="auth-section">
+        <h2>Enter Passcode</h2>
+        <input type="password" id="passcode" class="passcode-input" placeholder="******">
+        <br>
+        <button class="btn" onclick="checkPasscode()">Unlock</button>
+        <p id="error-msg">Incorrect Passcode. Try again!</p>
+    </div>
+
+    <!-- Proposal Card -->
+    <div class="card" id="proposal-section">
+        <h1>Will You Marry Me?</h1>
+        <p>You are the best thing that ever happened to me. I want to spend the rest of my life making you smile. Will you be mine forever?</p>
+        <div class="action-buttons">
+            <button class="btn" id="yes-btn" onclick="sayYes()">YES!</button>
+            <button class="btn" id="no-btn" onmouseover="dodgeNo()">NO</button>
+        </div>
+    </div>
+
+    <script>
+        function checkPasscode() {
+            const passcode = document.getElementById('passcode').value;
+            const authSection = document.getElementById('auth-section');
+            const proposalSection = document.getElementById('proposal-section');
+            const errorMsg = document.getElementById('error-msg');
+
+            // 200819 Passcode Check
+            if (passcode === "200819") {
+                // Hide Auth
+                authSection.style.display = 'none';
+                
+                // Show Proposal with animation
+                proposalSection.style.display = 'block';
+                setTimeout(() => {
+                    proposalSection.style.opacity = '1';
+                    proposalSection.style.transform = 'scale(1)';
+                }, 50);
+
+                // Start Hearts Animation
+                startHearts();
+            } else {
+                // Show Error and Shake
+                errorMsg.style.display = 'block';
+                authSection.classList.add('shake');
+                setTimeout(() => {
+                    authSection.classList.remove('shake');
+                }, 400);
+            }
+        }
+
+        function dodgeNo() {
+            const noBtn = document.getElementById('no-btn');
+            // Fun feature: The 'NO' button runs away when hovered!
+            const x = Math.random() * (window.innerWidth - 100) - (window.innerWidth / 2 - 50);
+            const y = Math.random() * (window.innerHeight - 50) - (window.innerHeight / 2 - 25);
+            
+            noBtn.style.position = 'fixed';
+            noBtn.style.transform = `translate(${x}px, ${y}px)`;
+        }
+
+        function sayYes() {
+            const proposalSection = document.getElementById('proposal-section');
+            proposalSection.innerHTML = "<h1>I Love You! ❤️</h1><p>Thank you for making me the happiest person alive!</p>";
+            // Make hearts spawn faster!
+            setInterval(createHeart, 100);
+        }
+
+        function startHearts() {
+            setInterval(createHeart, 400);
+        }
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.style.left = Math.random() * 100 + "vw";
+            heart.style.animationDuration = Math.random() * 2 + 3 + "s";
+            
+            document.body.appendChild(heart);
+
+            // Remove heart after animation to prevent lag
+            setTimeout(() => {
+                heart.remove();
+            }, 5000);
+        }
+    </script>
+
+</body>
+</html>
