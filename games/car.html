@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>NEON DRIVE - 3D SYNTHWAVE EDITION</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: none;
+        }
+
+        body, html {
+            background: #000;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            font-family: 'Rajdhani', sans-serif;
+        }
+
+        #game-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background: #010105; /* Deep dark background */
+            overflow: hidden;
+        }
+
+        canvas {
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        /* --- UI STYLING (EXACTLY LIKE IMAGE) --- */
+
+        .hud-panel {
+            position: absolute;
+            top: 20px;
+            z-index: 10;
+            background: rgba(0, 15, 30, 0.6);
+            border: 2px solid #00c3ff;
+            box-shadow: 0 0 15px rgba(0, 195, 255, 0.4), inset 0 0 10px rgba(0, 195, 255, 0.2);
+            padding: 10px 25px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 160px;
+        }
+
+        .hud-left {
+            left: 20px;
+            /* Complex Sci-Fi Cutout */
+            clip-path: polygon(0 15px, 15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%);
+        }
+        
+        .hud-left::after {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            border-top: 3px solid #00c3ff; border-left: 3px solid #00c3ff;
+            clip-path: polygon(0 15px, 15px 0, 40% 0, 40% 10px, 0 10px);
+        }
+
+        .hud-right {
+            right: 20px;
+            clip-path: polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 15px 100%, 0 calc(100% - 15px));
+        }
+
+        .hud-label {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            color: #00c3ff;
+            letter-spacing: 2px;
+            margin-bottom: 5px;
+            text-shadow: 0 0 5px #00c3ff;
+        }
+
+        .hud-val {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            font-weight: 900;
+            color: #fff;
+            text-shadow: 0 0 10px rgba(255,255,255,0.8);
+            letter-spacing: 2px;
+        }
+
+        .kmh {
+            font-size: 1rem;
+            color: #00c3ff;
+            text-shadow: none;
+            letter-spacing: 1px;
+        }
+
+        /* --- SHOOT BUTTONS --- */
+        .shoot-btn {
+            position: absolute;
+            bottom: 30px;
+            width: 180px;
+            height: 70px;
+            background: linear-gradient(135deg, rgba(80, 0, 15, 0.8), rgba(20, 0, 5, 0.9));
+            border: 2px solid #ff0044;
+            box-shadow: 0 0 20px rgba(255, 0, 68, 0.5), inset 0 0 15px rgba(255, 0, 68, 0.3);
+            z-index: 20;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.1s, filter 0.1s;
+        }
+
+        .shoot-btn:active {
+            transform: scale(0.95);
+            filter: brightness(1.5);
+        }
+
+        .btn-left {
+            left: 30px;
+            clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);
+        }
+
+        .btn-right {
+            right: 30px;
+            clip-path: polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 15px 100%, 0 calc(100% - 15px));
+        }
+
+        .shoot-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 900;
+            color: #fff;
+            letter-spacing: 2px;
+            text-shadow: 0 0 8px #fff;
+        }
+
+        .shoot-ammo {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #ffcc00;
+            letter-spacing: 1px;
+            margin-top: 2px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* Star icon inside ammo text */
+        .ammo-star {
+            display: inline-block;
+            width: 12px; height: 12px;
+            background: #ffcc00;
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+        }
+
+        /* Overlays */
+        .overlay {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(1, 1, 5, 0.9);
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 50;
+            transition: opacity 0.4s;
+        }
+        .overlay.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 4rem;
+            font-weight: 900;
+            color: transparent;
+            -webkit-text-stroke: 2px #00c3ff;
+            background: linear-gradient(180deg, #fff, #00c3ff);
+            -webkit-background-clip: text;
+            margin-bottom: 20px;
+            text-shadow: 0 0 30px rgba(0, 195, 255, 0.6);
+            letter-spacing: 5px;
+        }
+
+        .start-btn {
+            padding: 15px 50px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #fff;
+            background: rgba(255, 0, 100, 0.2);
+            border: 2px solid #ff0066;
+            border-radius: 4px;
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(255, 0, 100, 0.5);
+            transition: 0.2s;
+        }
+        .start-btn:hover { background: #ff0066; color: #fff; box-shadow: 0 0 40px #ff0066; }
+
+        /* Rotate Prompt */
+        #orientation-screen {
+            display: none;
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: #000; z-index: 100;
+            flex-direction: column; justify-content: center; align-items: center;
+            text-align: center; padding: 20px;
+        }
+        @media (orientation: portrait) {
+            #orientation-screen { display: flex; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="orientation-screen">
+        <h2 style="color: #00c3ff; font-family: 'Orbitron', sans-serif;">PLEASE ROTATE DEVICE</h2>
+        <p style="color: #fff; margin-top: 10px;">Play in Landscape Mode for the best experience.</p>
+    </div>
+
+    <div id="game-container">
+        
+        <div class="hud-panel hud-left">
+            <div class="hud-label">SCORE</div>
+            <div id="score-val" class="hud-val">01751</div>
+        </div>
+
+        <div class="hud-panel hud-right">
+            <div class="hud-label">SPEED</div>
+            <div class="hud-val"><span id="speed-val">129</span> <span class="kmh">KMH</span></div>
+        </div>
+
+        <div class="shoot-btn btn-left" id="btn-shoot-left">
+            <div class="shoot-title">SHOOT</div>
+            <div class="shoot-ammo" id="ammo-left">3 BULLETS</div>
+        </div>
+
+        <div class="shoot-btn btn-right" id="btn-shoot-right">
+            <div class="shoot-title">SHOOT</div>
+            <div class="shoot-ammo" id="ammo-right">3 BULLETS <div class="ammo-star"></div></div>
+        </div>
+
+        <div id="start-screen" class="overlay">
+            <h1>NEON OVERDRIVE</h1>
+            <button class="start-btn" onclick="startGame()">START ENGINE</button>
+            <p style="margin-top: 30px; color: #aaa;">Touch left/right sides or use Arrow Keys to steer.<br>Tap Shoot buttons to clear enemies.</p>
+        </div>
+
+        <div id="gameover-screen" class="overlay hidden">
+            <h1 style="color: #ff0044; -webkit-text-stroke: 1px #fff; background: none;">SYSTEM FAILURE</h1>
+            <div style="font-size: 2rem; color: #00c3ff; margin-bottom: 30px;" id="final-score">SCORE: 0</div>
+            <button class="start-btn" onclick="startGame()">REBOOT</button>
+        </div>
+
+        <canvas id="canvas"></canvas>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        let width, height, cx, cy;
+        
+        function resize() {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width;
+            canvas.height = height;
+            cx = width / 2;
+            cy = height / 2;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        // Game State
+        let gameActive = false;
+        let score = 1751;
+        let speed = 0;
+        let targetSpeed = 0;
+        let cameraZ = 0;
+        let bullets = 3;
+        let energy = 60; // 60% bar
+        
+        // Controls
+        const keys = { left: false, right: false, up: false, down: false };
+        let touchX = null;
+
+        // Entities
+        let playerX = 0; // -1000 to 1000 (3D space)
+        let playerTargetX = 0;
+        let enemies = [];
+        let stars = [];
+        let activeBullets = [];
+        let particles = [];
+        let buildings = [];
+
+        // 3D Engine Constants
+        const FOV = 350;
+        const HORIZON_Y = height * 0.35; 
+        const CAMERA_Y = 120;
+        const TRACK_WIDTH = 2200;
+
+        // Utilities
+        function project(x, y, z) {
+            if (z < 1) z = 1; 
+            const scale = FOV / z;
+            return {
+                x: cx + (x - playerX) * scale,
+                y: HORIZON_Y + (y + CAMERA_Y) * scale,
+                scale: scale
+            };
+        }
+
+        function drawLine3D(x1, y1, z1, x2, y2, z2, color, width, glow) {
+            const p1 = project(x1, y1, z1);
+            const p2 = project(x2, y2, z2);
+            
+            ctx.save();
+            ctx.beginPath();
+            ctx.moveTo(p1.x, p1.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.strokeStyle = color;
+            ctx.lineWidth = width * ((p1.scale + p2.scale) / 2);
+            if(glow) {
+                ctx.shadowBlur = glow;
+                ctx.shadowColor = color;
+            }
+            ctx.stroke();
+            ctx.restore();
+        }
+
+        function drawPolygon3D(vertices, fillColor, edgeColor, edgeWidth, glow) {
+            const projected = vertices.map(v => project(v.x, v.y, v.z));
+            
+            ctx.save();
+            if(glow) { ctx.shadowBlur = glow; ctx.shadowColor = edgeColor; }
+            
+            ctx.beginPath();
+            ctx.moveTo(projected[0].x, projected[0].y);
+            for(let i=1; i<projected.length; i++) ctx.lineTo(projected[i].x, projected[i].y);
+            ctx.closePath();
+            
+            if(fillColor) { ctx.fillStyle = fillColor; ctx.fill(); }
+            if(edgeColor) { 
+                ctx.strokeStyle = edgeColor; 
+                ctx.lineWidth = edgeWidth * projected[0].scale; 
+                ctx.stroke(); 
+            }
+            ctx.restore();
+        }
+
+        // Init Environment
+        function initBuildings() {
+            buildings = [];
+            for(let i=0; i<40; i++) {
+                buildings.push({
+                    x: (Math.random() - 0.5) * 8000,
+                    w: Math.random() * 300 + 100,
+                    h: Math.random() * 600 + 200,
+                    z: Math.random() * 5000 + 3000,
+                    color: Math.random() > 0.5 ? '#ff00aa' : '#00c3ff'
+                });
+            }
+        }
+        initBuildings();
+
+        function startGame() {
+            document.getElementById('start-screen').classList.add('hidden');
+            document.getElementById('gameover-screen').classList.add('hidden');
+            score = 1751;
+            speed = 0;
+            cameraZ = 0;
+            bullets = 3;
+            energy = 60;
+            playerX = 0;
+            playerTargetX = 0;
+            enemies = [];
+            stars = [];
+            activeBullets = [];
+            particles = [];
+            gameActive = true;
+            updateUI();
+        }
+
+        function triggerCrash() {
+            gameActive = false;
+            document.getElementById('final-score').innerText = `SCORE: ${Math.floor(score)}`;
+            setTimeout(() => document.getElementById('gameover-screen').classList.remove('hidden'), 1000);
+            
+            // Explosion particles
+            for(let i=0; i<50; i++) {
+                particles.push({
+                    x: 0, y: 0, z: 200,
+                    vx: (Math.random()-0.5)*150, vy: (Math.random()-0.5)*150 - 50, vz: (Math.random()-0.5)*150,
+                    color: Math.random() > 0.5 ? '#ff0044' : '#ffcc00',
+                    life: 1.0
+                });
+            }
+        }
+
+        function shoot() {
+            if(!gameActive || bullets <= 0) return;
+            bullets--;
+            activeBullets.push({ x: playerX, y: 0, z: 250, vz: 400 });
+            updateUI();
+        }
+
+        // Event Listeners
+        window.addEventListener('keydown', e => {
+            if(e.code === 'ArrowLeft' || e.code === 'KeyA') keys.left = true;
+            if(e.code === 'ArrowRight' || e.code === 'KeyD') keys.right = true;
+            if(e.code === 'ArrowUp' || e.code === 'KeyW') keys.up = true;
+            if(e.code === 'ArrowDown' || e.code === 'KeyS') keys.down = true;
+            if(e.code === 'Space') shoot();
+        });
+        window.addEventListener('keyup', e => {
+            if(e.code === 'ArrowLeft' || e.code === 'KeyA') keys.left = false;
+            if(e.code === 'ArrowRight' || e.code === 'KeyD') keys.right = false;
+            if(e.code === 'ArrowUp' || e.code === 'KeyW') keys.up = false;
+            if(e.code === 'ArrowDown' || e.code === 'KeyS') keys.down = false;
+        });
+
+        // Touch controls for steering
+        canvas.addEventListener('touchstart', e => {
+            if(!gameActive) return;
+            touchX = e.touches[0].clientX;
+        });
+        canvas.addEventListener('touchmove', e => {
+            if(!gameActive || touchX === null) return;
+            let currentX = e.touches[0].clientX;
+            let diff = currentX - touchX;
+            playerTargetX += diff * 4; // Sensitivity
+            touchX = currentX;
+        });
+        canvas.addEventListener('touchend', () => { touchX = null; });
+
+        document.getElementById('btn-shoot-left').addEventListener('touchstart', e => { e.preventDefault(); shoot(); });
+        document.getElementById('btn-shoot-right').addEventListener('touchstart', e => { e.preventDefault(); shoot(); });
+        document.getElementById('btn-shoot-left').addEventListener('click', shoot);
+        document.getElementById('btn-shoot-right').addEventListener('click', shoot);
+
+
+        function updateUI() {
+            document.getElementById('score-val').innerText = String(Math.floor(score)).padStart(5, '0');
+            document.getElementById('speed-val').innerText = Math.floor(speed);
+            document.getElementById('ammo-left').innerText = `${bullets} BULLETS`;
+            document.getElementById('ammo-right').innerHTML = `${bullets} BULLETS <div class="ammo-star"></div>`;
+        }
+
+        // Drawing Functions matching the image strictly
+        
+        function drawCityscape() {
+            ctx.fillStyle = '#010108'; // Deep sky
+            ctx.fillRect(0, 0, width, HORIZON_Y);
+
+            // Subtle Background Grid in sky (digital matrix look)
+            ctx.strokeStyle = 'rgba(0, 195, 255, 0.05)';
+            ctx.lineWidth = 1;
+            for(let i=0; i<width; i+=40) {
+                ctx.beginPath(); ctx.moveTo(i, 0); ctx.lineTo(i, HORIZON_Y); ctx.stroke();
+            }
+
+            // Draw Buildings
+            buildings.forEach(b => {
+                let scale = FOV / b.z;
+                let bx = cx + (b.x - playerX*0.1) * scale; // Parallax
+                let by = HORIZON_Y - (b.h * scale);
+                let bw = b.w * scale;
+                let bh = b.h * scale;
+
+                // Building body
+                ctx.fillStyle = 'rgba(2, 5, 15, 0.9)';
+                ctx.fillRect(bx - bw/2, by, bw, bh);
+                
+                // Building neon edges
+                ctx.strokeStyle = b.color;
+                ctx.lineWidth = 1.5;
+                ctx.shadowBlur = 10; ctx.shadowColor = b.color;
+                ctx.strokeRect(bx - bw/2, by, bw, bh);
+                ctx.shadowBlur = 0;
+
+                // Small window lights
+                ctx.fillStyle = b.color;
+                for(let wy = by + 10; wy < HORIZON_Y - 10; wy += 15) {
+                    if(Math.random() > 0.3) {
+                        ctx.globalAlpha = 0.5;
+                        ctx.fillRect(bx - bw/4, wy, 2, 4);
+                        ctx.fillRect(bx + bw/4, wy, 2, 4);
+                        ctx.globalAlpha = 1.0;
+                    }
+                }
+            });
+
+            // Horizon Glow
+            let gradient = ctx.createLinearGradient(0, HORIZON_Y - 50, 0, HORIZON_Y + 50);
+            gradient.addColorStop(0, 'rgba(255, 0, 170, 0)');
+            gradient.addColorStop(0.5, 'rgba(255, 0, 170, 0.4)');
+            gradient.addColorStop(1, 'rgba(0, 195, 255, 0)');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, HORIZON_Y - 50, width, 100);
+        }
+
+        function drawTrack() {
+            // Floor base color
+            ctx.fillStyle = '#01010a';
+            ctx.fillRect(0, HORIZON_Y, width, height - HORIZON_Y);
+
+            // Floor Neon Grid (Blue)
+            ctx.strokeStyle = 'rgba(0, 195, 255, 0.3)';
+            ctx.lineWidth = 1;
+            
+            // Vertical grid lines
+            for(let x = -6000; x <= 6000; x += 300) {
+                if(x > -TRACK_WIDTH/2 && x < TRACK_WIDTH/2) continue; // Skip road area
+                drawLine3D(x, 0, 100, x, 0, 4000, '#00c3ff', 2, 0);
+            }
+
+            // Horizontal grid lines moving towards camera
+            let gridZ = cameraZ % 200;
+            for(let z = 100; z < 4000; z += 200) {
+                let actualZ = z - gridZ;
+                if(actualZ > 50) {
+                    // Left side
+                    drawLine3D(-5000, 0, actualZ, -TRACK_WIDTH/2, 0, actualZ, 'rgba(0,195,255,0.4)', 2, 0);
+                    // Right side
+                    drawLine3D(TRACK_WIDTH/2, 0, actualZ, 5000, 0, actualZ, 'rgba(0,195,255,0.4)', 2, 0);
+                }
+            }
+
+            // --- THE ROAD ---
+            
+            // Central Dark Road
+            const roadLeft = project(-TRACK_WIDTH/2, 0, 100);
+            const roadRight = project(TRACK_WIDTH/2, 0, 100);
+            const roadLeftFar = project(-TRACK_WIDTH/2, 0, 4000);
+            const roadRightFar = project(TRACK_WIDTH/2, 0, 4000);
+
+            ctx.fillStyle = 'rgba(5, 10, 20, 0.95)';
+            ctx.beginPath();
+            ctx.moveTo(roadLeft.x, roadLeft.y);
+            ctx.lineTo(roadRight.x, roadRight.y);
+            ctx.lineTo(roadRightFar.x, roadRightFar.y);
+            ctx.lineTo(roadLeftFar.x, roadLeftFar.y);
+            ctx.fill();
+
+            // Dash Lines (White/Cyan)
+            let dashZ = cameraZ % 400;
+            ctx.strokeStyle = '#fff';
+            ctx.shadowBlur = 10; ctx.shadowColor = '#00c3ff';
+            
+            let laneOffsets = [-TRACK_WIDTH/4, 0, TRACK_WIDTH/4]; // 4 Lanes
+            for(let z = 100; z < 4000; z += 400) {
+                let actualZ = z - dashZ;
+                if(actualZ > 50) {
+                    laneOffsets.forEach(offsetX => {
+                        drawLine3D(offsetX, 0, actualZ, offsetX, 0, actualZ + 150, '#fff', 6, 15);
+                    });
+                }
+            }
+            ctx.shadowBlur = 0;
+
+            // Thick Pink Neon Borders (Multipass for intense glow)
+            const borderColors = ['rgba(255,0,170,0.2)', 'rgba(255,0,170,0.5)', '#ff00aa', '#fff'];
+            const borderGlows = [40, 20, 10, 0];
+            const borderWidths = [20, 12, 6, 2];
+
+            for(let i=0; i<4; i++) {
+                drawLine3D(-TRACK_WIDTH/2, 0, 50, -TRACK_WIDTH/2, 0, 4000, borderColors[i], borderWidths[i], borderGlows[i]);
+                drawLine3D(TRACK_WIDTH/2, 0, 50, TRACK_WIDTH/2, 0, 4000, borderColors[i], borderWidths[i], borderGlows[i]);
+                
+                // Secondary inner lines
+                drawLine3D(-TRACK_WIDTH/2 + 80, 0, 50, -TRACK_WIDTH/2 + 80, 0, 4000, '#00c3ff', 2, 10);
+                drawLine3D(TRACK_WIDTH/2 - 80, 0, 50, TRACK_WIDTH/2 - 80, 0, 4000, '#00c3ff', 2, 10);
+            }
+
+            // Guardrail posts (Cyan)
+            let postZ = cameraZ % 150;
+            for(let z = 100; z < 4000; z += 150) {
+                let actualZ = z - postZ;
+                if(actualZ > 50) {
+                    drawLine3D(-TRACK_WIDTH/2 - 40, 0, actualZ, -TRACK_WIDTH/2 - 40, -40, actualZ, '#00c3ff', 4, 10);
+                    drawLine3D(TRACK_WIDTH/2 + 40, 0, actualZ, TRACK_WIDTH/2 + 40, -40, actualZ, '#00c3ff', 4, 10);
+                }
+            }
+        }
+
+        // Draw Wireframe DeLorean (Player)
+        function drawPlayerCar() {
+            // Light Cone / Headlights Beam sweeping the road
+            const pFront = project(0, 0, 250);
+            const pBeamLeft = project(-300, 0, 800);
+            const pBeamRight = project(300, 0, 800);
+
+            let gradient = ctx.createLinearGradient(pFront.x, pFront.y, pFront.x, pBeamLeft.y);
+            gradient.addColorStop(0, 'rgba(0, 195, 255, 0.15)');
+            gradient.addColorStop(1, 'rgba(0, 195, 255, 0)');
+            
+            ctx.fillStyle = gradient;
+            ctx.beginPath();
+            ctx.moveTo(pFront.x, pFront.y);
+            ctx.lineTo(pBeamLeft.x, pBeamLeft.y);
+            ctx.lineTo(pBeamRight.x, pBeamRight.y);
+            ctx.fill();
+
+            // Car Vertices Definition (Centered at 0, drawn at Z=200)
+            const Z = 200;
+            const Y_FLOAT = -10; // slightly hovering
+            
+            // Base coordinates
+            const w = 70; // half width
+            const l = 140; // half length
+            const c_h = 35; // cabin height
+            const c_w = 45; // cabin half width
+
+            const vertices = {
+                fl_b: {x: -w, y: Y_FLOAT, z: Z+l}, fr_b: {x: w, y: Y_FLOAT, z: Z+l},
+                rl_b: {x: -w, y: Y_FLOAT, z: Z-l}, rr_b: {x: w, y: Y_FLOAT, z: Z-l},
+                
+                fl_t: {x: -w, y: Y_FLOAT-20, z: Z+l-20}, fr_t: {x: w, y: Y_FLOAT-20, z: Z+l-20},
+                rl_t: {x: -w, y: Y_FLOAT-25, z: Z-l}, rr_t: {x: w, y: Y_FLOAT-25, z: Z-l},
+                
+                c_fl: {x: -c_w, y: Y_FLOAT-c_h, z: Z+20}, c_fr: {x: c_w, y: Y_FLOAT-c_h, z: Z+20},
+                c_rl: {x: -c_w, y: Y_FLOAT-c_h-5, z: Z-60}, c_rr: {x: c_w, y: Y_FLOAT-c_h-5, z: Z-60}
+            };
+
+            const edgeColor = '#00c3ff';
+            const fillColor = 'rgba(0, 20, 40, 0.9)';
+            const glow = 15;
+
+            // Draw sequence (Painter's algorithm - back to front)
+            
+            // Rear panel (incorporates tail lights)
+            drawPolygon3D([vertices.rl_b, vertices.rr_b, vertices.rr_t, vertices.rl_t], fillColor, edgeColor, 3, glow);
+            
+            // Bright Red Tail Lights
+            drawLine3D(-w+10, Y_FLOAT-15, Z-l, -15, Y_FLOAT-15, Z-l, '#ff0055', 12, 25);
+            drawLine3D(-w+10, Y_FLOAT-15, Z-l, -15, Y_FLOAT-15, Z-l, '#fff', 4, 0); // Core
+            drawLine3D(15, Y_FLOAT-15, Z-l, w-10, Y_FLOAT-15, Z-l, '#ff0055', 12, 25);
+            drawLine3D(15, Y_FLOAT-15, Z-l, w-10, Y_FLOAT-15, Z-l, '#fff', 4, 0);
+
+            // Left Side
+            drawPolygon3D([vertices.rl_b, vertices.fl_b, vertices.fl_t, vertices.rl_t], fillColor, edgeColor, 2, glow);
+            // Right Side
+            drawPolygon3D([vertices.rr_b, vertices.fr_b, vertices.fr_t, vertices.rr_t], fillColor, edgeColor, 2, glow);
+            
+            // Cabin Left
+            drawPolygon3D([vertices.rl_t, vertices.fl_t, vertices.c_fl, vertices.c_rl], 'rgba(0,195,255,0.1)', edgeColor, 2, glow);
+            // Cabin Right
+            drawPolygon3D([vertices.rr_t, vertices.fr_t, vertices.c_fr, vertices.c_rr], 'rgba(0,195,255,0.1)', edgeColor, 2, glow);
+            
+            // Roof
+            drawPolygon3D([vertices.c_rl, vertices.c_rr, vertices.c_fr, vertices.c_fl], fillColor, edgeColor, 2, glow);
+            // Rear Window
+            drawPolygon3D([vertices.rl_t, vertices.rr_t, vertices.c_rr, vertices.c_rl], 'rgba(0,0,0,0.8)', edgeColor, 2, glow);
+            
+            // Hood & Grid lines on car
+            drawPolygon3D([vertices.fl_t, vertices.fr_t, vertices.fr_b, vertices.fl_b], fillColor, edgeColor, 2, glow);
+            drawLine3D(0, Y_FLOAT-20, Z+l-20, 0, Y_FLOAT-c_h, Z+20, edgeColor, 2, glow); // Center hood line
+            drawLine3D(-w/2, Y_FLOAT-22, Z-l, -w/2, Y_FLOAT-c_h-2, Z-60, edgeColor, 1.5, glow);
+            drawLine3D(w/2, Y_FLOAT-22, Z-l, w/2, Y_FLOAT-c_h-2, Z-60, edgeColor, 1.5, glow);
+
+            // Glowing Wheels
+            const drawWheel = (x, z) => {
+                const w_p = project(x, Y_FLOAT, z);
+                ctx.save();
+                ctx.beginPath();
+                ctx.ellipse(w_p.x, w_p.y, 10 * w_p.scale, 25 * w_p.scale, 0, 0, Math.PI*2);
+                ctx.fillStyle = '#000';
+                ctx.fill();
+                ctx.lineWidth = 3 * w_p.scale;
+                ctx.strokeStyle = '#00c3ff';
+                ctx.shadowBlur = 15; ctx.shadowColor = '#00c3ff';
+                ctx.stroke();
+                ctx.restore();
+            };
+            drawWheel(-w-5, Z+80); drawWheel(w+5, Z+80);
+            drawWheel(-w-5, Z-80); drawWheel(w+5, Z-80);
+
+            // Floating 60% Bar (Exactly as image)
+            const uiPos = project(0, Y_FLOAT - 100, Z);
+            ctx.save();
+            ctx.translate(uiPos.x, uiPos.y - 40);
+            
+            // Text 60%
+            ctx.font = "900 18px 'Orbitron'";
+            ctx.fillStyle = "#00c3ff";
+            ctx.textAlign = "center";
+            ctx.shadowBlur = 10; ctx.shadowColor = "#00c3ff";
+            ctx.fillText(`${Math.floor(energy)}%`, 0, -10);
+
+            // Bar Background Outline
+            ctx.shadowBlur = 0;
+            ctx.fillStyle = "rgba(0, 15, 30, 0.8)";
+            ctx.strokeStyle = "rgba(0, 195, 255, 0.8)";
+            ctx.lineWidth = 2;
+            
+            // Angled container
+            ctx.beginPath();
+            ctx.moveTo(-45, 0); ctx.lineTo(45, 0); ctx.lineTo(40, 12); ctx.lineTo(-40, 12);
+            ctx.closePath();
+            ctx.fill(); ctx.stroke();
+
+            // Gradient Fill Inside
+            let barGrad = ctx.createLinearGradient(-40, 0, 40, 0);
+            barGrad.addColorStop(0, "#ff0044");
+            barGrad.addColorStop(0.5, "#ffcc00");
+            barGrad.addColorStop(1, "#00ff66");
+            
+            let fillWidth = 80 * (energy / 100);
+            ctx.fillStyle = barGrad;
+            ctx.beginPath();
+            ctx.moveTo(-42, 2); ctx.lineTo(-42 + fillWidth, 2); 
+            ctx.lineTo(-42 + fillWidth - 2, 10); ctx.lineTo(-38, 10);
+            ctx.closePath();
+            ctx.fill();
+            
+            ctx.restore();
+        }
+
+        function drawEnemy(e) {
+            const w = 60, l = 120, h = 35;
+            const ex = e.x, ez = e.z;
+            const col = '#ff00aa';
+
+            const base = [
+                {x: ex-w, y: -10, z: ez-l}, {x: ex+w, y: -10, z: ez-l},
+                {x: ex+w, y: -10, z: ez+l}, {x: ex-w, y: -10, z: ez+l}
+            ];
+            const top = [
+                {x: ex-w+15, y: -10-h, z: ez-l+30}, {x: ex+w-15, y: -10-h, z: ez-l+30},
+                {x: ex+w-20, y: -10-h, z: ez+l-40}, {x: ex-w+20, y: -10-h, z: ez+l-40}
+            ];
+
+            // Render simple magenta wedge
+            drawPolygon3D(base, 'rgba(20, 0, 10, 0.9)', col, 2, 10);
+            drawPolygon3D(top, 'rgba(40, 0, 20, 0.8)', col, 2, 10);
+            
+            // Connect corners
+            drawLine3D(base[0].x, base[0].y, base[0].z, top[0].x, top[0].y, top[0].z, col, 2, 10);
+            drawLine3D(base[1].x, base[1].y, base[1].z, top[1].x, top[1].y, top[1].z, col, 2, 10);
+            drawLine3D(base[2].x, base[2].y, base[2].z, top[2].x, top[2].y, top[2].z, col, 2, 10);
+            drawLine3D(base[3].x, base[3].y, base[3].z, top[3].x, top[3].y, top[3].z, col, 2, 10);
+
+            // Tail lights
+            drawLine3D(ex-w+10, -20, ez-l, ex-20, -20, ez-l, '#ffcc00', 8, 20);
+            drawLine3D(ex+20, -20, ez-l, ex+w-10, -20, ez-l, '#ffcc00', 8, 20);
+        }
+
+        function drawStar(s) {
+            const pos = project(s.x, -30, s.z);
+            if(pos.z < 0) return;
+            
+            ctx.save();
+            ctx.translate(pos.x, pos.y);
+            ctx.scale(pos.scale, pos.scale);
+            s.rot += 0.05;
+            ctx.rotate(s.rot);
+            
+            ctx.shadowBlur = 30; ctx.shadowColor = '#ffcc00';
+            ctx.fillStyle = '#ffcc00';
+            
+            ctx.beginPath();
+            for (let i = 0; i < 5; i++) {
+                ctx.lineTo(Math.cos((18 + i * 72) * Math.PI / 180) * 40, -Math.sin((18 + i * 72) * Math.PI / 180) * 40);
+                ctx.lineTo(Math.cos((54 + i * 72) * Math.PI / 180) * 20, -Math.sin((54 + i * 72) * Math.PI / 180) * 20);
+            }
+            ctx.closePath();
+            ctx.fill();
+            
+            // Inner bright core
+            ctx.fillStyle = '#fff';
+            ctx.globalAlpha = 0.8;
+            ctx.fill();
+            
+            ctx.restore();
+        }
+
+        // --- GAME LOOP ---
+        let lastTime = 0;
+        
+        function loop(timestamp) {
+            let dt = (timestamp - lastTime) / 1000;
+            if(dt > 0.1) dt = 0.1;
+            lastTime = timestamp;
+
+            ctx.clearRect(0, 0, width, height);
+
+            if(gameActive) {
+                // Input handling
+                if(keys.left) playerTargetX -= 1500 * dt;
+                if(keys.right) playerTargetX += 1500 * dt;
+                
+                // Boundaries
+                let limit = TRACK_WIDTH/2 - 100;
+                if(playerTargetX < -limit) playerTargetX = -limit;
+                if(playerTargetX > limit) playerTargetX = limit;
+                
+                // Smooth movement
+                playerX += (playerTargetX - playerX) * 10 * dt;
+
+                // Speed
+                targetSpeed = keys.up ? 240 : (keys.down ? 80 : 129);
+                speed += (targetSpeed - speed) * 5 * dt;
+                score += speed * dt * 0.5;
+                
+                let distTraveled = speed * dt * 10;
+                cameraZ += distTraveled;
+
+                // Spawn Entities
+                if(Math.random() < 0.02) {
+                    enemies.push({ x: (Math.random()-0.5)*(TRACK_WIDTH-200), z: 5000, speed: Math.random()*50 + 50 });
+                }
+                if(Math.random() < 0.01) {
+                    stars.push({ x: (Math.random()-0.5)*(TRACK_WIDTH-200), z: 5000, rot: 0 });
+                }
+
+                updateUI();
+            }
+
+            drawCityscape();
+            drawTrack();
+
+            // Depth Sorting (Draw furthest first)
+            let drawables = [];
+            enemies.forEach(e => drawables.push({ type: 'enemy', obj: e, z: e.z }));
+            stars.forEach(s => drawables.push({ type: 'star', obj: s, z: s.z }));
+            activeBullets.forEach(b => drawables.push({ type: 'bullet', obj: b, z: b.z }));
+            particles.forEach(p => drawables.push({ type: 'particle', obj: p, z: p.z }));
+            
+            drawables.sort((a, b) => b.z - a.z); // Far to near
+
+            drawables.forEach(item => {
+                // Cull behind camera
+                if(item.z < 50) return;
+
+                if(item.type === 'enemy') {
+                    if(gameActive) item.obj.z -= (speed - item.obj.speed) * dt * 10;
+                    drawEnemy(item.obj);
+                    
+                    // Collision with player
+                    if(gameActive && item.obj.z < 250 && item.obj.z > 150 && Math.abs(item.obj.x - playerX) < 130) {
+                        triggerCrash();
+                    }
+                }
+                else if(item.type === 'star') {
+                    if(gameActive) item.obj.z -= speed * dt * 10;
+                    drawStar(item.obj);
+                    
+                    // Collect
+                    if(gameActive && item.obj.z < 250 && item.obj.z > 150 && Math.abs(item.obj.x - playerX) < 120) {
+                        score += 500;
+                        energy = Math.min(100, energy + 20);
+                        bullets += 3;
+                        item.obj.z = -100; // remove
+                        
+                        // Spawn burst particles
+                        for(let i=0; i<15; i++) {
+                            particles.push({
+                                x: item.obj.x, y: -30, z: 200,
+                                vx: (Math.random()-0.5)*200, vy: (Math.random()-0.5)*200, vz: (Math.random()-0.5)*200,
+                                color: '#ffcc00', life: 1.0
+                            });
+                        }
+                    }
+                }
+                else if(item.type === 'bullet') {
+                    item.obj.z += item.obj.vz * dt * 10;
+                    drawLine3D(item.obj.x, -20, item.obj.z, item.obj.x, -20, item.obj.z + 100, '#00c3ff', 8, 20);
+                    drawLine3D(item.obj.x, -20, item.obj.z, item.obj.x, -20, item.obj.z + 100, '#fff', 3, 0);
+                    
+                    // Bullet Hit Enemy
+                    enemies.forEach(e => {
+                        if(item.obj.z > e.z - 100 && item.obj.z < e.z + 100 && Math.abs(item.obj.x - e.x) < 80) {
+                            score += 200;
+                            e.z = -100; // destroy enemy
+                            item.obj.z = 10000; // destroy bullet
+                            // Explosion
+                            for(let i=0; i<25; i++) {
+                                particles.push({
+                                    x: e.x, y: -20, z: e.z,
+                                    vx: (Math.random()-0.5)*300, vy: (Math.random()-0.5)*300, vz: (Math.random()-0.5)*300,
+                                    color: '#ff00aa', life: 1.0
+                                });
+                            }
+                        }
+                    });
+                }
+                else if(item.type === 'particle') {
+                    let p = item.obj;
+                    p.x += p.vx * dt; p.y += p.vy * dt; p.z += (p.vz - speed*10) * dt;
+                    p.life -= dt * 1.5;
+                    if(p.life > 0 && p.z > 50) {
+                        const pos = project(p.x, p.y, p.z);
+                        ctx.fillStyle = p.color;
+                        ctx.globalAlpha = p.life;
+                        ctx.beginPath();
+                        ctx.arc(pos.x, pos.y, 4 * pos.scale, 0, Math.PI*2);
+                        ctx.fill();
+                        ctx.globalAlpha = 1.0;
+                    }
+                }
+            });
+
+            // Cleanup arrays
+            enemies = enemies.filter(e => e.z > 50);
+            stars = stars.filter(s => s.z > 50);
+            activeBullets = activeBullets.filter(b => b.z < 6000);
+            particles = particles.filter(p => p.life > 0 && p.z > 50);
+
+            if(gameActive || particles.length > 0) {
+                drawPlayerCar();
+            }
+
+            requestAnimationFrame(loop);
+        }
+
+        requestAnimationFrame(loop);
+    </script>
+</body>
+</html>
