@@ -3,15 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For Someone Special</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@300;700;900&display=swap" rel="stylesheet">
+    <title>Only For You</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Inter:wght@400;600;900&display=swap" rel="stylesheet">
     <style>
-        /* Modern Dark/Neon Romantic Background */
+        /* Modern Minimalist Dark Background */
         body {
             margin: 0;
             padding: 0;
-            font-family: 'Montserrat', sans-serif;
-            background: radial-gradient(circle at center, #2c001e 0%, #0c000b 100%);
+            font-family: 'Inter', sans-serif;
+            background: #09050d;
+            background-image: 
+                radial-gradient(at 20% 20%, rgba(255, 71, 126, 0.15) 0px, transparent 50%),
+                radial-gradient(at 80% 80%, rgba(0, 180, 219, 0.15) 0px, transparent 50%);
             height: 100vh;
             display: flex;
             justify-content: center;
@@ -20,312 +23,238 @@
             color: #fff;
         }
 
-        /* Glassmorphic Cyber-Romantic Card */
-        .card {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 30px;
-            padding: 50px 40px;
+        /* Premium Smooth Card */
+        .container {
             text-align: center;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(255, 71, 126, 0.1);
-            max-width: 450px;
+            padding: 40px;
+            max-width: 500px;
             width: 90%;
             z-index: 10;
-            position: relative;
         }
 
-        /* Passcode Section */
+        /* Passcode UI */
+        #auth-section {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: 40px 30px;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+            transition: opacity 0.5s ease;
+        }
+
         #auth-section h2 {
-            font-size: 1.5rem;
-            letter-spacing: 2px;
-            margin-bottom: 30px;
-            color: #ff477e;
-            text-shadow: 0 0 10px rgba(255, 71, 126, 0.5);
+            font-size: 1.2rem;
+            font-weight: 600;
+            letter-spacing: 3px;
+            color: rgba(255,255,255,0.7);
+            margin-bottom: 25px;
         }
 
-        .passcode-wrapper {
-            position: relative;
-            margin-bottom: 30px;
-        }
-
-        .passcode-input {
-            width: 80%;
+        .code-input {
+            width: 70%;
             padding: 15px;
-            border: 2px solid rgba(255, 71, 126, 0.3);
-            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 14px;
             outline: none;
             text-align: center;
-            font-size: 18px;
-            letter-spacing: 4px;
-            background: rgba(0, 0, 0, 0.4);
+            font-size: 20px;
+            letter-spacing: 6px;
+            background: rgba(0, 0, 0, 0.3);
             color: #fff;
+            margin-bottom: 25px;
             transition: all 0.3s;
         }
 
-        .passcode-input:focus {
+        .code-input:focus {
             border-color: #ff477e;
-            box-shadow: 0 0 15px rgba(255, 71, 126, 0.4);
+            box-shadow: 0 0 20px rgba(255, 71, 126, 0.3);
         }
 
-        .btn {
-            background: linear-gradient(45deg, #ff477e, #ff85a2);
-            color: white;
+        .base-btn {
+            background: #fff;
+            color: #000;
             border: none;
-            padding: 14px 40px;
-            border-radius: 50px;
-            font-size: 16px;
+            padding: 14px 35px;
+            border-radius: 12px;
+            font-size: 15px;
             cursor: pointer;
-            font-weight: 700;
-            letter-spacing: 1px;
-            box-shadow: 0 5px 15px rgba(255, 71, 126, 0.4);
-            transition: all 0.3s ease;
+            font-weight: 600;
+            transition: transform 0.2s, background 0.3s;
         }
 
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(255, 71, 126, 0.6);
+        .base-btn:hover {
+            transform: scale(1.03);
+            background: #f0f0f0;
         }
 
         #error-msg {
             color: #ff4d4d;
-            font-size: 14px;
+            font-size: 13px;
             margin-top: 15px;
             display: none;
         }
 
-        /* Love Proposal Section */
+        /* Proposal UI (Hidden initially) */
         #proposal-section {
             display: none;
-            opacity: 0;
         }
 
-        /* Tomar Custom Text Morphing/Shrinking Animation */
-        .text-container {
-            height: 120px;
+        /* THE REAL SQUEEZE TEXT ANIMATION */
+        .text-wrapper {
+            height: 100px;
             display: flex;
             justify-content: center;
             align-items: center;
             margin-bottom: 20px;
-            position: relative;
+            perspective: 1000px;
         }
 
-        .proposal-text {
+        #dynamic-text {
+            font-size: 4rem;
             font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: -2px;
-            position: absolute;
-            width: 100%;
-            text-shadow: 0 0 20px rgba(255, 71, 126, 0.6);
-        }
-
-        /* 3 Steps of Text Animation */
-        #text-step1 {
-            font-size: 3.5rem;
+            letter-spacing: -1px;
+            white-space: nowrap;
             color: #fff;
-            animation: shrinkOut 3s forwards ease-in-out;
+            text-shadow: 0 0 15px rgba(255,255,255,0.2);
+            display: inline-block;
+            transform-origin: center;
         }
 
-        #text-step2 {
-            font-size: 2.8rem;
-            color: #ff85a2;
-            opacity: 0;
-            animation: fadeInShrink 3s forwards ease-in-out;
-            animation-delay: 3s;
+        /* Squeeze class applied via JS */
+        .squeeze-active {
+            animation: ultimateSqueeze 1.2s cubic-bezier(0.76, 0, 0.24, 1) forwards;
         }
 
-        #text-step3 {
-            font-size: 2.2rem;
-            color: #ff477e;
-            opacity: 0;
-            animation: finalGlow 2s infinite alternate ease-in-out;
-            animation-delay: 6s;
+        @keyframes ultimateSqueeze {
+            0% {
+                transform: scaleX(1) scaleY(1);
+                filter: blur(0px);
+                opacity: 1;
+            }
+            45%, 55% {
+                transform: scaleX(0) scaleY(1.8); /* Completely flattened horizontally, stretched vertically */
+                filter: blur(5px);
+                opacity: 0.2;
+                letter-spacing: -20px;
+            }
+            100% {
+                transform: scaleX(1) scaleY(1);
+                filter: blur(0px);
+                opacity: 1;
+            }
         }
 
-        @keyframes shrinkOut {
-            0% { transform: scale(1); opacity: 1; filter: blur(0px); }
-            80% { transform: scale(0.8); opacity: 1; }
-            100% { transform: scale(0.5); opacity: 0; filter: blur(10px); display: none; }
+        /* Final State Glowing text */
+        .final-glow {
+            animation: pulseGlow 2s infinite alternate ease-in-out;
         }
 
-        @keyframes fadeInShrink {
-            0% { transform: scale(1.3); opacity: 0; filter: blur(10px); }
-            20% { transform: scale(1); opacity: 1; filter: blur(0px); }
-            80% { transform: scale(0.8); opacity: 1; }
-            100% { transform: scale(0.6); opacity: 0; filter: blur(5px); display: none; }
+        @keyframes pulseGlow {
+            0% { text-shadow: 0 0 15px rgba(255, 71, 126, 0.6); transform: scale(0.98); }
+            100% { text-shadow: 0 0 35px #ff477e, 0 0 60px #ff85a2; transform: scale(1.02); }
         }
 
-        @keyframes finalGlow {
-            0% { transform: scale(0.9); opacity: 1; text-shadow: 0 0 10px #ff477e; }
-            100% { transform: scale(1.1); opacity: 1; text-shadow: 0 0 30px #ff477e, 0 0 50px #ff85a2; }
-        }
-
-        .sub-text {
-            font-family: 'Dancing Script', cursive;
-            font-size: 2rem;
-            color: #fff;
-            margin-bottom: 40px;
+        /* Action elements fading in smoothly at the end */
+        .fade-in-ui {
             opacity: 0;
             transform: translateY(20px);
-            animation: fadeInUp 1s forwards ease-out;
-            animation-delay: 6.5s; /* Final text er por ashbe */
+            animation: cleanFadeUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
-        @keyframes fadeInUp {
+        @keyframes cleanFadeUp {
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Modern Action Buttons */
-        .action-buttons {
+        .question-text {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.2rem;
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 35px;
+        }
+
+        .choice-btns {
             display: flex;
             justify-content: center;
             gap: 20px;
-            opacity: 0;
-            animation: fadeInUp 1s forwards ease-out;
-            animation-delay: 7s;
         }
 
         #yes-btn {
-            background: linear-gradient(45deg, #00b4db, #0083b0);
-            box-shadow: 0 5px 15px rgba(0, 180, 219, 0.4);
-        }
-        #yes-btn:hover {
-            box-shadow: 0 8px 25px rgba(0, 180, 219, 0.6);
+            background: linear-gradient(45deg, #ff477e, #ff85a2);
+            color: #fff;
+            box-shadow: 0 10px 25px rgba(255, 71, 126, 0.3);
         }
 
         #no-btn {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: none;
+            background: rgba(255,255,255,0.05);
+            color: rgba(255,255,255,0.6);
+            border: 1px solid rgba(255,255,255,0.1);
         }
 
-        /* Glowing Floating Hearts & Stars */
-        .particle {
+        /* Background floating subtle elements */
+        .floating-star {
             position: absolute;
-            bottom: -50px;
+            background: #ff477e;
+            border-radius: 50%;
             pointer-events: none;
-            animation: floatUp linear infinite;
-            z-index: 1;
+            opacity: 0;
+            animation: starFloat 5s linear infinite;
         }
 
-        @keyframes floatUp {
-            0% { transform: translateY(0) rotate(0deg) scale(0); opacity: 0; }
-            10% { opacity: 0.6; }
-            90% { opacity: 0.6; }
-            100% { transform: translateY(-105vh) rotate(360deg) scale(1.5); opacity: 0; }
+        @keyframes starFloat {
+            0% { transform: translateY(100vh) scale(0); opacity: 0; }
+            50% { opacity: 0.4; }
+            100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
         }
 
-        /* Shake & Fade Utility */
-        .shake { animation: shake 0.4s; }
-        @keyframes shake {
+        /* Shake utility for wrong passcode */
+        .shake { animation: shakeAnim 0.4s ease-in-out; }
+        @keyframes shakeAnim {
             0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-10px); }
-            50% { transform: translateX(10px); }
-            75% { transform: translateX(-10px); }
+            20%, 60% { transform: translateX(-8px); }
+            40%, 80% { transform: translateX(8px); }
         }
     </style>
 </head>
 <body>
 
-    <div class="card" id="auth-section">
-        <h2>ENTER PRIVACY CODE</h2>
-        <div class="passcode-wrapper">
-            <input type="password" id="passcode" class="passcode-input" placeholder="••••••" maxlength="6">
-        </div>
-        <button class="btn" onclick="checkPasscode()">ACCESS</button>
-        <p id="error-msg">Wrong Code. Think again! 😉</p>
+    <div class="container" id="auth-section">
+        <h2>SECURE ACCESS</h2>
+        <input type="password" id="passcode" class="code-input" placeholder="••••••" maxlength="6">
+        <br>
+        <button class="base-btn" onclick="verifyCode()">UNLOCK</button>
+        <p id="error-msg">Incorrect Code. Try again.</p>
     </div>
 
-    <div class="card" id="proposal-section">
-        <div class="text-container">
-            <div class="proposal-text" id="text-step1">I Love You</div>
-            <div class="proposal-text" id="text-step2">I ❤️ you</div>
-            <div class="proposal-text" id="text-step3">I ❤️ U</div>
+    <div class="container" id="proposal-section">
+        <div class="text-wrapper">
+            <div id="dynamic-text">I Love You</div>
         </div>
         
-        <div class="sub-text" id="sub-message">Will you be my forever?</div>
-        
-        <div class="action-buttons">
-            <button class="btn" id="yes-btn" onclick="sayYes()">YES!</button>
-            <button class="btn" id="no-btn" onmouseover="dodgeNo()">NO</button>
+        <div id="interactive-ui" style="display: none;">
+            <div class="question-text">Will you walk through life with me?</div>
+            <div class="choice-btns">
+                <button class="base-btn" id="yes-btn" onclick="celebrate()">YES</button>
+                <button class="base-btn" id="no-btn" onmouseover="dodgeButton()">NO</button>
+            </div>
         </div>
     </div>
 
     <script>
-        function checkPasscode() {
-            const passcode = document.getElementById('passcode').value;
-            const authSection = document.getElementById('auth-section');
-            const proposalSection = document.getElementById('proposal-section');
-            const errorMsg = document.getElementById('error-msg');
+        function verifyCode() {
+            const code = document.getElementById('passcode').value;
+            const auth = document.getElementById('auth-section');
+            const proposal = document.getElementById('proposal-section');
+            const error = document.getElementById('error-msg');
 
-            if (passcode === "200819") {
-                authSection.style.opacity = '0';
+            if (code === "200819") {
+                auth.style.opacity = '0';
                 setTimeout(() => {
-                    authSection.style.display = 'none';
-                    proposalSection.style.display = 'block';
-                    setTimeout(() => {
-                        proposalSection.style.opacity = '1';
-                    }, 50);
-                    // Ambient particles chalu hobe
-                    startParticles();
+                    auth.style.display = 'none';
+                    proposal.style.display = 'block';
+                    runSqueezeSequence();
                 }, 500);
             } else {
-                errorMsg.style.display = 'block';
-                authSection.classList.add('shake');
-                setTimeout(() => authSection.classList.remove('shake'), 400);
-            }
-        }
-
-        function dodgeNo() {
-            const noBtn = document.getElementById('no-btn');
-            // 'NO' button screen er jekono jaygay smoothly baje bhabe dore palabe
-            const x = Math.random() * (window.innerWidth - 120) - (window.innerWidth / 2 - 60);
-            const y = Math.random() * (window.innerHeight - 60) - (window.innerHeight / 2 - 30);
-            
-            noBtn.style.position = 'fixed';
-            noBtn.style.zIndex = '99';
-            noBtn.style.transform = `translate(${x}px, ${y}px)`;
-            noBtn.style.transition = 'transform 0.2s ease-out';
-        }
-
-        function sayYes() {
-            const proposalSection = document.getElementById('proposal-section');
-            proposalSection.innerHTML = `
-                <h1 style="font-family:'Dancing Script', cursive; font-size: 3.5rem; color: #ff477e; text-shadow: 0 0 20px rgba(255,71,126,0.6); margin-0;">Forever Yours! ❤️</h1>
-                <p style="font-size: 1.1rem; margin-top: 15px; color: #ff85a2;">You just made me the happiest person in the universe!</p>
-            `;
-            // Blast of speed for hearts
-            setInterval(() => createParticle('❤️'), 50);
-        }
-
-        function startParticles() {
-            // Background slow moving neon particles
-            setInterval(() => createParticle('❤️'), 600);
-            setInterval(() => createParticle('✨'), 800);
-        }
-
-        function createParticle(symbol) {
-            const particle = document.createElement('div');
-            particle.classList.add('particle');
-            particle.innerText = symbol;
-            
-            // Random properties for gorgeous look
-            particle.style.left = Math.random() * 100 + "vw";
-            particle.style.fontSize = Math.random() * 15 + 15 + "px";
-            particle.style.animationDuration = Math.random() * 3 + 4 + "s";
-            
-            // Neon pink or soft white glow based on symbol
-            if(symbol === '❤️') {
-                particle.style.textShadow = "0 0 10px #ff477e";
-            } else {
-                particle.style.textShadow = "0 0 10px #fff";
-            }
-            
-            document.body.appendChild(particle);
-            setTimeout(() => particle.remove(), 7000);
-        }
-    </script>
-
-</body>
-</html>
+                error.style.display = 'block';
+                auth.classList.add('shake');
+                setTimeout
