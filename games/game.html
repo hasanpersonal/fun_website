@@ -3,6 +3,9 @@ layout: default
 title: Game Zone
 ---
 
+<!-- Font Awesome CDN Link -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
 <style>
     /* Premium Gaming Theme Variables */
     :root {
@@ -111,7 +114,7 @@ title: Game Zone
         left: 150%;
     }
 
-    /* Pure CSS Premium Logo Base Wrapper */
+    /* Font Awesome Logo Base Wrapper */
     .logo-wrapper {
         width: 45px;
         height: 45px;
@@ -121,79 +124,27 @@ title: Game Zone
         display: flex;
         align-items: center;
         justify-content: center;
-        position: relative;
-        overflow: hidden;
+        font-size: 20px; /* Adjusts the Font Awesome icon size */
+        color: #ffffff;
     }
 
-    /* 1. Premium Archer Logo (Bow & Arrow) */
-    .logo-archer {
+    /* 1. Premium Archer Background */
+    .bg-archer {
         background: linear-gradient(135deg, #ff416c, #ff4b2b);
         box-shadow: 0 0 12px rgba(255, 65, 108, 0.4);
     }
-    .archer-bow {
-        width: 24px;
-        height: 24px;
-        border: 2px solid #fff;
-        border-radius: 50% 0 0 50%;
-        transform: rotate(-45deg);
-        position: relative;
-    }
-    .archer-arrow {
-        position: absolute;
-        width: 22px;
-        height: 2px;
-        background: #fff;
-        top: 50%; left: 20%;
-        transform: translateY(-50%) rotate(45deg);
-    }
-    .archer-arrow::after {
-        content: '';
-        position: absolute;
-        right: 0; top: -3px;
-        border-style: solid;
-        border-width: 4px 0 4px 6px;
-        border-color: transparent transparent transparent #fff;
-    }
 
-    /* 2. Premium Car Logo (Sports Car Concept) */
-    .logo-car {
+    /* 2. Premium Car Background */
+    .bg-car {
         background: linear-gradient(135deg, #00b4db, #0083b0);
         box-shadow: 0 0 12px rgba(0, 180, 219, 0.4);
     }
-    .car-body {
-        width: 28px;
-        height: 12px;
-        background: #fff;
-        border-radius: 6px 6px 2px 2px;
-        position: relative;
-    }
-    .car-body::before, .car-body::after {
-        content: '';
-        position: absolute;
-        bottom: -3px;
-        width: 6px;
-        height: 6px;
-        background: #222;
-        border-radius: 50%;
-    }
-    .car-body::before { left: 4px; }
-    .car-body::after { right: 4px; }
-    .car-window {
-        position: absolute;
-        top: 2px; left: 5px; right: 5px;
-        height: 4px;
-        background: #0083b0;
-        border-radius: 4px 4px 0 0;
-    }
 
-    /* 3. Empty Slot Premium Placeholder Logo */
-    .logo-empty {
+    /* 3. Empty Slot Premium Placeholder Background */
+    .bg-empty {
         background: linear-gradient(135deg, #2b2e3b, #1a1c23);
         border: 2px dashed #4b526b;
-        color: #717a99;
-        font-size: 20px;
-        font-weight: 900;
-        text-shadow: 0 0 5px rgba(0,0,0,0.5);
+        color: #717a99; /* Grey icon color */
     }
 
     /* Text Information */
@@ -235,9 +186,8 @@ title: Game Zone
         
         <!-- 1st Game: Archer -->
         <a href="archer.html" class="game-card">
-            <div class="logo-wrapper logo-archer">
-                <div class="archer-bow"></div>
-                <div class="archer-arrow"></div>
+            <div class="logo-wrapper bg-archer">
+                <i class="fa-solid fa-bullseye"></i> <!-- Font Awesome Target Icon -->
             </div>
             <div class="game-info">
                 <h2>Archer Game</h2>
@@ -246,10 +196,8 @@ title: Game Zone
 
         <!-- 2nd Game: Car -->
         <a href="car.html" class="game-card">
-            <div class="logo-wrapper logo-car">
-                <div class="car-body">
-                    <div class="car-window"></div>
-                </div>
+            <div class="logo-wrapper bg-car">
+                <i class="fa-solid fa-car-side"></i> <!-- Font Awesome Car Icon -->
             </div>
             <div class="game-info">
                 <h2>Car Game</h2>
@@ -258,7 +206,9 @@ title: Game Zone
 
         <!-- 3rd Game: Empty Slot -->
         <a href="#" class="game-card disabled">
-            <div class="logo-wrapper logo-empty">?</div>
+            <div class="logo-wrapper bg-empty">
+                <i class="fa-solid fa-question"></i> <!-- Font Awesome Question Mark -->
+            </div>
             <div class="game-info">
                 <h2>Coming Soon</h2>
             </div>
@@ -266,7 +216,9 @@ title: Game Zone
 
         <!-- 4th Game: Empty Slot -->
         <a href="#" class="game-card disabled">
-            <div class="logo-wrapper logo-empty">?</div>
+            <div class="logo-wrapper bg-empty">
+                <i class="fa-solid fa-question"></i>
+            </div>
             <div class="game-info">
                 <h2>Coming Soon</h2>
             </div>
