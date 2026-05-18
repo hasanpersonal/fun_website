@@ -1,114 +1,98 @@
 ---
 layout: default
-title: Premium Interface
+title: Main Page
 ---
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<div class="page-container">
+    <div class="button-grid">
+        <!-- ১ নম্বর বাটন: এটি আপনার তৈরি করা love.html পেজে নিয়ে যাবে -->
+        <a href="love.html" class="custom-btn btn-love">
+            Love Page
+        </a>
 
-<style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: 'Poppins', sans-serif;
-    }
-
-    body {
-        /* Premium Dark Gradient Background */
-        background: linear-gradient(135deg, #0f0c20 0%, #15102a 50%, #06040a 100%);
-        height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        overflow: hidden;
-    }
-
-    /* Glassmorphism Container */
-    .container {
-        background: rgba(255, 255, 255, 0.03);
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        padding: 40px 30px;
-        border-radius: 24px;
-        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
-        text-align: center;
-        width: 100%;
-        max-width: 380px;
-    }
-
-    .title {
-        color: #ffffff;
-        font-size: 22px;
-        font-weight: 600;
-        margin-bottom: 25px;
-        letter-spacing: 1px;
-        opacity: 0.9;
-    }
-
-    .button-group {
-        display: flex;
-        flex-direction: column;
-        gap: 16px;
-    }
-
-    /* General Button Style */
-    .btn {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 100%;
-        height: 56px;
-        border-radius: 14px;
-        font-size: 16px;
-        font-weight: 500;
-        text-decoration: none;
-        transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-        border: none;
-        outline: none;
-        background: transparent;
-    }
-
-    /* 1st Button: For You (Active & Glowing) */
-    .btn-active {
-        background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);
-        color: #ffffff;
-        box-shadow: 0 8px 24px rgba(255, 65, 108, 0.25);
-        letter-spacing: 0.5px;
-    }
-
-    .btn-active:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 12px 30px rgba(255, 65, 108, 0.45);
-        letter-spacing: 1.5px;
-        opacity: 0.95;
-    }
-
-    /* Remaining 4 Buttons: Premium Empty Placeholders */
-    .btn-empty {
-        border: 1px dashed rgba(255, 255, 255, 0.12);
-        background: rgba(255, 255, 255, 0.01);
-        cursor: not-allowed;
-        position: relative;
-    }
-
-    /* Empty button guthote halka premium hover effect */
-    .btn-empty:hover {
-        background: rgba(255, 255, 255, 0.03);
-        border-color: rgba(255, 255, 255, 0.2);
-    }
-</style>
-
-<div class="container">
-    <h2 class="title">Premium Space</h2>
-    
-    <div class="button-group">
-        <a href="{{ '/love.html' | relative_url }}" class="btn btn-active">For You</a>
-        
-        <button class="btn btn-empty" disabled></button>
-        <button class="btn btn-empty" disabled></button>
-        <button class="btn btn-empty" disabled></button>
-        <button class="btn btn-empty" disabled></button>
+        <!-- বাকি ৩টি বাটন খালি (disabled করা যাতে ক্লিক না হয়) -->
+        <button class="custom-btn btn-empty" disabled>Button 1</button>
+        <button class="custom-btn btn-empty" disabled>Button 2</button>
+        <button class="custom-btn btn-empty" disabled>Button 3</button>
     </div>
 </div>
 
+<style>
+    /* CSS Variables (কালার ও স্টাইল সহজে চেঞ্জ করার জন্য) */
+    :root {
+        --love-color: #ff4d6d;
+        --love-hover: #ff758f;
+        --empty-bg: #e0e0e0;
+        --empty-text: #8c8c8c;
+        --radius: 12px;
+        --transition: all 0.3s ease;
+    }
+
+    /* মেইন পেজ লেআউট */
+    .page-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 50vh;
+        padding: 20px;
+    }
+
+    /* গ্রিড সিস্টেম (বাটনগুলো সমান দূরত্বে সুন্দরভাবে সাজানোর জন্য) */
+    .button-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr); /* ২ কলামের গ্রিড */
+        gap: 20px;
+        max-width: 500px;
+        width: 100%;
+    }
+
+    /* ২টা বাটনের কমন বেসিক সিএসএস */
+    .custom-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 16px 32px;
+        font-size: 16px;
+        font-weight: 600;
+        font-family: inherit;
+        border: none;
+        border-radius: var(--radius);
+        text-decoration: none;
+        box-sizing: border-box;
+        transition: var(--transition);
+        text-align: center;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    }
+
+    /* Love বাটনের জন্য প্রোপার সিএসএস */
+    .btn-love {
+        background-color: var(--love-color);
+        color: #ffffff;
+        cursor: pointer;
+    }
+
+    .btn-love:hover {
+        background-color: var(--love-hover);
+        transform: translateY(-2px); /* হালকা উপরে উঠবে */
+        box-shadow: 0 6px 12px rgba(255, 77, 109, 0.3); /* গ্লো ইফেক্ট */
+    }
+
+    .btn-love:active {
+        transform: translateY(0);
+    }
+
+    /* খালি বাটনগুলোর জন্য প্রোপার সিএসএস */
+    .btn-empty {
+        background-color: var(--empty-bg);
+        color: var(--empty-text);
+        cursor: not-allowed; /* মাউস নিলে ক্রস চিহ্ন দেখাবে */
+        opacity: 0.7;
+    }
+
+    /* রেসপনসিভ ব্রেকপয়েন্ট: স্ক্রিন ছোট হলে (মোবাইলে) বাটনগুলো ১ লাইনে চলে আসবে */
+    @media (max-width: 480px) {
+        .button-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
