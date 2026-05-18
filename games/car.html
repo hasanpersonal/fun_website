@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>NEON DRIVE - OVERDRIVE EDITION</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: none;
+        }
+
+        body, html {
+            background: #000;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+        }
+
+        #game-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            max-width: 480px; 
+            max-height: 920px;
+            background: #020208;
+            overflow: hidden;
+            box-shadow: 0 0 60px rgba(0, 240, 255, 0.15);
+            /* Perspective for 3D effect container */
+            perspective: 800px;
+        }
+
+        /* 3D Perspective Transformation - Adjusted for a zoomed-out, wider view */
+        canvas {
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* Reduced rotation and scale to show more road ahead */
+            transform: rotateX(15deg) scale(1.1);
+            transform-origin: center 60%;
+            z-index: 1;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(3, 3, 10, 0.92);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 20;
+            transition: opacity 0.4s ease;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .overlay.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            font-weight: 900;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            background: linear-gradient(45deg, #00f0ff, #ff0055, #ffea00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 5px;
+            filter: drop-shadow(0 0 20px rgba(0, 240, 255, 0.5));
+        }
+
+        .subtitle {
+            color: #8da1d6;
+            font-size: 0.9rem;
+            margin-bottom: 40px;
+            letter-spacing: 3px;
+        }
+
+        .btn-main {
+            padding: 16px 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #fff;
+            background: linear-gradient(45deg, #00f0ff, #ff0055);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 0 30px rgba(0, 240, 255, 0.5);
+            transition: transform 0.2s;
+        }
+        .btn-main:active { transform: scale(0.92); }
+
+        .button-group { display: flex; gap: 15px; margin-top: 20px; }
+        
+        .btn-small {
+            padding: 12px 25px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            border: 2px solid #ffea00;
+            background: rgba(255, 234, 0, 0.1);
+            color: #fff;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .btn-home {
+            border-color: #00f0ff;
+            background: rgba(0, 240, 255, 0.1);
+        }
+
+        /* Sci-Fi Premium HUD */
+        #hud {
+            position: absolute;
+            top: 20px; left: 15px; right: 15px;
+            z-index: 10;
+            pointer-events: none;
+        }
+        .hud-top {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+        .hud-item {
+            background: rgba(5, 5, 15, 0.75);
+            border: 1px solid rgba(0, 240, 255, 0.25);
+            padding: 6px 14px;
+            border-radius: 6px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        .hud-label { font-size: 0.6rem; color: #8da1d6; letter-spacing: 2px; font-weight: bold; }
+        .hud-val { font-size: 1.3rem; font-weight: 900; color: #fff; font-family: monospace; text-shadow: 0 0 8px #00f0ff; }
+
+        /* Highly Stylish Nitro Container */
+        .nitro-container {
+            display: flex;
+            align-items: center;
+            background: rgba(5, 5, 15, 0.7);
+            border: 1px solid rgba(255, 0, 85, 0.2);
+            padding: 8px 12px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            gap: 10px;
+        }
+        .nitro-title {
+            font-size: 0.65rem; font-weight: 900; color: #ff0055; letter-spacing: 1px;
+            text-shadow: 0 0 10px rgba(255,0,85,0.5);
+        }
+        .nitro-bar-bg {
+            flex-grow: 1;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 5px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+        .nitro-bar-fill {
+            width: 0%; height: 100%;
+            background: linear-gradient(90deg, #ff0055, #ffea00, #00ff66);
+            box-shadow: 0 0 15px #ff0055;
+            transition: width 0.1s linear;
+        }
+        .nitro-percent {
+            font-family: monospace; font-size: 0.85rem; font-weight: 900; color: #00f0ff;
+            min-width: 40px; text-align: right; text-shadow: 0 0 5px #00f0ff;
+        }
+
+        /* NEW DUAL SHOOT BUTTONS SYSTEM */
+        .shoot-btn {
+            position: absolute;
+            bottom: 30px;
+            width: 82px; height: 82px;
+            background: radial-gradient(circle, #ff0055 0%, #7a0023 100%);
+            border: 3px solid #ffea00;
+            border-radius: 50%;
+            pointer-events: auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 25px rgba(255, 0, 85, 0.6);
+            cursor: pointer;
+            z-index: 16;
+            transition: transform 0.1s;
+        }
+        #shoot-btn-left { left: 20px; }
+        #shoot-btn-right { right: 20px; }
+        .shoot-btn:active { transform: scale(0.9); }
+        .shoot-btn .btn-title { font-size: 0.8rem; font-weight: 900; letter-spacing: 1px; text-shadow: 0 0 5px #fff; }
+        .shoot-btn .ammo-count { font-size: 0.65rem; font-weight: bold; color: #ffea00; margin-top: 2px; }
+        
+        .shoot-btn.empty {
+            background: rgba(40, 40, 40, 0.6);
+            border-color: #555;
+            box-shadow: none;
+        }
+        .shoot-btn.empty .btn-title { color: #666; text-shadow: none; }
+        .shoot-btn.empty .ammo-count { color: #666; }
+
+        /* DYNAMIC POPUP JOYSTICK */
+        #joystick-container {
+            position: absolute;
+            width: 135px; height: 135px;
+            background: rgba(10, 10, 25, 0.5);
+            border: 2px solid rgba(0, 240, 255, 0.5);
+            border-radius: 50%;
+            display: none; 
+            pointer-events: none;
+            z-index: 15;
+            box-shadow: 0 0 25px rgba(0, 240, 255, 0.25);
+            transform: translate(-50%, -50%); 
+        }
+        #joystick-knob {
+            width: 52px; height: 52px;
+            background: radial-gradient(circle, #00f0ff 0%, #0044ff 100%);
+            border: 3px solid #fff;
+            border-radius: 50%;
+            position: absolute;
+            left: calc(50% - 26px); top: calc(50% - 26px);
+            box-shadow: 0 0 20px #00f0ff;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="game-container">
+        <div id="hud">
+            <div class="hud-top">
+                <div class="hud-item">
+                    <div class="hud-label">SCORE</div>
+                    <div id="score-txt" class="hud-val">00000</div>
+                </div>
+                <div class="hud-item" style="text-align: right;">
+                    <div class="hud-label">SPEED</div>
+                    <div id="speed-txt" class="hud-val">0 KMH</div>
+                </div>
+            </div>
+            
+            <div class="nitro-container">
+                <div class="nitro-title">NITRO</div>
+                <div class="nitro-bar-bg">
+                    <div id="nitro-bar-fill" class="nitro-bar-fill"></div>
+                </div>
+                <div id="nitro-percent-txt" class="nitro-percent">0%</div>
+            </div>
+        </div>
+
+        <div id="shoot-btn-left" class="shoot-btn empty">
+            <div class="btn-title">SHOOT</div>
+            <div class="ammo-count">0 BULLETS</div>
+        </div>
+
+        <div id="shoot-btn-right" class="shoot-btn empty">
+            <div class="btn-title">SHOOT</div>
+            <div class="ammo-count">0 BULLETS</div>
+        </div>
+
+        <div id="joystick-container">
+            <div id="joystick-knob"></div>
+        </div>
+
+        <div id="start-screen" class="overlay">
+            <h1>NEON DRIVE</h1>
+            <div class="subtitle">DYNAMIC OVERDRIVE</div>
+            <button class="btn-main" onclick="initGameAndFullscreen()">START ENGINE</button>
+            <p style="margin-top: 30px; font-size: 0.75rem; color: #6272a4; line-height: 1.6; max-width: 320px;">
+                Touch <b style="color:#00f0ff">ANYWHERE</b> to spawn the Joystick!<br>
+                Drag <b style="color:#00f0ff">UP for Nitro</b> | Drag <b style="color:#ff0055">DOWN to Brake (60 KMH)</b>.<br><br>
+                <b style="color:#ffea00">DOUBLE TAP</b> screen to use 10 Bullets and clear all enemies!<br>
+                Press <b style="color:#ff0055">SHOOT</b> on corners to destroy vehicles!
+            </p>
+        </div>
+
+        <div id="gameover-screen" class="overlay hidden">
+            <h1 style="background: linear-gradient(45deg, #ff0000, #ff5500);">WRECKED</h1>
+            <div class="subtitle" id="final-score-lbl">FINAL SCORE: 0</div>
+            <div class="button-group">
+                <button class="btn-small btn-home" onclick="window.location.href='game.html'">Home</button>
+                <button class="btn-small" onclick="restartGame()">Try Again</button>
+            </div>
+        </div>
+
+        <canvas id="canvas"></canvas>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        const gameWidth = 480;
+        const gameHeight = 850;
+        canvas.width = gameWidth;
+        canvas.height = gameHeight;
+
+        let gameActive = false;
+        let score = 0, speed = 0, targetSpeed = 0;
+        let nitro = 0; 
+        let bullets = 0; 
+        let isNitro = false;
+        let screenShake = 0, roadOffset = 0;
+        let screenFlash = 0; 
+
+        let player;
+        let enemies = [];
+        let stars = [];
+        let activeBullets = []; 
+        let particles = [];
+
+        const gameContainer = document.getElementById('game-container');
+        const joyContainer = document.getElementById('joystick-container');
+        const joyKnob = document.getElementById('joystick-knob');
+        
+        let joyActive = false;
+        let joyTouchId = null; 
+        let joyStartX = 0, joyStartY = 0;
+        let joyDX = 0, joyDY = 0;
+        const maxRange = 55; 
+
+        let lastTapTime = 0; 
+
+        gameContainer.addEventListener('touchstart', (e) => {
+            if (!gameActive) return;
+
+            if (e.target.closest('.shoot-btn')) return;
+
+            let currentTime = new Date().getTime();
+            let tapLength = currentTime - lastTapTime;
+            
+            if (tapLength < 300 && tapLength > 0) {
+                if (bullets >= 10) {
+                    bullets -= 10;
+                    updateAmmoUI();
+                    
+                    enemies.forEach(en => {
+                        for(let k=0; k<25; k++) {
+                            particles.push(new Particle(en.x + en.w/2, en.y + en.h/2, '#ff0055', (Math.random()-0.5)*12, Math.random()*5+2));
+                        }
+                        score += 100;
+                    });
+                    enemies = []; 
+                    
+                    playSfx(150, 'square', 0.6, 0.6); 
+                    screenShake = 30; 
+                    screenFlash = 1.0; 
+
+                    lastTapTime = 0; 
+                    e.preventDefault();
+                    return; 
+                }
+            }
+            lastTapTime = currentTime;
+
+            const rect = gameContainer.getBoundingClientRect();
+            
+            for (let i = 0; i < e.touches.length; i++) {
+                const touch = e.touches[i];
+                if (!joyActive) {
+                    joyActive = true;
+                    joyTouchId = touch.identifier;
+                    joyStartX = touch.clientX;
+                    joyStartY = touch.clientY;
+
+                    const touchX = touch.clientX - rect.left;
+                    const touchY = touch.clientY - rect.top;
+
+                    joyContainer.style.display = 'block';
+                    joyContainer.style.left = `${touchX}px`;
+                    joyContainer.style.top = `${touchY}px`;
+                    joyKnob.style.transform = 'translate(0px, 0px)';
+                    break;
+                }
+            }
+        });
+
+        gameContainer.addEventListener('touchmove', (e) => {
+            if (!joyActive) return;
+
+            let targetTouch = null;
+            for (let i = 0; i < e.touches.length; i++) {
+                if (e.touches[i].identifier === joyTouchId) {
+                    targetTouch = e.touches[i];
+                    break;
+                }
+            }
+
+            if (!targetTouch) return;
+
+            joyDX = targetTouch.clientX - joyStartX;
+            joyDY = targetTouch.clientY - joyStartY;
+
+            const distance = Math.sqrt(joyDX * joyDX + joyDY * joyDY);
+            if (distance > maxRange) {
+                joyDX = (joyDX / distance) * maxRange;
+                joyDY = (joyDY / distance) * maxRange;
+            }
+
+            joyKnob.style.transform = `translate(${joyDX}px, ${joyDY}px)`;
+        });
+
+        gameContainer.addEventListener('touchend', (e) => {
+            if (!joyActive) return;
+
+            let stillActive = false;
+            for (let i = 0; i < e.touches.length; i++) {
+                if (e.touches[i].identifier === joyTouchId) {
+                    stillActive = true;
+                    break;
+                }
+            }
+
+            if (!stillActive) {
+                joyActive = false;
+                joyTouchId = null;
+                joyDX = 0; joyDY = 0;
+                joyContainer.style.display = 'none';
+            }
+        });
+
+        const keys = { a: false, d: false, w: false, s: false };
+        window.addEventListener('keydown', e => {
+            if(e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') keys.a = true;
+            if(e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') keys.d = true;
+            if(e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W') keys.w = true;
+            if(e.key === 'ArrowDown' || e.key === 's' || e.key === 'S') keys.s = true;
+            if(e.code === 'Space') { shootBullet(); e.preventDefault(); }
+        });
+        window.addEventListener('keyup', e => {
+            if(e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') keys.a = false;
+            if(e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') keys.d = false;
+            if(e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W') keys.w = false;
+            if(e.key === 'ArrowDown' || e.key === 's' || e.key === 'S') keys.s = false;
+        });
+
+        const btnLeft = document.getElementById('shoot-btn-left');
+        const btnRight = document.getElementById('shoot-btn-right');
+
+        btnLeft.addEventListener('touchstart', (e) => { shootBullet(); e.preventDefault(); e.stopPropagation(); });
+        btnRight.addEventListener('touchstart', (e) => { shootBullet(); e.preventDefault(); e.stopPropagation(); });
+
+        function shootBullet() {
+            if(!gameActive || bullets <= 0) return;
+            bullets--;
+            playSfx(600, 'triangle', 0.15, 0.3);
+            
+            activeBullets.push({
+                x: player.x + player.w / 2,
+                y: player.y,
+                w: 6, h: 22
+            });
+            updateAmmoUI();
+        }
+
+        function updateAmmoUI() {
+            const counts = document.querySelectorAll('.ammo-count');
+            counts.forEach(c => c.innerText = `${bullets} ${bullets === 1 ? 'BULLET' : 'BULLETS'}`);
+            
+            const btns = document.querySelectorAll('.shoot-btn');
+            btns.forEach(b => {
+                if(bullets <= 0) b.classList.add('empty');
+                else b.classList.remove('empty');
+            });
+        }
+
+        let audioCtx, engineOsc, engineGain;
+        function setupAudio() {
+            if(audioCtx) return;
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            engineOsc = audioCtx.createOscillator();
+            engineGain = audioCtx.createGain();
+            engineOsc.type = 'sawtooth';
+            engineOsc.frequency.setValueAtTime(40, audioCtx.currentTime);
+            
+            let filter = audioCtx.createBiquadFilter();
+            filter.type = 'lowpass';
+            filter.frequency.setValueAtTime(180, audioCtx.currentTime);
+
+            engineOsc.connect(filter);
+            filter.connect(engineGain);
+            engineGain.connect(audioCtx.destination);
+            engineGain.gain.setValueAtTime(0.015, audioCtx.currentTime);
+            engineOsc.start(0);
+        }
+
+        function playSfx(freq, type, dur, vol) {
+            if(!audioCtx) return;
+            let osc = audioCtx.createOscillator();
+            let gain = audioCtx.createGain();
+            osc.type = type;
+            osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+            gain.gain.setValueAtTime(vol, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + dur);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start(); osc.stop(audioCtx.currentTime + dur);
+        }
+
+        function initGameAndFullscreen() {
+            let container = document.getElementById('game-container');
+            if (container.requestFullscreen) container.requestFullscreen().catch(()=>{});
+            setupAudio(); restartGame();
+            document.getElementById('start-screen').classList.add('hidden');
+        }
+
+        class Player {
+            constructor() {
+                this.w = 44; this.h = 85;
+                this.x = gameWidth / 2 - this.w / 2;
+                // Moved further down the screen to increase forward visibility
+                this.y = gameHeight - 160; 
+                this.vx = 0; this.angle = 0;
+            }
+            update() {
+                let targetVX = 0;
+                if (joyActive) {
+                    targetVX = (joyDX / maxRange) * 10; 
+                } else {
+                    if (keys.a) targetVX = -8;
+                    if (keys.d) targetVX = 8;
+                }
+
+                this.vx += (targetVX - this.vx) * 0.25;
+                this.x += this.vx;
+                this.angle = this.vx * 0.04;
+
+                // Adjusted constraints for the wider road
+                if(this.x < 22) { this.x = 22; this.vx = 0; }
+                if(this.x > gameWidth - 22 - this.w) { this.x = gameWidth - 22 - this.w; this.vx = 0; }
+
+                if(speed > 40 && Math.random() < 0.6) {
+                    let col = isNitro ? '#00f0ff' : '#ff0055';
+                    particles.push(new Particle(this.x + this.w/2, this.y + this.h, col, -speed*0.03, Math.random()*4+1));
+                }
+            }
+            draw() {
+                ctx.save();
+                ctx.translate(this.x + this.w/2, this.y + this.h/2);
+                ctx.rotate(this.angle);
+                ctx.shadowBlur = 20; ctx.shadowColor = isNitro ? '#00f0ff' : '#ff0055';
+                
+                ctx.fillStyle = '#0a0a18';
+                ctx.strokeStyle = isNitro ? '#00f0ff' : '#ff0055';
+                ctx.lineWidth = 3;
+                ctx.beginPath(); ctx.rect(-this.w/2, -this.h/2, this.w, this.h); ctx.fill(); ctx.stroke();
+
+                ctx.shadowBlur = 0; ctx.fillStyle = '#1a1a3a'; ctx.strokeStyle = '#8da1d6';
+                ctx.beginPath(); ctx.rect(-this.w/3, -this.h/6, (this.w/3)*2, this.h/2.5); ctx.fill(); ctx.stroke();
+                ctx.restore();
+            }
+        }
+
+        class Enemy {
+            constructor() {
+                this.w = 44; this.h = 85;
+                // Wider lanes to match wider road
+                const lanes = [40, 140, 240, 340, 410];
+                this.x = lanes[Math.floor(Math.random() * lanes.length)] + (Math.random()*8 - 4);
+                // Spawn way earlier (higher up) to see them from further away
+                this.y = -250;
+                this.vShift = Math.random() * 3 + 2; 
+                this.color = ['#a200ff', '#00ff66', '#ff8800', '#ff00aa'][Math.floor(Math.random() * 4)];
+            }
+            update() { this.y += this.vShift + (speed * 0.08); }
+            draw() {
+                ctx.save();
+                ctx.shadowBlur = 15; ctx.shadowColor = this.color;
+                ctx.fillStyle = '#050510'; ctx.strokeStyle = this.color; ctx.lineWidth = 2.5;
+                ctx.beginPath(); ctx.rect(this.x, this.y, this.w, this.h); ctx.fill(); ctx.stroke();
+                ctx.restore();
+            }
+        }
+
+        class Star {
+            constructor() {
+                this.r = 18;
+                const lanes = [50, 150, 250, 350, 420];
+                this.x = lanes[Math.floor(Math.random() * lanes.length)];
+                this.y = -250;
+                this.rot = 0;
+            }
+            update() { this.y += speed * 0.08; this.rot += 0.05; }
+            draw() {
+                ctx.save(); ctx.translate(this.x, this.y); ctx.rotate(this.rot);
+                ctx.shadowBlur = 20; ctx.shadowColor = '#ffea00'; ctx.fillStyle = '#ffea00';
+                ctx.beginPath();
+                for (let i = 0; i < 5; i++) {
+                    ctx.lineTo(Math.cos((18 + i * 72) * Math.PI / 180) * this.r, -Math.sin((18 + i * 72) * Math.PI / 180) * this.r);
+                    ctx.lineTo(Math.cos((54 + i * 72) * Math.PI / 180) * (this.r/2), -Math.sin((54 + i * 72) * Math.PI / 180) * (this.r/2));
+                }
+                ctx.closePath(); ctx.fill(); ctx.restore();
+            }
+        }
+
+        class Particle {
+            constructor(x, y, color, vy, size) {
+                this.x = x; this.y = y; this.color = color;
+                this.vx = Math.random() * 4 - 2; this.vy = vy;
+                this.alpha = 1; this.size = size;
+            }
+            update() { this.x += this.vx; this.y += this.vy; this.alpha -= 0.05; }
+            draw() {
+                ctx.save(); ctx.globalAlpha = this.alpha; ctx.fillStyle = this.color;
+                ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI*2); ctx.fill(); ctx.restore();
+            }
+        }
+
+        function restartGame() {
+            player = new Player();
+            enemies = []; stars = []; particles = []; activeBullets = [];
+            score = 0; speed = 0; nitro = 0; bullets = 0;
+            gameActive = true;
+            joyActive = false;
+            joyTouchId = null;
+            screenFlash = 0;
+            joyContainer.style.display = 'none';
+            updateAmmoUI();
+            document.getElementById('gameover-screen').classList.add('hidden');
+        }
+
+        function triggerCrash() {
+            gameActive = false; screenShake = 30;
+            playSfx(120, 'sawtooth', 0.8, 0.4);
+            if(engineGain) engineGain.gain.setValueAtTime(0, audioCtx.currentTime);
+            document.getElementById('final-score-lbl').innerText = `FINAL SCORE: ${Math.floor(score)}`;
+            document.getElementById('gameover-screen').classList.remove('hidden');
+        }
+
+        function render() {
+            ctx.clearRect(0,0, gameWidth, gameHeight);
+
+            ctx.save();
+            if(screenShake > 0) {
+                ctx.translate((Math.random()-0.5)*screenShake, (Math.random()-0.5)*screenShake);
+                screenShake *= 0.9;
+                if(screenShake < 0.5) screenShake = 0;
+            }
+
+            if(gameActive) {
+                let nitroRequested = (joyActive && joyDY < -14) || keys.w;
+                let brakeRequested = (joyActive && joyDY > 14) || keys.s; 
+                
+                isNitro = nitroRequested && nitro > 0;
+                
+                if(isNitro) { 
+                    targetSpeed = 270; 
+                    nitro -= 0.12; 
+                    if(nitro < 0) nitro = 0;
+                    screenShake = Math.max(screenShake, 2.0); 
+                }
+                else if (brakeRequested) {
+                    targetSpeed = 60; 
+                }
+                else { 
+                    targetSpeed = 130; 
+                }
+
+                speed += (targetSpeed - speed) * 0.08;
+                score += (speed * 0.015);
+                roadOffset += (speed * 0.08);
+
+                if(engineOsc) {
+                    engineOsc.frequency.setValueAtTime(40 + (speed/270)*140, audioCtx.currentTime);
+                }
+
+                document.getElementById('score-txt').innerText = String(Math.floor(score)).padStart(5, '0');
+                document.getElementById('speed-txt').innerText = `${Math.floor(speed)} KMH`;
+                
+                document.getElementById('nitro-bar-fill').style.width = `${nitro}%`;
+                document.getElementById('nitro-percent-txt').innerText = `${Math.floor(nitro)}%`;
+            } else {
+                speed += (0 - speed) * 0.1;
+                roadOffset += (speed * 0.08);
+            }
+
+            // Render WIDER Track Environment
+            ctx.fillStyle = '#020206'; ctx.fillRect(0, 0, gameWidth, gameHeight);
+            
+            // Reduced margins (from 45 to 20) to make the road visually wider
+            ctx.fillStyle = '#060612'; ctx.fillRect(20, 0, gameWidth - 40, gameHeight); 
+
+            ctx.shadowBlur = 15; ctx.shadowColor = '#00f0ff';
+            ctx.fillStyle = '#00f0ff'; ctx.fillRect(18, 0, 4, gameHeight);
+            ctx.shadowColor = '#ff0055'; ctx.fillStyle = '#ff0055'; ctx.fillRect(gameWidth - 22, 0, 4, gameHeight);
+            ctx.shadowBlur = 0;
+
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.15)';
+            let lineY = roadOffset % 80;
+            for(let y = -80; y < gameHeight; y += 80) {
+                // Expanded lane markers
+                ctx.fillRect(gameWidth * 0.25, y + lineY, 2, 40);
+                ctx.fillRect(gameWidth * 0.5 - 2, y + lineY, 4, 40);
+                ctx.fillRect(gameWidth * 0.75, y + lineY, 2, 40);
+            }
+
+            ctx.save();
+            ctx.fillStyle = '#ffea00'; ctx.shadowBlur = 15; ctx.shadowColor = '#ffea00';
+            for(let i = activeBullets.length - 1; i >= 0; i--) {
+                let b = activeBullets[i];
+                b.y -= 18; 
+                ctx.fillRect(b.x - b.w/2, b.y, b.w, b.h);
+
+                for(let j = enemies.length - 1; j >= 0; j--) {
+                    let e = enemies[j];
+                    if(b.x > e.x && b.x < e.x + e.w && b.y > e.y && b.y < e.y + e.h) {
+                        for(let k=0; k<25; k++) {
+                            particles.push(new Particle(e.x + e.w/2, e.y + e.h/2, '#ff0055', (Math.random()-0.5)*12, Math.random()*5+2));
+                        }
+                        playSfx(300, 'sawtooth', 0.2, 0.25);
+                        enemies.splice(j, 1); 
+                        activeBullets.splice(i, 1); 
+                        score += 100; 
+                        break;
+                    }
+                }
+                if(b && b.y < -50) activeBullets.splice(i, 1);
+            }
+            ctx.restore();
+
+            for(let i = particles.length - 1; i >= 0; i--) {
+                particles[i].update(); particles[i].draw();
+                if(particles[i].alpha <= 0) particles.splice(i,1);
+            }
+
+            if(gameActive && Math.random() < 0.015 && stars.length < 2) stars.push(new Star());
+            for(let i = stars.length - 1; i >= 0; i--) {
+                stars[i].update(); stars[i].draw();
+
+                if(gameActive && player &&
+                   Math.abs(player.x + player.w/2 - stars[i].x) < player.w/2 + stars[i].r &&
+                   Math.abs(player.y + player.h/2 - stars[i].y) < player.h/2 + stars[i].r) {
+                    
+                    nitro = Math.min(100, nitro + 20); 
+                    bullets++; 
+                    updateAmmoUI();
+                    score += 150;
+                    playSfx(900, 'sine', 0.25, 0.3);
+                    
+                    for(let k=0; k<15; k++) particles.push(new Particle(stars[i].x, stars[i].y, '#ffea00', (Math.random()-0.5)*8, Math.random()*4+2));
+                    stars.splice(i, 1);
+                    continue;
+                }
+                if(stars[i].y > gameHeight + 100) stars.splice(i, 1);
+            }
+
+            if(gameActive && Math.random() < 0.038 && enemies.length < 5) enemies.push(new Enemy());
+            for(let i = enemies.length - 1; i >= 0; i--) {
+                enemies[i].update(); enemies[i].draw();
+
+                if(gameActive && player &&
+                   player.x < enemies[i].x + enemies[i].w - 5 &&
+                   player.x + player.w > enemies[i].x + 5 &&
+                   player.y < enemies[i].y + enemies[i].h - 5 &&
+                   player.y + player.h > enemies[i].y + 6) {
+                    
+                    for(let k=0; k<40; k++) particles.push(new Particle(player.x+player.w/2, player.y+player.h/2, '#ff5500', (Math.random()-0.5)*16, Math.random()*7+2));
+                    triggerCrash();
+                }
+                if(enemies[i].y > gameHeight + 100) { enemies.splice(i, 1); if(gameActive) score += 30; }
+            }
+
+            if(player) {
+                if(gameActive) player.update();
+                player.draw();
+            }
+
+            if (screenFlash > 0) {
+                ctx.fillStyle = `rgba(255, 255, 255, ${screenFlash})`;
+                ctx.fillRect(0, 0, gameWidth, gameHeight);
+                screenFlash -= 0.05;
+            }
+
+            ctx.restore();
+            requestAnimationFrame(render);
+        }
+
+        player = new Player();
+        requestAnimationFrame(render);
+    </script>
+</body>
+</html>
