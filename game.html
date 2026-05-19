@@ -3,151 +3,168 @@ layout: default
 title: Game Zone
 ---
 
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 <style>
     /* ==========================================================================
-       ১. থিম আইসোলেশন এবং রিসেট
+       ১. থিম আইসোলেশন এবং রিসেট (Clean Poppins Font)
        ========================================================================== */
     .gz-main-wrapper, .gz-main-wrapper * {
         box-sizing: border-box !important;
+        font-family: 'Poppins', sans-serif !important; /* Forces a clean, premium font */
     }
 
     .gz-main-wrapper {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
         width: 100% !important;
-        max-width: 450px !important; /* Mobiler jonno perfect width */
-        margin: 40px auto !important; /* White-gray background e top-bottom spacing er jonno */
-        padding: 10px !important;
+        max-width: 480px !important; 
+        margin: 40px auto !important; 
+        padding: 15px !important;
     }
 
     /* ==========================================================================
-       ২. প্রিমিয়াম ডার্ক কন্টেইনার (Color 1: Deep Midnight Blue)
+       ২. প্রিমিয়াম গেমিং কন্টেইনার (Glass & Neon Vibe)
        ========================================================================== */
     .gz-card-box {
-        background: #0f172a !important; /* Jekyll er white-gray background theke puro alada */
-        border-radius: 24px !important;
-        padding: 30px 20px !important;
+        background: linear-gradient(145deg, #111827, #1f2937) !important;
+        border-radius: 28px !important;
+        padding: 35px 25px !important;
         position: relative !important;
-        box-shadow: 0 20px 40px rgba(15, 23, 42, 0.25) !important; /* Soft deep shadow */
-        border: 1px solid rgba(255, 255, 255, 0.05) !important;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 40px rgba(0, 240, 255, 0.05) !important;
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
         text-align: center !important;
+        overflow: hidden !important;
     }
 
-    /* টপ নিয়ন গ্লো লাইন */
+    /* টপ গ্লো লাইন */
     .gz-card-box::before {
         content: "" !important;
         position: absolute !important;
         top: 0 !important; left: 0 !important; right: 0 !important;
-        height: 4px !important;
-        background: linear-gradient(90deg, #00f0ff, #d946ef) !important;
-        border-top-left-radius: 24px !important;
-        border-top-right-radius: 24px !important;
+        height: 5px !important;
+        background: linear-gradient(90deg, #00f0ff, #7000ff, #ff00c8) !important;
     }
 
     /* টাইটেল */
     .gz-main-title {
-        font-size: 1.8rem !important;
+        font-size: 2rem !important;
         font-weight: 800 !important;
         text-transform: uppercase !important;
-        letter-spacing: 2px !important;
-        margin: 0 0 25px 0 !important;
-        background: linear-gradient(135deg, #00f0ff, #d946ef) !important;
+        letter-spacing: 3px !important;
+        margin: 0 0 30px 0 !important;
+        background: linear-gradient(135deg, #fff, #00f0ff) !important;
         -webkit-background-clip: text !important;
         -webkit-text-fill-color: transparent !important;
         display: block !important;
+        text-shadow: 0 0 20px rgba(0, 240, 255, 0.2) !important;
     }
 
     /* ==========================================================================
-       ৩. গেম লিস্ট ও বাটন (Color 2: Sleek Slate Blue)
+       ৩. গেম লিস্ট ও বাটন (High Contrast & Attractive)
        ========================================================================== */
     .gz-list-stack {
         display: flex !important;
         flex-direction: column !important;
-        gap: 14px !important;
-        margin-bottom: 25px !important;
+        gap: 16px !important;
+        margin-bottom: 30px !important;
     }
 
     .gz-game-item {
         display: flex !important;
         align-items: center !important;
-        background: #1e293b !important; /* Fixed: standard slate blue matching the aesthetic */
-        padding: 14px 16px !important;
-        border-radius: 16px !important;
+        background: rgba(30, 41, 59, 0.7) !important; 
+        padding: 16px 20px !important;
+        border-radius: 20px !important;
         text-decoration: none !important;
-        border: 1px solid rgba(255, 255, 255, 0.03) !important;
-        transition: all 0.25s ease-in-out !important;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15) !important;
+        border: 1px solid rgba(255, 255, 255, 0.05) !important;
+        border-left: 4px solid transparent !important;
+        transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+        position: relative !important;
     }
 
     /* হোভার করলে গ্লো এবং স্লাইট আপ ইফেক্ট */
     .gz-game-item:not(.gz-locked):hover {
-        background: #243146 !important; /* Hover e button color ektu light hobe */
-        transform: translateY(-3px) !important;
-        border-color: rgba(0, 240, 255, 0.4) !important;
-        box-shadow: 0 8px 20px rgba(0, 240, 255, 0.15) !important;
+        background: rgba(30, 41, 59, 1) !important;
+        transform: translateY(-4px) scale(1.02) !important;
+        border-left: 4px solid #00f0ff !important;
+        border-color: rgba(0, 240, 255, 0.3) !important;
+        box-shadow: 0 10px 25px -5px rgba(0, 240, 255, 0.25) !important;
     }
 
     /* আইকন বক্স */
     .gz-icon-plate {
-        width: 46px !important;
-        height: 46px !important;
-        border-radius: 12px !important;
+        width: 52px !important;
+        height: 52px !important;
+        border-radius: 14px !important;
         display: flex !important;
         align-items: center !important;
         justify-content: center !important;
-        font-size: 18px !important;
+        font-size: 22px !important;
         color: #ffffff !important;
         flex-shrink: 0 !important;
+        box-shadow: inset 0 0 10px rgba(255,255,255,0.2) !important;
     }
 
-    .gz-bg-archer { background: linear-gradient(135deg, #ff416c, #ff4b2b) !important; }
-    .gz-bg-car { background: linear-gradient(135deg, #00b4db, #0083b0) !important; }
-    .gz-bg-uno { background: linear-gradient(135deg, #ea580c, #f43f5e) !important; } /* Fixed: Uno card theme text matching color gradient */
+    .gz-bg-archer { 
+        background: linear-gradient(135deg, #ff416c, #ff4b2b) !important; 
+        box-shadow: 0 0 15px rgba(255, 75, 43, 0.4) !important;
+    }
+    .gz-bg-car { 
+        background: linear-gradient(135deg, #00b4db, #0083b0) !important; 
+        box-shadow: 0 0 15px rgba(0, 180, 219, 0.4) !important;
+    }
+    .gz-bg-uno { 
+        background: linear-gradient(135deg, #ea580c, #f43f5e) !important; 
+        box-shadow: 0 0 15px rgba(244, 63, 94, 0.4) !important;
+    } 
     .gz-bg-lock { 
-        background: #111827 !important; /* Locked er background aro deep */
-        border: 1.5px dashed rgba(255, 255, 255, 0.15) !important;
-        color: rgba(255, 255, 255, 0.3) !important;
+        background: #1e293b !important;
+        border: 1px dashed rgba(255, 255, 255, 0.2) !important;
+        color: rgba(255, 255, 255, 0.4) !important;
+        box-shadow: none !important;
     }
 
     /* টেক্সট কন্টেন্ট */
     .gz-info-holder {
-        margin-left: 14px !important;
+        margin-left: 18px !important;
         text-align: left !important;
         flex-grow: 1 !important;
     }
 
     .gz-game-name {
         margin: 0 !important;
-        font-size: 1.05rem !important;
+        font-size: 1.1rem !important;
         font-weight: 600 !important;
-        color: #ffffff !important; /* Dark background e white text jhogjhoge dekhabe */
+        color: #f8fafc !important; 
         display: block !important;
-        line-height: 1.3 !important;
+        line-height: 1.2 !important;
     }
 
     .gz-game-desc {
-        margin: 3px 0 0 0 !important;
-        font-size: 0.8rem !important;
+        margin: 4px 0 0 0 !important;
+        font-size: 0.85rem !important;
         color: #94a3b8 !important;
         display: block !important;
+        font-weight: 400 !important;
     }
 
     /* রাইট অ্যারো */
     .gz-arrow {
-        color: rgba(255, 255, 255, 0.3) !important;
-        font-size: 0.85rem !important;
+        color: rgba(255, 255, 255, 0.2) !important;
+        font-size: 1rem !important;
+        transition: all 0.3s ease !important;
     }
 
-    .gz-game-item:hover .gz-arrow {
+    .gz-game-item:not(.gz-locked):hover .gz-arrow {
         color: #00f0ff !important;
+        transform: translateX(3px) !important;
     }
 
     /* লকড স্টাইল */
     .gz-locked {
         cursor: not-allowed !important;
-        opacity: 0.5 !important;
-        background: #0b0f19 !important; /* Locked asset ektu blackish thakbe */
+        opacity: 0.6 !important;
+        background: rgba(15, 23, 42, 0.5) !important; 
     }
 
     /* ==========================================================================
@@ -157,23 +174,24 @@ title: Game Zone
         display: inline-flex !important;
         align-items: center !important;
         justify-content: center !important;
-        gap: 8px !important;
-        background: rgba(0, 240, 255, 0.08) !important;
+        gap: 10px !important;
+        background: linear-gradient(135deg, rgba(0, 240, 255, 0.1), rgba(0, 240, 255, 0.05)) !important;
         color: #00f0ff !important;
-        border: 1px solid rgba(0, 240, 255, 0.2) !important;
-        padding: 12px 24px !important;
+        border: 1px solid rgba(0, 240, 255, 0.3) !important;
+        padding: 14px 28px !important;
         border-radius: 30px !important;
         font-size: 0.95rem !important;
         font-weight: 600 !important;
         text-decoration: none !important;
-        transition: all 0.2s !important;
+        transition: all 0.3s ease !important;
         margin-bottom: 25px !important;
     }
 
     .gz-btn-home:hover {
         background: #00f0ff !important;
         color: #0f172a !important;
-        box-shadow: 0 0 15px rgba(0, 240, 255, 0.4) !important;
+        box-shadow: 0 0 20px rgba(0, 240, 255, 0.5) !important;
+        transform: translateY(-2px) !important;
     }
 
     .gz-footer-text {
@@ -184,15 +202,16 @@ title: Game Zone
     }
 
     .gz-footer-text strong {
-        color: #94a3b8 !important;
+        color: #e2e8f0 !important;
     }
 
     .gz-tag {
         display: inline-block !important;
         font-size: 0.75rem !important;
         color: #475569 !important;
-        margin-top: 5px !important;
-        font-weight: 700 !important;
+        margin-top: 8px !important;
+        font-weight: 600 !important;
+        letter-spacing: 1px !important;
     }
 </style>
 
@@ -207,32 +226,30 @@ title: Game Zone
                     <i class="fa-solid fa-bullseye"></i>
                 </div>
                 <div class="gz-info-holder">
-                    <span class="gz-game-name">Archer (single player)</span>
-                    <span class="gz-game-desc">Arcade & difficulty • Play Now</span>
+                    <span class="gz-game-name">Archer</span>
+                    <span class="gz-game-desc">Single player• <br> Archer game with impressive neon design</span>
                 </div>
                 <div class="gz-arrow"><i class="fa-solid fa-chevron-right"></i></div>
             </a>
 
-            <!-- Fixed URL: Added https:// -->
             <a href="https://hasanpersonal.github.io/car" class="gz-game-item">
                 <div class="gz-icon-plate gz-bg-car">
-                    <i class="fa-solid fa-car"></i>
+                    <i class="fa-solid fa-car-side"></i>
                 </div>
                 <div class="gz-info-holder">
-                    <span class="gz-game-name">Car (multiplayer)</span>
-                    <span class="gz-game-desc">Speed & control • Play Now</span>
+                    <span class="gz-game-name">Car Racing</span>
+                    <span class="gz-game-desc">Online Multiplayer • <br>Play with friends, 60s racing game online</span>
                 </div>
                 <div class="gz-arrow"><i class="fa-solid fa-chevron-right"></i></div>
             </a>
 
-            <!-- Fixed URL & Icon: Added https:// and changed icon to fa-layer-group -->
             <a href="https://hasanpersonal.github.io/uno" class="gz-game-item">
                 <div class="gz-icon-plate gz-bg-uno">
                     <i class="fa-solid fa-layer-group"></i>
                 </div>
                 <div class="gz-info-holder">
-                    <span class="gz-game-name">Uno (multiplayer)</span>
-                    <span class="gz-game-desc">Now live</span>
+                    <span class="gz-game-name">Uno Classic </span>
+                    <span class="gz-game-desc"> Online Multiplayer • <br>Create room, Share code, play with friends</span>
                 </div>
                 <div class="gz-arrow"><i class="fa-solid fa-chevron-right"></i></div>
             </a>
