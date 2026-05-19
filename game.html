@@ -71,7 +71,7 @@ title: Game Zone
     .gz-game-item {
         display: flex !important;
         align-items: center !important;
-        background: #00008b !important; /* Container background theke puro alada color */
+        background: #1e293b !important; /* Fixed: standard slate blue matching the aesthetic */
         padding: 14px 16px !important;
         border-radius: 16px !important;
         text-decoration: none !important;
@@ -82,7 +82,7 @@ title: Game Zone
 
     /* হোভার করলে গ্লো এবং স্লাইট আপ ইফেক্ট */
     .gz-game-item:not(.gz-locked):hover {
-        background: #243146 !important; /* Hover e buttion color ektu light hobe */
+        background: #243146 !important; /* Hover e button color ektu light hobe */
         transform: translateY(-3px) !important;
         border-color: rgba(0, 240, 255, 0.4) !important;
         box-shadow: 0 8px 20px rgba(0, 240, 255, 0.15) !important;
@@ -103,7 +103,7 @@ title: Game Zone
 
     .gz-bg-archer { background: linear-gradient(135deg, #ff416c, #ff4b2b) !important; }
     .gz-bg-car { background: linear-gradient(135deg, #00b4db, #0083b0) !important; }
-    .gz-bg-uno { background: linear-gradient(135deg, #ff0000, #ffc0cb) !important; }
+    .gz-bg-uno { background: linear-gradient(135deg, #ea580c, #f43f5e) !important; } /* Fixed: Uno card theme text matching color gradient */
     .gz-bg-lock { 
         background: #111827 !important; /* Locked er background aro deep */
         border: 1.5px dashed rgba(255, 255, 255, 0.15) !important;
@@ -213,7 +213,8 @@ title: Game Zone
                 <div class="gz-arrow"><i class="fa-solid fa-chevron-right"></i></div>
             </a>
 
-            <a href="hasanpersonal.github.io/car" class="gz-game-item">
+            <!-- Fixed URL: Added https:// -->
+            <a href="https://hasanpersonal.github.io/car" class="gz-game-item">
                 <div class="gz-icon-plate gz-bg-car">
                     <i class="fa-solid fa-car"></i>
                 </div>
@@ -224,12 +225,13 @@ title: Game Zone
                 <div class="gz-arrow"><i class="fa-solid fa-chevron-right"></i></div>
             </a>
 
-            <a href="hasanpersonal.github.io/uno" class="gz-game-item">
+            <!-- Fixed URL & Icon: Added https:// and changed icon to fa-layer-group -->
+            <a href="https://hasanpersonal.github.io/uno" class="gz-game-item">
                 <div class="gz-icon-plate gz-bg-uno">
-                    <i class="fa-duotone fa-solid fa-cards-blank"></i>
+                    <i class="fa-solid fa-layer-group"></i>
                 </div>
                 <div class="gz-info-holder">
-                    <span class="gz-game-name">uno (multiplayer)</span>
+                    <span class="gz-game-name">Uno (multiplayer)</span>
                     <span class="gz-game-desc">Now live</span>
                 </div>
                 <div class="gz-arrow"><i class="fa-solid fa-chevron-right"></i></div>
