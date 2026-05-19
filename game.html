@@ -1,361 +1,238 @@
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+---
+layout: default
+title: Game Zone
+---
+
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 <style>
-    /* ==========================================================================
-       ১. থিম রিসেট এবং Poppins Font (Isolated & Forces Premium Aesthetic)
-       ========================================================================== */
-    .gz-integrated-blender, .gz-integrated-blender * {
+    /* 1. Base Reset for this specific component */
+    .mobile-game-hub {
         box-sizing: border-box !important;
-        font-family: 'Poppins', sans-serif !important; /* Forcing Poppins everywhere for clean, premium gaming feel */
-    }
-
-    .gz-integrated-blender {
+        font-family: 'Outfit', sans-serif !important;
         width: 100% !important;
-        display: flex !important;
-        justify-content: center !important;
-        align-items: center !important;
-        min-height: 100vh !important; /* Blends with screen height */
-        padding: 40px 10px !important;
-        margin: 0 !important;
-        overflow: hidden !important;
-        
-        /* THE CRUCIAL INTEGRATION STEP: Dynamic soft glow on the light background */
-        background: radial-gradient(circle at 10% 10%, rgba(0, 240, 255, 0.05), transparent 40%),
-                    radial-gradient(circle at 90% 90%, rgba(217, 70, 239, 0.05), transparent 40%),
-                    radial-gradient(circle at center, rgba(255, 255, 255, 0.1), transparent 70%) !important;
-        position: relative !important;
-        z-index: 1 !important; /* Anchor for background blur */
+        max-width: 420px !important; /* Perfect mobile width */
+        margin: 30px auto !important;
+        padding: 0 15px !important;
     }
 
-    /* BACKGROUND BLUR ELEMENT: Integrated blending, dynamic shapes */
-    .gz-integrated-blender::before {
-        content: "" !important;
-        position: absolute !important;
-        top: 50% !important; left: 50% !important;
-        transform: translate(-50%, -50%) !important;
-        width: 100vw !important;
-        height: 100vh !important;
-        background: radial-gradient(circle, rgba(0, 240, 255, 0.03), rgba(217, 70, 239, 0.03), transparent) !important;
-        filter: blur(80px) !important;
-        z-index: -2 !important;
+    .mobile-game-hub * {
+        box-sizing: border-box !important;
+        margin: 0;
+        padding: 0;
     }
 
-    /* Soft glowing shape on original white bg */
-    .gz-integrated-blender::after {
-        content: "" !important;
-        position: absolute !important;
-        width: 400px !important;
-        height: 400px !important;
-        border-radius: 50% !important;
-        background: linear-gradient(135deg, rgba(0, 240, 255, 0.03), rgba(217, 70, 239, 0.03)) !important;
-        filter: blur(60px) !important;
-        z-index: -1 !important;
-        top: 20%; left: 20%;
+    /* 2. Main Card Container */
+    .hub-container {
+        background: #0f172a !important; /* Deep dark blue */
+        border-radius: 24px !important;
+        padding: 30px 20px !important;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15) !important;
+        border: 1px solid #1e293b !important;
     }
 
-    /* ==========================================================================
-       ২. প্রিমিয়াম গেমিং কন্টেইনার (Integrated Translucent Glass, Neon, Blended)
-       ========================================================================== */
-    .gz-main-wrapper {
-        width: 100% !important;
-        max-width: 480px !important;
-    }
-
-    /* THE SITE BANNER UPDATED (Matches Title, Blended) */
-    .gz-site-banner {
-        display: block !important;
-        background: rgba(255, 255, 255, 0.3) !important; /* Frosted glass vibe */
-        backdrop-filter: blur(8px) !important;
-        color: rgba(255, 255, 255, 0.9) !important;
-        border: 1px solid rgba(255, 255, 255, 0.1) !important;
-        border-radius: 40px !important;
-        padding: 12px 30px !important;
-        font-size: 1.1rem !important;
-        font-weight: 700 !important;
-        letter-spacing: 1px !important;
-        margin: 0 auto 30px auto !important;
-        width: fit-content !important;
-        box-shadow: 0 5px 20px -5px rgba(0,0,0,0.1), inset 0 0 10px rgba(255,255,255,0.05) !important;
-        position: relative !important;
-    }
-    
-    .gz-site-banner::after {
-        content: "" !important;
-        position: absolute !important;
-        width: 100% !important;
-        height: 100% !important;
-        background: linear-gradient(135deg, #00f0ff, #d946ef) !important;
-        top: 0 !important; left: 0 !important;
-        -webkit-background-clip: text !important;
-        -webkit-text-fill-color: transparent !important;
-        opacity: 0 !important; /* Will blend or display as gradient on hover if desired */
-    }
-
-    .gz-site-banner span {
-        background: linear-gradient(135deg, #fff, #bbf7d0, #fff) !important;
-        -webkit-background-clip: text !important;
-        -webkit-text-fill-color: transparent !important;
-        display: inline-block !important;
-        text-shadow: 0 0 15px rgba(187, 247, 208, 0.2) !important;
-    }
-
-    /* THE CARD (Blended Translucent Glass) */
-    .gz-card-box {
-        background: rgba(15, 23, 42, 0.8) !important; /* Soft, blended glass-vibe */
-        backdrop-filter: blur(12px) !important;
-        border-radius: 28px !important;
-        padding: 40px 25px !important;
-        position: relative !important;
-        box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.6), inset 0 0 15px rgba(255, 255, 255, 0.05) !important;
-        border: 1px solid rgba(255, 255, 255, 0.06) !important;
+    /* 3. Header */
+    .hub-header {
         text-align: center !important;
-        z-index: 10 !important; /* Keeps card above blending layers */
-    }
-
-    /* টপ নিয়ন গ্লো লাইন */
-    .gz-card-box::before {
-        content: "" !important;
-        position: absolute !important;
-        top: 0 !important; left: 0 !important; right: 0 !important;
-        height: 5px !important;
-        background: linear-gradient(90deg, #00f0ff, #d946ef, #00f0ff) !important;
-        border-top-left-radius: 28px !important;
-        border-top-right-radius: 28px !important;
-    }
-
-    /* টাইটেল */
-    .gz-main-title {
-        font-size: 2rem !important;
-        font-weight: 800 !important;
-        text-transform: uppercase !important;
-        letter-spacing: 3px !important;
-        margin: 0 0 35px 0 !important;
-        background: linear-gradient(135deg, #fff, #f8fafc) !important;
-        -webkit-background-clip: text !important;
-        -webkit-text-fill-color: transparent !important;
-        display: block !important;
-        text-shadow: 0 0 15px rgba(248, 250, 252, 0.1) !important;
-    }
-
-    /* ==========================================================================
-       ৩. গেম লিস্ট ও বাটন (Attractive, distinct, blended details)
-       ========================================================================== */
-    .gz-list-stack {
-        display: flex !important;
-        flex-direction: column !important;
-        gap: 16px !important;
-        margin-bottom: 30px !important;
-    }
-
-    .gz-game-item {
-        display: flex !important;
-        align-items: center !important;
-        background: rgba(30, 41, 59, 0.6) !important; /* Standard integrated slate */
-        padding: 16px 20px !important;
-        border-radius: 20px !important;
-        text-decoration: none !important;
-        border: 1px solid rgba(255, 255, 255, 0.04) !important;
-        border-left: 5px solid transparent !important;
-        transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
-        position: relative !important;
-    }
-
-    /* হোভার করলে গ্লো এবং স্লাইট আপ ইফেক্ট (Satisfying Gaming feel) */
-    .gz-game-item:not(.gz-locked):hover {
-        background: rgba(30, 41, 59, 1) !important;
-        transform: translateY(-4px) scale(1.02) !important;
-        border-left: 5px solid #00f0ff !important;
-        border-color: rgba(0, 240, 255, 0.3) !important;
-        box-shadow: 0 10px 25px -5px rgba(0, 240, 255, 0.2) !important;
-    }
-
-    /* আইকন বক্স */
-    .gz-icon-plate {
-        width: 52px !important;
-        height: 52px !important;
-        border-radius: 14px !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        font-size: 22px !important;
-        color: #ffffff !important;
-        flex-shrink: 0 !important;
-        box-shadow: inset 0 0 10px rgba(255,255,255,0.2) !important;
-        position: relative !important;
-    }
-
-    /* Gazer distinct gradients for each item */
-    .gz-bg-archer { 
-        background: linear-gradient(135deg, #ff416c, #ff4b2b) !important; 
-        box-shadow: 0 0 15px rgba(255, 75, 43, 0.3) !important;
-    }
-    .gz-bg-car { 
-        background: linear-gradient(135deg, #00b4db, #0083b0) !important; 
-        box-shadow: 0 0 15px rgba(0, 180, 219, 0.3) !important;
-    }
-    .gz-bg-uno { 
-        background: linear-gradient(135deg, #ea580c, #f43f5e) !important; 
-        box-shadow: 0 0 15px rgba(244, 63, 94, 0.3) !important;
-    } 
-    .gz-bg-lock { 
-        background: #111827 !important;
-        border: 1px dashed rgba(255, 255, 255, 0.2) !important;
-        color: rgba(255, 255, 255, 0.4) !important;
-        box-shadow: none !important;
-    }
-
-    /* টেক্সট কন্টেন্ট */
-    .gz-info-holder {
-        margin-left: 18px !important;
-        text-align: left !important;
-        flex-grow: 1 !important;
-    }
-
-    .gz-game-name {
-        margin: 0 !important;
-        font-size: 1.15rem !important;
-        font-weight: 700 !important;
-        color: #f8fafc !important; 
-        display: block !important;
-        line-height: 1.2 !important;
-        letter-spacing: 0.5px !important;
-    }
-
-    .gz-game-desc {
-        margin: 5px 0 0 0 !important;
-        font-size: 0.85rem !important;
-        color: #94a3b8 !important;
-        display: block !important;
-        font-weight: 400 !important;
-    }
-
-    /* রাইট অ্যারো */
-    .gz-arrow {
-        color: rgba(255, 255, 255, 0.2) !important;
-        font-size: 1rem !important;
-        transition: all 0.3s ease !important;
-    }
-
-    .gz-game-item:not(.gz-locked):hover .gz-arrow {
-        color: #00f0ff !important;
-        transform: translateX(4px) !important;
-    }
-
-    /* লকড স্টাইল */
-    .gz-locked {
-        cursor: not-allowed !important;
-        opacity: 0.6 !important;
-        background: rgba(15, 23, 42, 0.5) !important; 
-    }
-
-    /* ==========================================================================
-       ৪. হোম বাটন এবং ফুটার ডিজাইন
-       ========================================================================== */
-    .gz-btn-home {
-        display: inline-flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        gap: 10px !important;
-        background: linear-gradient(135deg, rgba(0, 240, 255, 0.1), rgba(0, 240, 255, 0.05)) !important;
-        color: #00f0ff !important;
-        border: 1px solid rgba(0, 240, 255, 0.3) !important;
-        padding: 14px 28px !important;
-        border-radius: 30px !important;
-        font-size: 1rem !important;
-        font-weight: 600 !important;
-        text-decoration: none !important;
-        transition: all 0.3s ease !important;
         margin-bottom: 25px !important;
     }
 
-    .gz-btn-home:hover {
-        background: #00f0ff !important;
-        color: #0f172a !important;
-        box-shadow: 0 0 20px rgba(0, 240, 255, 0.5) !important;
-        transform: translateY(-2px) !important;
-    }
-
-    .gz-footer-text {
-        font-size: 0.85rem !important;
-        color: #64748b !important;
-        margin: 0 !important;
-        display: block !important;
-    }
-
-    .gz-footer-text strong {
-        color: #e2e8f0 !important;
-    }
-
-    .gz-tag {
-        display: inline-block !important;
-        font-size: 0.75rem !important;
-        color: #475569 !important;
-        margin-top: 8px !important;
-        font-weight: 600 !important;
+    .hub-header h2 {
+        color: #ffffff !important;
+        font-size: 1.6rem !important;
+        font-weight: 800 !important;
         letter-spacing: 1px !important;
+        text-transform: uppercase !important;
+        margin-bottom: 5px !important;
+    }
+
+    .hub-header p {
+        color: #94a3b8 !important;
+        font-size: 0.9rem !important;
+    }
+
+    /* 4. Game List (Flexbox ensures it never breaks) */
+    .game-list {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 12px !important;
+    }
+
+    .game-card {
+        display: flex !important;
+        align-items: center !important;
+        background: #1e293b !important;
+        padding: 12px 16px !important;
+        border-radius: 16px !important;
+        text-decoration: none !important;
+        transition: transform 0.2s, background 0.2s !important;
+        border: 1px solid transparent !important;
+    }
+
+    .game-card:hover:not(.locked) {
+        background: #27354f !important;
+        transform: translateY(-2px) !important;
+        border-color: #38bdf8 !important;
+    }
+
+    /* Icon Box (Fixed width so it never squishes) */
+    .game-icon {
+        width: 48px !important;
+        height: 48px !important;
+        border-radius: 12px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        font-size: 20px !important;
+        color: white !important;
+        flex-shrink: 0 !important; /* PREVENTS SQUISHING */
+    }
+
+    .icon-archer { background: linear-gradient(135deg, #f43f5e, #fb923c) !important; }
+    .icon-car { background: linear-gradient(135deg, #0ea5e9, #3b82f6) !important; }
+    .icon-uno { background: linear-gradient(135deg, #10b981, #059669) !important; }
+    .icon-lock { background: #334155 !important; color: #64748b !important; }
+
+    /* Text Area */
+    .game-info {
+        margin-left: 15px !important;
+        flex-grow: 1 !important;
+        min-width: 0 !important; /* Fixes text overflow issue */
+    }
+
+    .game-info h3 {
+        color: #f8fafc !important;
+        font-size: 1.05rem !important;
+        font-weight: 600 !important;
+        margin-bottom: 2px !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+    }
+
+    .game-info p {
+        color: #94a3b8 !important;
+        font-size: 0.8rem !important;
+    }
+
+    /* Play Button Icon on the right */
+    .play-btn {
+        width: 32px !important;
+        height: 32px !important;
+        border-radius: 50% !important;
+        background: rgba(255,255,255,0.1) !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        color: #38bdf8 !important;
+        font-size: 12px !important;
+        flex-shrink: 0 !important;
+    }
+
+    .game-card:hover:not(.locked) .play-btn {
+        background: #38bdf8 !important;
+        color: white !important;
+    }
+
+    /* Locked State */
+    .game-card.locked {
+        opacity: 0.6 !important;
+        cursor: not-allowed !important;
+    }
+
+    .game-card.locked .play-btn {
+        display: none !important;
+    }
+
+    /* 5. Footer & Back Button */
+    .hub-footer {
+        margin-top: 25px !important;
+        text-align: center !important;
+    }
+
+    .back-btn {
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 8px !important;
+        padding: 12px 24px !important;
+        background: #38bdf8 !important;
+        color: #0f172a !important;
+        border-radius: 30px !important;
+        font-weight: 800 !important;
+        font-size: 0.9rem !important;
+        text-decoration: none !important;
+        margin-bottom: 20px !important;
+        transition: transform 0.2s !important;
+    }
+
+    .back-btn:active {
+        transform: scale(0.95) !important;
+    }
+
+    .credit-text {
+        color: #64748b !important;
+        font-size: 0.8rem !important;
+    }
+    
+    .credit-text strong {
+        color: #e2e8f0 !important;
     }
 </style>
 
-<div class="gz-integrated-blender"> <div class="gz-main-wrapper">
-        <div class="gz-site-banner">Hasan's <span>WEB</span></div>
+<div class="mobile-game-hub">
+    <div class="hub-container">
         
-        <div class="gz-card-box">
-            <span class="gz-main-title">Games Collection</span>
+        <header class="hub-header">
+            <h2>Game Zone</h2>
+            <p>Select a game to play</p>
+        </header>
+
+        <div class="game-list">
             
-            <div class="gz-list-stack">
-                
-                <a href="https://hasanpersonal.github.io/archer/" class="gz-game-item">
-                    <div class="gz-icon-plate gz-bg-archer">
-                        <i class="fa-solid fa-bullseye"></i>
-                    </div>
-                    <div class="gz-info-holder">
-                        <span class="gz-game-name">Archer</span>
-                        <span class="gz-game-desc">Arcade & difficulty • <br>with impressive neon design</span>
-                    </div>
-                    <div class="gz-arrow"><i class="fa-solid fa-chevron-right"></i></div>
-                </a>
-
-                <a href="https://hasanpersonal.github.io/car" class="gz-game-item">
-                    <div class="gz-icon-plate gz-bg-car">
-                        <i class="fa-solid fa-car"></i>
-                    </div>
-                    <div class="gz-info-holder">
-                        <span class="gz-game-name">Car Multiplayer</span>
-                        <span class="gz-game-desc">Online Multiplayer • <br> 60s car racing game</span>
-                    </div>
-                    <div class="gz-arrow"><i class="fa-solid fa-chevron-right"></i></div>
-                </a>
-
-                <a href="https://hasanpersonal.github.io/uno" class="gz-game-item">
-                    <div class="gz-icon-plate gz-bg-uno">
-                        <i class="fa-solid fa-layer-group"></i>
-                    </div>
-                    <div class="gz-info-holder">
-                        <span class="gz-game-name">Uno Online</span>
-                        <span class="gz-game-desc">Online Multiplayer• <br> create room and play with friends</span>
-                    </div>
-                    <div class="gz-arrow"><i class="fa-solid fa-chevron-right"></i></div>
-                </a>
-
-                <a href="#" class="gz-game-item gz-locked" onclick="return false;">
-                    <div class="gz-icon-plate gz-bg-lock">
-                        <i class="fa-solid fa-lock"></i>
-                    </div>
-                    <div class="gz-info-holder">
-                        <span class="gz-game-name">Coming Soon</span>
-                        <span class="gz-game-desc">Under Development</span>
-                    </div>
-                </a>
-
-            </div>
-
-            <a href="https://hasanpersonal.github.io/fun_website/index.html" class="gz-btn-home">
-                <i class="fa-solid fa-arrow-left"></i> Go back to Home
+            <a href="https://hasanpersonal.github.io/archer/" class="game-card">
+                <div class="game-icon icon-archer"><i class="fa-solid fa-bullseye"></i></div>
+                <div class="game-info">
+                    <h3>Archer</h3>
+                    <p>Arcade & Difficulty</p>
+                </div>
+                <div class="play-btn"><i class="fa-solid fa-play"></i></div>
             </a>
 
-            <p class="gz-footer-text">This website was coded by <strong>Imrul Hasan 😇</strong></p>
-            <span class="gz-tag">Project 2026 ✓✓</span>
+            <a href="https://hasanpersonal.github.io/car" class="game-card">
+                <div class="game-icon icon-car"><i class="fa-solid fa-car-side"></i></div>
+                <div class="game-info">
+                    <h3>Car Multiplayer</h3>
+                    <p>Speed & Control</p>
+                </div>
+                <div class="play-btn"><i class="fa-solid fa-play"></i></div>
+            </a>
+
+            <a href="https://hasanpersonal.github.io/uno" class="game-card">
+                <div class="game-icon icon-uno"><i class="fa-solid fa-layer-group"></i></div>
+                <div class="game-info">
+                    <h3>Uno Online</h3>
+                    <p>Play with friends</p>
+                </div>
+                <div class="play-btn"><i class="fa-solid fa-play"></i></div>
+            </a>
+
+            <div class="game-card locked">
+                <div class="game-icon icon-lock"><i class="fa-solid fa-lock"></i></div>
+                <div class="game-info">
+                    <h3>Coming Soon</h3>
+                    <p>Under Development</p>
+                </div>
+            </div>
+
         </div>
+
+        <div class="hub-footer">
+            <a href="https://hasanpersonal.github.io/fun_website/index.html" class="back-btn">
+                <i class="fa-solid fa-arrow-left"></i> Home
+            </a>
+            <p class="credit-text">Coded by <strong>Imrul Hasan 😇</strong></p>
+        </div>
+
     </div>
 </div>
