@@ -31,7 +31,7 @@ title: My Games
     <div class="game-card" data-tags="action arcade active">
       <div class="card-image-holder">
         <!-- Google Drive Logo Format: https://lh3.googleusercontent.com/d/YOUR_FILE_ID -->
-        <img src="https://lh3.googleusercontent.com/d/1e3OA7Q0RM_SzbCQwFxJT0KeWGLUkOvno" alt="Game 1 Logo" 
+        <img src="https://lh3.googleusercontent.com/d/1e3OA7Q0RM_SzbCQwFxJT0KeWGLUkOvno" alt="Game 1 Logo">
         <div class="card-badge">Archer</div>
       </div>
       <div class="card-content">
@@ -39,7 +39,7 @@ title: My Games
         <p class="game-desc">An intense, fast-paced arcade experience designed to test your reflexes and strategic thinking.</p>
         <div class="card-footer">
           <span class="game-status"><span class="status-dot"></span> Ready</span>
-          <a href="http:hasanpersonal.github.io/archer" class="play-action-btn">Play Now</a>
+          <a href="http://hasanpersonal.github.io/archer" class="play-action-btn">Play Now</a>
         </div>
       </div>
     </div>
@@ -47,7 +47,7 @@ title: My Games
     <!-- Game Card 2 -->
     <div class="game-card" data-tags="puzzle strategy active">
       <div class="card-image-holder">
-        <img src="https://lh3.googleusercontent.com/d/1VNKbfAuC3XaVQcL5smkZmzMgR9WCvxjZ" alt="Game 2 Logo"
+        <img src="https://lh3.googleusercontent.com/d/1VNKbfAuC3XaVQcL5smkZmzMgR9WCvxjZ" alt="Game 2 Logo">
         <div class="card-badge">Car</div>
       </div>
       <div class="card-content">
@@ -55,7 +55,7 @@ title: My Games
         <p class="game-desc">60s intense car race online</p>
         <div class="card-footer">
           <span class="game-status"><span class="status-dot"></span> Ready</span>
-          <a href="http:hasanpersonal.github.io/car" class="play-action-btn">Play Now</a>
+          <a href="http://hasanpersonal.github.io/car" class="play-action-btn">Play Now</a>
         </div>
       </div>
     </div>
@@ -63,7 +63,7 @@ title: My Games
     <!-- Game Card 3 -->
     <div class="game-card" data-tags="adventure rpg active">
       <div class="card-image-holder">
-        <img src="https://lh3.googleusercontent.com/d/YOUR_FILE_ID_3" alt="Game 3 Logo" onerror="this.src='https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=500&q=80'">
+        <img src="https://lh3.googleusercontent.com/d/YOUR_FILE_ID_3" alt="Game 3 Logo">
         <div class="card-badge">Card</div>
       </div>
       <div class="card-content">
@@ -71,7 +71,7 @@ title: My Games
         <p class="game-desc">Calm, simple, fun table game</p>
         <div class="card-footer">
           <span class="game-status"><span class="status-dot"></span> Ready</span>
-          <a href="http:hasanpersonal.github.io/uno" class="play-action-btn">Play Now</a>
+          <a href="http://hasanpersonal.github.io/uno" class="play-action-btn">Play Now</a>
         </div>
       </div>
     </div>
@@ -79,7 +79,7 @@ title: My Games
     <!-- Game Card 4 -->
     <div class="game-card" data-tags="action survival active">
       <div class="card-image-holder">
-        <img src="https://lh3.googleusercontent.com/d/YOUR_FILE_ID_4" alt="Game 4 Logo" onerror="this.src='https://images.unsplash.com/photo-1552820728-8b83bb6b773f?auto=format&fit=crop&w=500&q=80'">
+        <img src="https://lh3.googleusercontent.com/d/YOUR_FILE_ID_4" alt="Game 4 Logo">
         <div class="card-badge">Yet to decide</div>
       </div>
       <div class="card-content">
@@ -331,9 +331,9 @@ title: My Games
     background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
     color: #ffffff;
     text-decoration: none;
-    padding: 10px 20px;
-    border-radius: 10px;
-    font-size: 0.9rem;
+    padding: 14px 28px; /* बटनটি আরও বড় করা হয়েছে */
+    border-radius: 12px;
+    font-size: 1.1rem; /* ফন্ট সাইজ বড় করা হয়েছে */
     font-weight: 600;
     transition: all 0.3s ease;
     box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
@@ -353,6 +353,10 @@ title: My Games
   @media (max-width: 640px) {
     .hero-title { font-size: 2.5rem; }
     .arcade-wrapper { padding: 40px 15px; }
+    .play-action-btn {
+      padding: 12px 24px;
+      font-size: 1rem;
+    }
   }
 </style>
 
@@ -382,4 +386,4 @@ title: My Games
     // Dynamic Header Counter Update
     document.getElementById('game-count').innerText = `⚡ Found Games: ${visibleCount}`;
   }
-</style>
+</script>
