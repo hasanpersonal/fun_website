@@ -11,8 +11,8 @@ title: My Games
   
   <!-- Hero Section -->
   <header class="arcade-hero">
-    <div class="hero-badge">Hasan's Portfolio</div>
-    <h1 class="hero-title">My Game Arcade</h1>
+    <div class="hero-badge">Hasan's Games</div>
+    <h1 class="hero-title">My Game Collection</h1>
     <p class="hero-subtitle">Handcrafted interactive experiences. Click to play instantly right from your browser.</p>
     <div class="stats-counter">
       <span id="game-count">⚡ Total Games until now: 3</span>
@@ -39,7 +39,7 @@ title: My Games
         <p class="game-desc">An intense, fast-paced arcade experience designed to test your reflexes and strategic thinking.</p>
         <div class="card-footer">
           <span class="game-status"><span class="status-dot"></span> Ready</span>
-          <a href="YOUR_GAME_LINK_1" class="play-action-btn">Play Now</a>
+          <a href="https:hasanpersonal.github.io/archer" class="play-action-btn">Play Now</a>
         </div>
       </div>
     </div>
@@ -55,7 +55,7 @@ title: My Games
         <p class="game-desc">60s intense car race online</p>
         <div class="card-footer">
           <span class="game-status"><span class="status-dot"></span> Ready</span>
-          <a href="YOUR_GAME_LINK_2" class="play-action-btn">Play Now</a>
+          <a href="https:hasanpersonal.github.io/car" class="play-action-btn">Play Now</a>
         </div>
       </div>
     </div>
@@ -71,7 +71,7 @@ title: My Games
         <p class="game-desc">Calm, simple, fun table game</p>
         <div class="card-footer">
           <span class="game-status"><span class="status-dot"></span> Ready</span>
-          <a href="YOUR_GAME_LINK_3" class="play-action-btn">Play Now</a>
+          <a href="https:hasanpersonal.github.io/uno" class="play-action-btn">Play Now</a>
         </div>
       </div>
     </div>
@@ -80,14 +80,14 @@ title: My Games
     <div class="game-card" data-tags="action survival active">
       <div class="card-image-holder">
         <img src="https://lh3.googleusercontent.com/d/YOUR_FILE_ID_4" alt="Game 4 Logo" onerror="this.src='https://images.unsplash.com/photo-1552820728-8b83bb6b773f?auto=format&fit=crop&w=500&q=80'">
-        <div class="card-badge">Empty</div>
+        <div class="card-badge">Coming Soon</div>
       </div>
       <div class="card-content">
-        <h3 class="game-title">Coming soon</h3>
+        <h3 class="game-title">Empty</h3>
         <p class="game-desc">This game is on under development</p>
         <div class="card-footer">
-          <span class="game-status"><span class="status-dot"></span> Ready</span>
-          <a href="YOUR_GAME_LINK_4" class="play-action-btn">Play Now</a>
+          <span class="game-statusoff"><span class="status-dotoff"></span> Ready</span>
+          <a href="YOUR_GAME_LINK_4" class="play-action-btn">Coming Soon</a>
         </div>
       </div>
     </div>
@@ -307,6 +307,23 @@ title: My Games
     border-radius: 50%;
     display: inline-block;
     box-shadow: 0 0 8px #10b981;
+  }
+     .game-statusoff {
+    font-size: 0.85rem;
+    color: #ff0000;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .status-dotoff {
+    width: 8px;
+    height: 8px;
+    background-color: #ff0000;
+    border-radius: 50%;
+    display: inline-block;
+    box-shadow: 0 0 8px #ff0000;
   }
 
   /* Clean Interaction Action Button/Container */
