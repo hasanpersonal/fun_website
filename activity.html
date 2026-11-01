@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#04060c">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<title>Activity Report — Hasan's Web</title>
+<meta name="description" content="A live activity report: projects in progress, completed projects, games live, weekly output and what's next.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+<div class="shell">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="nav">
+    <div class="nav__inner">
+      <a class="brand" href="index.html" aria-label="Hasan's Web — home">
+        <span class="brand__mark">IH</span>
+        <span>
+          <span class="brand__text">Hasan's Web</span>
+          <span class="brand__sub">Imrul Hasan · 2026</span>
+        </span>
+      </a>
+
+      <button class="nav__toggle" aria-label="Toggle navigation" aria-expanded="false"><span></span></button>
+
+      <nav class="nav__links" aria-label="Main">
+        <a class="nav__link" href="index.html">Home</a>
+        <a class="nav__link" href="index.html#projects">Projects</a>
+        <a class="nav__link" href="activity.html">Activity</a>
+        <a class="nav__link" href="page1.html">Videos</a>
+        <a class="nav__link" href="game.html">Arcade</a>
+        <a class="nav__link" href="pagecontact.html">Contact</a>
+      </nav>
+
+      <a class="btn btn--primary btn--sm nav__cta" href="pagecontact.html">
+        <i class="fa-regular fa-comment-dots"></i> Say hello
+      </a>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- ================= PAGE HERO ================= -->
+    <section class="page-hero">
+      <div class="container">
+        <div class="crumbs">
+          <a href="index.html">Home</a><span>/</span><span style="color:var(--text-soft)">Activity report</span>
+        </div>
+
+        <div class="section-head" style="margin-bottom:22px">
+          <div>
+            <span class="eyebrow">Live dashboard</span>
+            <h1 style="font-size:clamp(2rem,4.6vw,3.1rem)">Activity Report</h1>
+            <p class="section-lead" style="margin-top:12px">
+              Everything I'm building, finished or halfway — counted, charted and updated by hand.
+              Last refresh <strong style="color:#fff" data-updated>November 2026</strong>.
+            </p>
+          </div>
+
+          <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+            <span class="chip chip--live"><span class="dot dot--pulse"></span> All systems online</span>
+            <a class="btn btn--ghost btn--sm" href="index.html#projects"><i class="fa-solid fa-arrow-left"></i> Back to site</a>
+          </div>
+        </div>
+
+        <div class="pill-row">
+          <span class="chip"><i class="fa-solid fa-layer-group"></i> 11 projects tracked</span>
+          <span class="chip chip--live"><i class="fa-solid fa-circle-check"></i> 7 completed</span>
+          <span class="chip chip--wip"><i class="fa-solid fa-hammer"></i> 3 in progress</span>
+          <span class="chip chip--plan"><i class="fa-regular fa-lightbulb"></i> 1 planning</span>
+          <span class="chip chip--content"><i class="fa-solid fa-film"></i> 6 videos live</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= KPIs ================= -->
+    <section class="section--tight">
+      <div class="container">
+        <div class="kpi-grid reveal">
+          <!-- values mirror assets/activity-data.js → summary -->
+          <div class="card kpi" style="--kpi-color:#34d399">
+            <div class="kpi__top">
+              <span class="kpi__icon"><i class="fa-solid fa-circle-check"></i></span>
+              <span class="kpi__trend"><i class="fa-solid fa-arrow-up"></i> +2 this month</span>
+            </div>
+            <div class="kpi__value"><span data-count="7">7</span></div>
+            <div class="kpi__label">Completed projects</div>
+            <div class="kpi__spark" aria-hidden="true">
+              <span style="height:32%"></span><span style="height:46%"></span><span style="height:38%"></span>
+              <span style="height:62%"></span><span style="height:55%"></span><span style="height:78%"></span>
+              <span style="height:92%"></span>
+            </div>
+          </div>
+
+          <div class="card kpi" style="--kpi-color:#fbbf24">
+            <div class="kpi__top">
+              <span class="kpi__icon"><i class="fa-solid fa-hammer"></i></span>
+              <span class="kpi__trend kpi__trend--flat"><i class="fa-solid fa-equals"></i> steady</span>
+            </div>
+            <div class="kpi__value"><span data-count="3">3</span></div>
+            <div class="kpi__label">Projects working on now</div>
+            <div class="kpi__spark" aria-hidden="true">
+              <span style="height:58%"></span><span style="height:64%"></span><span style="height:52%"></span>
+              <span style="height:70%"></span><span style="height:66%"></span><span style="height:74%"></span>
+              <span style="height:68%"></span>
+            </div>
+          </div>
+
+          <div class="card kpi" style="--kpi-color:#22d3ee">
+            <div class="kpi__top">
+              <span class="kpi__icon"><i class="fa-solid fa-gamepad"></i></span>
+              <span class="kpi__trend"><i class="fa-solid fa-arrow-up"></i> +1 new</span>
+            </div>
+            <div class="kpi__value"><span data-count="3">3</span></div>
+            <div class="kpi__label">Games live in the arcade</div>
+            <div class="kpi__spark" aria-hidden="true">
+              <span style="height:28%"></span><span style="height:48%"></span><span style="height:44%"></span>
+              <span style="height:52%"></span><span style="height:68%"></span><span style="height:84%"></span>
+              <span style="height:100%"></span>
+            </div>
+          </div>
+
+          <div class="card kpi" style="--kpi-color:#a78bfa">
+            <div class="kpi__top">
+              <span class="kpi__icon"><i class="fa-solid fa-film"></i></span>
+              <span class="kpi__trend"><i class="fa-solid fa-arrow-up"></i> +3 uploads</span>
+            </div>
+            <div class="kpi__value"><span data-count="6">6</span></div>
+            <div class="kpi__label">Videos published</div>
+            <div class="kpi__spark" aria-hidden="true">
+              <span style="height:40%"></span><span style="height:36%"></span><span style="height:58%"></span>
+              <span style="height:50%"></span><span style="height:72%"></span><span style="height:64%"></span>
+              <span style="height:88%"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= CHARTS ================= -->
+    <section class="section--tight">
+      <div class="container">
+        <div class="chart-grid">
+          <div class="card card__pad reveal">
+            <div class="panel-head">
+              <h2 class="panel-title"><i class="fa-solid fa-chart-pie"></i> Portfolio status</h2>
+              <span class="panel-meta">all 11 projects</span>
+            </div>
+            <div class="donut-wrap" id="statusDonut"><!-- injected --></div>
+          </div>
+
+          <div class="card card__pad reveal" data-delay="80">
+            <div class="panel-head">
+              <h2 class="panel-title"><i class="fa-solid fa-gauge-high"></i> Progress by discipline</h2>
+              <span class="panel-meta">completion rate</span>
+            </div>
+            <div class="ring-grid" id="categoryRings"><!-- injected --></div>
+            <p class="card-sub mt-m">Web apps are furthest along — games take the most iteration, content the most time.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= PROJECT COMPLETION ================= -->
+    <section class="section--tight">
+      <div class="container">
+        <div class="card card__pad reveal">
+          <div class="panel-head" style="flex-wrap:wrap">
+            <div>
+              <h2 class="panel-title"><i class="fa-solid fa-list-check"></i> Project completion</h2>
+              <p class="card-sub" style="margin-top:4px">Every tracked project, newest work first.</p>
+            </div>
+            <div class="filters" id="progressControls">
+              <button class="filter-btn is-active" data-list-filter="all">All</button>
+              <button class="filter-btn" data-list-filter="live">Completed</button>
+              <button class="filter-btn" data-list-filter="progress">In progress</button>
+              <button class="filter-btn" data-list-filter="planning">Planning</button>
+            </div>
+          </div>
+          <div class="progress-list" id="progressList"><!-- injected --></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= OUTPUT ================= -->
+    <section class="section--tight">
+      <div class="container">
+        <div class="chart-grid">
+          <div class="card card__pad reveal">
+            <div class="panel-head">
+              <h2 class="panel-title"><i class="fa-solid fa-chart-column"></i> Weekly output</h2>
+              <div class="range-switch" id="rangeSwitch">
+                <button class="is-active" data-weeks="8">8W</button>
+                <button data-weeks="4">4W</button>
+              </div>
+            </div>
+            <div class="bars" id="weeklyBars"><!-- injected --></div>
+            <p class="card-sub mt-m">Commits, uploads and edits pushed to GitHub each week.</p>
+          </div>
+
+          <div class="card card__pad reveal" data-delay="80">
+            <div class="panel-head">
+              <h2 class="panel-title"><i class="fa-solid fa-table-cells"></i> Consistency map</h2>
+              <span class="panel-meta">last 20 weeks</span>
+            </div>
+            <div class="heatmap" id="heatmap"><!-- injected --></div>
+            <div class="heat-legend">
+              <span>less</span>
+              <i style="background:rgba(255,255,255,.045)"></i>
+              <i style="background:rgba(52,211,153,.24)"></i>
+              <i style="background:rgba(52,211,153,.42)"></i>
+              <i style="background:rgba(52,211,153,.66)"></i>
+              <i style="background:rgba(52,211,153,.92)"></i>
+              <span>more</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= WORKING ON + ROADMAP ================= -->
+    <section class="section--tight">
+      <div class="container">
+        <div class="split-2">
+          <div class="card card__pad reveal">
+            <div class="panel-head">
+              <h2 class="panel-title"><i class="fa-solid fa-spinner"></i> Open in tabs right now</h2>
+            </div>
+            <div class="work-list" id="workingOn"><!-- injected --></div>
+            <a class="btn btn--ghost btn--block mt-m" href="game.html">
+              <i class="fa-solid fa-gamepad"></i> See the arcade
+            </a>
+          </div>
+
+          <div class="card card__pad reveal" data-delay="80">
+            <div class="panel-head">
+              <h2 class="panel-title"><i class="fa-solid fa-road"></i> Roadmap</h2>
+              <span class="panel-meta">next 3 months</span>
+            </div>
+            <div class="roadmap">
+              <div class="roadmap__col">
+                <div class="roadmap__title" style="--rm:#fbbf24"><span class="dot dot--pulse"></span> Now</div>
+                <div class="roadmap__list">
+                  <div class="roadmap__item"><strong>UNO Table</strong><span>finish win screen</span></div>
+                  <div class="roadmap__item"><strong>Activity Report</strong><span>export as PDF</span></div>
+                </div>
+              </div>
+              <div class="roadmap__col">
+                <div class="roadmap__title" style="--rm:#22d3ee">Next</div>
+                <div class="roadmap__list">
+                  <div class="roadmap__item"><strong>Video library</strong><span>+6 new clips</span></div>
+                  <div class="roadmap__item"><strong>Site polish</strong><span>dark / light toggle</span></div>
+                </div>
+              </div>
+              <div class="roadmap__col">
+                <div class="roadmap__title" style="--rm:#a78bfa">Later</div>
+                <div class="roadmap__list">
+                  <div class="roadmap__item"><strong>Untitled arcade game</strong><span>prototype</span></div>
+                  <div class="roadmap__item"><strong>Leaderboard</strong><span>shared scores</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="note-strip mt-m reveal">
+          <i class="fa-solid fa-circle-info"></i>
+          <span>Every number on this page is pulled from one file — <code>assets/activity-data.js</code>. Edit it once and both the home page and this report update.</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= TIMELINE ================= -->
+    <section class="section--tight">
+      <div class="container">
+        <div class="card card__pad reveal">
+          <div class="panel-head">
+            <h2 class="panel-title"><i class="fa-solid fa-timeline"></i> Recent activity</h2>
+            <span class="panel-meta">latest first</span>
+          </div>
+          <div class="timeline" id="timelineFeed"><!-- injected --></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--tight">
+      <div class="container">
+        <div class="cta-band reveal">
+          <span class="eyebrow" style="justify-content:center">Next step</span>
+          <h2>Want to be the next entry?</h2>
+          <p>If you have a project that needs a small, fast, hand-coded front end — or just want to say hi — the inbox is open.</p>
+          <div class="hero__actions">
+            <a class="btn btn--primary" href="pagecontact.html"><i class="fa-regular fa-comment-dots"></i> Contact me</a>
+            <a class="btn btn--ghost" href="index.html#projects"><i class="fa-solid fa-layer-group"></i> Browse projects</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div>
+          <a class="brand" href="index.html">
+            <span class="brand__mark">IH</span>
+            <span><span class="brand__text">Hasan's Web</span><span class="brand__sub">Imrul Hasan · 2026</span></span>
+          </a>
+          <p class="footer__blurb">A personal workshop of browser games, tiny web apps and video collections — built and updated in public.</p>
+          <div class="socials">
+            <a href="https://github.com/hasanpersonal" target="_blank" rel="noopener" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+            <a href="https://youtube.com/@hasanbnsharif" target="_blank" rel="noopener" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+            <a href="https://www.facebook.com/s.imrulbinsharif" target="_blank" rel="noopener" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="https://wa.me/8801799344393" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+            <a href="mailto:s.imrulsharif@gmail.com" aria-label="Email"><i class="fa-regular fa-envelope"></i></a>
+          </div>
+        </div>
+
+        <div class="footer__col">
+          <h4>Explore</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html#projects">Projects</a></li>
+            <li><a href="activity.html">Activity report</a></li>
+            <li><a href="game.html">Arcade</a></li>
+          </ul>
+        </div>
+
+        <div class="footer__col">
+          <h4>Content</h4>
+          <ul>
+            <li><a href="page1.html">YouTube videos</a></li>
+            <li><a href="page2.html">Drive video vault</a></li>
+            <li><a href="pagecontact.html">Contact &amp; support</a></li>
+            <li><a href="https://hasanpersonal.github.io/Dinamic-" target="_blank" rel="noopener">Dinamic Tube</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer__bottom">
+        <span>&copy; <span data-year>2026</span> Hasan's Web. All rights reserved.</span>
+        <span class="sig">Coded by Imrul Hasan · HTML, CSS &amp; a lot of curiosity</span>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<script src="assets/activity-data.js"></script>
+<script src="assets/site.js"></script>
+<script src="assets/charts.js"></script>
+</body>
+</html>

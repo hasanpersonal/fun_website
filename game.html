@@ -1,389 +1,257 @@
----
-layout: default
-title: My Games
----
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#04060c">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<title>Arcade — Hasan's Web</title>
+<meta name="description" content="Browser games by Imrul Hasan. No installs, no accounts — just play.">
 
-<!-- =================================================================
-     GAMES PAGE MAIN CONTAINER (ALL CSS & JS INCLUDED)
-     ================================================================= -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+<div class="shell">
+  <a class="skip-link" href="#main">Skip to content</a>
 
-<div class="arcade-wrapper">
-  
-  <!-- Hero Section -->
-  <header class="arcade-hero">
-    <div class="hero-badge">Hasan's Games</div>
-    <h1 class="hero-title">My Game Collection</h1>
-    <p class="hero-subtitle">Handcrafted interactive experiences. Click to play instantly right from your browser.</p>
-    <div class="stats-counter">
-      <span id="game-count">⚡ Total Games until now: 3</span>
+  <header class="nav">
+    <div class="nav__inner">
+      <a class="brand" href="index.html" aria-label="Hasan's Web &mdash; home">
+        <span class="brand__mark">IH</span>
+        <span>
+          <span class="brand__text">Hasan's Web</span>
+          <span class="brand__sub">Imrul Hasan &middot; 2026</span>
+        </span>
+      </a>
+
+      <button class="nav__toggle" aria-label="Toggle navigation" aria-expanded="false"><span></span></button>
+
+      <nav class="nav__links" aria-label="Main">
+        <a class="nav__link" href="index.html">Home</a>
+        <a class="nav__link" href="index.html#projects">Projects</a>
+        <a class="nav__link" href="activity.html">Activity</a>
+        <a class="nav__link" href="page1.html">Videos</a>
+        <a class="nav__link" href="game.html">Arcade</a>
+        <a class="nav__link" href="pagecontact.html">Contact</a>
+      </nav>
+
+      <a class="btn btn--primary btn--sm nav__cta" href="pagecontact.html">
+        <i class="fa-regular fa-comment-dots"></i> Say hello
+      </a>
     </div>
   </header>
 
-  <!-- Search & Filter Bar (Pure JavaScript Powered) -->
-  <div class="filter-container">
-    <input type="text" id="gameSearch" placeholder="Search games by title or tags..." onkeyup="searchGames()">
-  </div>
-
-  <!-- Games Grid Container -->
-  <main class="games-grid" id="gamesGrid">
-    
-    <!-- Game Card 1 -->
-    <div class="game-card" data-tags="action arcade active">
-      <div class="card-image-holder">
-        <!-- Google Drive Logo Format: https://lh3.googleusercontent.com/d/YOUR_FILE_ID -->
-        <img src="https://lh3.googleusercontent.com/d/1e3OA7Q0RM_SzbCQwFxJT0KeWGLUkOvno" alt="Game 1 Logo">
-        <div class="card-badge">Archer</div>
-      </div>
-      <div class="card-content">
-        <h3 class="game-title">Cyber Archery 3.0</h3>
-        <p class="game-desc">An intense, fast-paced arcade experience designed to test your reflexes and strategic thinking.</p>
-        <div class="card-footer">
-          <span class="game-status"><span class="status-dot"></span> Ready</span>
-          <a href="http://hasanpersonal.github.io/archer" class="play-action-btn">Play Now</a>
+  <main id="main">
+    <section class="page-hero">
+      <div class="container">
+        <div class="crumbs">
+          <a href="index.html">Home</a><span>/</span><span style="color:var(--text-soft)">Arcade</span>
+        </div>
+        <span class="eyebrow">Play in browser</span>
+        <h1>The arcade</h1>
+        <p class="section-lead" style="margin-top:12px">Small, fast games that run in any browser tab &mdash; no installs, no accounts, no ads. Search or filter to find something to lose ten minutes to.</p>
+        <div class="pill-row">
+          <span class="chip chip--live"><i class="fa-solid fa-gamepad"></i> 3 playable now</span>
+          <span class="chip chip--wip"><i class="fa-solid fa-hammer"></i> 1 in development</span>
+          <span class="chip"><i class="fa-solid fa-bolt"></i> Zero downloads</span>
         </div>
       </div>
-    </div>
+    </section>
+    <section class="section--tight">
+      <div class="container">
+        <div class="game-toolbar reveal">
+          <div class="search-field">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="search" id="gameSearch" placeholder="Search games by name or genre&hellip;" aria-label="Search games">
+          </div>
 
-    <!-- Game Card 2 -->
-    <div class="game-card" data-tags="puzzle strategy active">
-      <div class="card-image-holder">
-        <img src="https://lh3.googleusercontent.com/d/1VNKbfAuC3XaVQcL5smkZmzMgR9WCvxjZ" alt="Game 2 Logo">
-        <div class="card-badge">Car</div>
-      </div>
-      <div class="card-content">
-        <h3 class="game-title">Neon CRace</h3>
-        <p class="game-desc">60s intense car race online</p>
-        <div class="card-footer">
-          <span class="game-status"><span class="status-dot"></span> Ready</span>
-          <a href="http://hasanpersonal.github.io/car" class="play-action-btn">Play Now</a>
+          <div class="filters" id="gameFilters">
+            <button class="filter-btn is-active" data-status="all">All games</button>
+            <button class="filter-btn" data-status="live">Playable</button>
+            <button class="filter-btn" data-status="wip">In development</button>
+          </div>
+
+          <span class="badge-count" id="gameCount">4 games</span>
+        </div>
+
+        <div class="game-grid" id="gameGrid">
+          <article class="card project game-card reveal" data-status="live" data-tags="action arcade" data-title="Cyber Archery 3.0" data-delay="0">
+            <div class="project__cover" style="--cover:linear-gradient(140deg,#4c1d95,#1e1b4b 60%,#0b1020)">
+              <span class="project__status"><span class="dot" style="color:#34d399"></span> Live</span>
+        <img src="https://lh3.googleusercontent.com/d/1e3OA7Q0RM_SzbCQwFxJT0KeWGLUkOvno" alt="Cyber Archery 3.0 cover">
+              <i class="fa-solid fa-crosshairs"></i>
+            </div>
+            <div class="project__body">
+              <h3 class="project__title">Cyber Archery 3.0</h3>
+              <p class="project__desc">Reflex-driven archery arcade. Aim, release, survive the swarm.</p>
+              <div class="project__tags">
+<span class="tag">Action</span><span class="tag">Arcade</span>
+              </div>
+              <div class="project__foot">
+                <span class="chip chip--live"><i class="fa-solid fa-bolt"></i> Playable now</span>
+                <a class="project__link" href="https://hasanpersonal.github.io/archer" target="_blank" rel="noopener">Play now <i class="fa-solid fa-arrow-right"></i></a>
+              </div>
+            </div>
+          </article>
+
+          <article class="card project game-card reveal" data-status="live" data-tags="racing 60s" data-title="Neon CRace" data-delay="70">
+            <div class="project__cover" style="--cover:linear-gradient(140deg,#7f1d1d,#3b0764 60%,#0b1020)">
+              <span class="project__status"><span class="dot" style="color:#34d399"></span> Live</span>
+        <img src="https://lh3.googleusercontent.com/d/1VNKbfAuC3XaVQcL5smkZmzMgR9WCvxjZ" alt="Neon CRace cover">
+              <i class="fa-solid fa-car-side"></i>
+            </div>
+            <div class="project__body">
+              <h3 class="project__title">Neon CRace</h3>
+              <p class="project__desc">Sixty seconds of neon highway. Four lanes, one stubborn high score.</p>
+              <div class="project__tags">
+<span class="tag">Racing</span><span class="tag">60s</span>
+              </div>
+              <div class="project__foot">
+                <span class="chip chip--live"><i class="fa-solid fa-bolt"></i> Playable now</span>
+                <a class="project__link" href="https://hasanpersonal.github.io/car" target="_blank" rel="noopener">Play now <i class="fa-solid fa-arrow-right"></i></a>
+              </div>
+            </div>
+          </article>
+
+          <article class="card project game-card reveal" data-status="live" data-tags="cards casual" data-title="UNO Table" data-delay="140">
+            <div class="project__cover" style="--cover:linear-gradient(140deg,#78350f,#3b0764 60%,#0b1020)">
+              <span class="project__status"><span class="dot" style="color:#34d399"></span> Live</span>
+              <i class="fa-solid fa-layer-group"></i>
+            </div>
+            <div class="project__body">
+              <h3 class="project__title">UNO Table</h3>
+              <p class="project__desc">Calm, simple card table. Turn logic is done, win screen in progress.</p>
+              <div class="project__tags">
+<span class="tag">Cards</span><span class="tag">Casual</span>
+              </div>
+              <div class="project__foot">
+                <span class="chip chip--live"><i class="fa-solid fa-bolt"></i> Playable now</span>
+                <a class="project__link" href="https://hasanpersonal.github.io/uno" target="_blank" rel="noopener">Preview <i class="fa-solid fa-arrow-right"></i></a>
+              </div>
+            </div>
+          </article>
+
+          <article class="card project game-card reveal" data-status="wip" data-tags="mystery wip" data-title="Wait for launch" data-delay="210">
+            <div class="project__cover" style="--cover:linear-gradient(140deg,#1e293b,#312e81 60%,#0b1020)">
+              <span class="project__status"><span class="dot" style="color:#fbbf24"></span> In development</span>
+              <i class="fa-solid fa-dice"></i>
+            </div>
+            <div class="project__body">
+              <h3 class="project__title">Wait for launch</h3>
+              <p class="project__desc">Next arcade experiment — still on the drawing board.</p>
+              <div class="project__tags">
+<span class="tag">Mystery</span><span class="tag">WIP</span>
+              </div>
+              <div class="project__foot">
+                <span class="chip chip--wip"><i class="fa-solid fa-hammer"></i> In development</span>
+                <a class="project__link" href="activity.html" >Follow progress <i class="fa-solid fa-arrow-right"></i></a>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <div class="empty-state" id="gameEmpty" style="display:none">
+          <i class="fa-solid fa-ghost"></i>
+          Nothing matches that search &mdash; try &ldquo;race&rdquo;, &ldquo;cards&rdquo; or clear the filters.
+        </div>
+
+        <div class="note-strip mt-l reveal">
+          <i class="fa-solid fa-circle-info"></i>
+          <span>Each game lives in its own GitHub Pages repo, so it loads as a full-screen app in a new tab.</span>
         </div>
       </div>
-    </div>
-
-    <!-- Game Card 3 -->
-    <div class="game-card" data-tags="adventure rpg active">
-      <div class="card-image-holder">
-        <img src="https://lh3.googleusercontent.com/d/YOUR_FILE_ID_3" alt="Game 3 Logo">
-        <div class="card-badge">Card</div>
-      </div>
-      <div class="card-content">
-        <h3 class="game-title">UNO table</h3>
-        <p class="game-desc">Calm, simple, fun table game</p>
-        <div class="card-footer">
-          <span class="game-status"><span class="status-dot"></span> Ready</span>
-          <a href="http://hasanpersonal.github.io/uno" class="play-action-btn">Play Now</a>
-        </div>
-      </div>
-    </div>
-
-    <!-- Game Card 4 -->
-    <div class="game-card" data-tags="action survival active">
-      <div class="card-image-holder">
-        <img src="https://lh3.googleusercontent.com/d/YOUR_FILE_ID_4" alt="Game 4 Logo">
-        <div class="card-badge">Yet to decide</div>
-      </div>
-      <div class="card-content">
-        <h3 class="game-title">Wait for launch</h3>
-        <p class="game-desc">This game is on under development</p>
-        <div class="card-footer">
-          <span class="game-statusoff"><span class="status-dotoff"></span> on development </span>
-          <a href="YOUR_GAME_LINK_4" class="play-action-btn">Coming Soon</a>
-        </div>
-      </div>
-    </div>
+    </section>
 
   </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div>
+          <a class="brand" href="index.html">
+            <span class="brand__mark">IH</span>
+            <span><span class="brand__text">Hasan's Web</span><span class="brand__sub">Imrul Hasan &middot; 2026</span></span>
+          </a>
+          <p class="footer__blurb">A personal workshop of browser games, tiny web apps and video collections &mdash; built and updated in public.</p>
+          <div class="socials">
+            <a href="https://github.com/hasanpersonal" target="_blank" rel="noopener" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+            <a href="https://youtube.com/@hasanbnsharif" target="_blank" rel="noopener" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+            <a href="https://www.facebook.com/s.imrulbinsharif" target="_blank" rel="noopener" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="https://wa.me/8801799344393" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+            <a href="mailto:s.imrulsharif@gmail.com" aria-label="Email"><i class="fa-regular fa-envelope"></i></a>
+          </div>
+        </div>
+
+        <div class="footer__col">
+          <h4>Explore</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html#projects">Projects</a></li>
+            <li><a href="activity.html">Activity report</a></li>
+            <li><a href="game.html">Arcade</a></li>
+          </ul>
+        </div>
+
+        <div class="footer__col">
+          <h4>Content</h4>
+          <ul>
+            <li><a href="page1.html">YouTube videos</a></li>
+            <li><a href="page2.html">Drive video vault</a></li>
+            <li><a href="pagecontact.html">Contact &amp; support</a></li>
+            <li><a href="https://hasanpersonal.github.io/Dinamic-" target="_blank" rel="noopener">Dinamic Tube</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer__bottom">
+        <span>&copy; <span data-year>2026</span> Hasan's Web. All rights reserved.</span>
+        <span class="sig">Coded by Imrul Hasan &middot; HTML, CSS &amp; a lot of curiosity</span>
+      </div>
+    </div>
+  </footer>
+
 </div>
 
-<!-- =================================================================
-     ADVANCED EMBEDDED STYLING (CSS)
-     ================================================================= -->
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
-
-  /* Wrapper scoping to prevent damaging your main theme */
-  .arcade-wrapper {
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    background-color: #0b0f19;
-    color: #f1f5f9;
-    padding: 60px 20px;
-    min-height: 100vh;
-    box-sizing: border-box;
-  }
-
-  .arcade-wrapper *, .arcade-wrapper ::after, .arcade-wrapper ::before {
-    box-sizing: border-box;
-  }
-
-  /* Hero Section Component */
-  .arcade-hero {
-    text-align: center;
-    max-width: 800px;
-    margin: 0 auto 50px auto;
-  }
-
-  .hero-badge {
-    display: inline-block;
-    background: rgba(99, 102, 241, 0.15);
-    color: #818cf8;
-    padding: 6px 16px;
-    border-radius: 100px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    margin-bottom: 20px;
-    border: 1px solid rgba(99, 102, 241, 0.3);
-  }
-
-  .hero-title {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 3.5rem;
-    font-weight: 700;
-    margin: 0 0 15px 0;
-    line-height: 1.1;
-    background: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-
-  .hero-subtitle {
-    font-size: 1.15rem;
-    color: #94a3b8;
-    line-height: 1.6;
-    margin: 0 0 25px 0;
-  }
-
-  .stats-counter {
-    font-size: 0.95rem;
-    color: #38bdf8;
-    font-weight: 600;
-    background: rgba(56, 189, 248, 0.1);
-    padding: 8px 20px;
-    border-radius: 8px;
-    display: inline-block;
-  }
-
-  /* Real-time Search Input Box */
-  .filter-container {
-    max-width: 500px;
-    margin: 0 auto 40px auto;
-  }
-
-  #gameSearch {
-    width: 100%;
-    padding: 16px 24px;
-    background: #1e293b;
-    border: 2px solid #334155;
-    border-radius: 12px;
-    color: #fff;
-    font-size: 1rem;
-    outline: none;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  }
-
-  #gameSearch:focus {
-    border-color: #6366f1;
-    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.25);
-    background: #111827;
-  }
-
-  /* Ultra Responsive Grid Layout */
-  .games-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 30px;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-
-  /* Premium Game Card Design */
-  .game-card {
-    background: #111827;
-    border: 1px solid #1f2937;
-    border-radius: 20px;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease, border-color 0.4s ease;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
-  }
-
-  /* Card Hover Animations */
-  .game-card:hover {
-    transform: translateY(-12px) scale(1.02);
-    border-color: #6366f1;
-    box-shadow: 0 20px 30px -10px rgba(99, 102, 241, 0.4);
-  }
-
-  /* Header Image / Logo Section */
-  .card-image-holder {
-    position: relative;
-    width: 100%;
-    height: 210px;
-    background: #1f2937;
-    overflow: hidden;
-  }
-
-  .card-image-holder img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.5s ease;
-  }
-
-  .game-card:hover .card-image-holder img {
-    transform: scale(1.1) rotate(1deg);
-  }
-
-  /* Game Category Floating Badge */
-  .card-badge {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    background: rgba(15, 23, 42, 0.75);
-    backdrop-filter: blur(8px);
-    color: #f8fafc;
-    padding: 4px 14px;
-    border-radius: 8px;
-    font-size: 0.75rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-  }
-
-  /* Card Texts */
-  .card-content {
-    padding: 24px;
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-  }
-
-  .game-title {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 1.4rem;
-    font-weight: 700;
-    margin: 0 0 10px 0;
-    color: #ffffff;
-    transition: color 0.3s ease;
-  }
-
-  .game-card:hover .game-title {
-    color: #818cf8;
-  }
-
-  .game-desc {
-    font-size: 0.92rem;
-    color: #9ca3af;
-    line-height: 1.5;
-    margin: 0 0 24px 0;
-    flex-grow: 1;
-  }
-
-  /* Card Bottom Row */
-  .card-footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: auto;
-  }
-
-  .game-status {
-    font-size: 0.85rem;
-    color: #10b981;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-
-  .status-dot {
-    width: 8px;
-    height: 8px;
-    background-color: #10b981;
-    border-radius: 50%;
-    display: inline-block;
-    box-shadow: 0 0 8px #10b981;
-  }
-     .game-statusoff {
-    font-size: 0.85rem;
-    color: #ff0000;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-
-  .status-dotoff {
-    width: 8px;
-    height: 8px;
-    background-color: #ff0000;
-    border-radius: 50%;
-    display: inline-block;
-    box-shadow: 0 0 8px #ff0000;
-  }
-
-  /* Clean Interaction Action Button/Container */
-  .play-action-btn {
-    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
-    color: #ffffff;
-    text-decoration: none;
-    padding: 14px 28px; /* बटनটি আরও বড় করা হয়েছে */
-    border-radius: 12px;
-    font-size: 1.1rem; /* ফন্ট সাইজ বড় করা হয়েছে */
-    font-weight: 600;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
-  }
-
-  .play-action-btn:hover {
-    background: linear-gradient(135deg, #4338ca 0%, #6d28d9 100%);
-    box-shadow: 0 6px 16px rgba(79, 70, 229, 0.5);
-    transform: translateY(-2px);
-  }
-
-  .play-action-btn:active {
-    transform: translateY(0);
-  }
-
-  /* Responsiveness Fixes */
-  @media (max-width: 640px) {
-    .hero-title { font-size: 2.5rem; }
-    .arcade-wrapper { padding: 40px 15px; }
-    .play-action-btn {
-      padding: 12px 24px;
-      font-size: 1rem;
-    }
-  }
-</style>
-
-<!-- =================================================================
-     DYNAMIC INTERACTION LOGIC (JAVASCRIPT)
-     ================================================================= -->
+<script src="assets/site.js"></script>
 <script>
-  // Real-time JavaScript Card Searching Logic
-  function searchGames() {
-    let input = document.getElementById('gameSearch').value.toLowerCase();
-    let cards = document.getElementsByClassName('game-card');
-    let visibleCount = 0;
+  (function () {
+    var search = document.getElementById("gameSearch"),
+        cards = Array.prototype.slice.call(document.querySelectorAll(".game-card")),
+        empty = document.getElementById("gameEmpty"),
+        count = document.getElementById("gameCount"),
+        buttons = Array.prototype.slice.call(document.querySelectorAll("#gameFilters .filter-btn")),
+        status = "all";
 
-    for (let i = 0; i < cards.length; i++) {
-      let title = cards[i].querySelector('.game-title').innerText.toLowerCase();
-      let desc = cards[i].querySelector('.game-desc').innerText.toLowerCase();
-      let tags = cards[i].getAttribute('data-tags').toLowerCase();
+    function apply() {
+      var q = (search.value || "").toLowerCase().trim(),
+          visible = 0;
 
-      if (title.includes(input) || desc.includes(input) || tags.includes(input)) {
-        cards[i].style.display = "flex";
-        visibleCount++;
-      } else {
-        cards[i].style.display = "none";
-      }
+      cards.forEach(function (card) {
+        var haystack = (card.dataset.title + " " + card.dataset.tags).toLowerCase();
+        var ok = (status === "all" || card.dataset.status === status) && (!q || haystack.indexOf(q) > -1);
+        card.classList.toggle("is-hidden", !ok);
+        if (ok) visible++;
+      });
+
+      count.textContent = visible + (visible === 1 ? " game" : " games");
+      empty.style.display = visible ? "none" : "block";
     }
 
-    // Dynamic Header Counter Update
-    document.getElementById('game-count').innerText = `⚡ Found Games: ${visibleCount}`;
-  }
+    search.addEventListener("input", apply);
+
+    buttons.forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        buttons.forEach(function (b) { b.classList.remove("is-active"); });
+        btn.classList.add("is-active");
+        status = btn.dataset.status;
+        apply();
+      });
+    });
+  })();
 </script>
+</body>
+</html>

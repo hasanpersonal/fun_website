@@ -1,235 +1,465 @@
----
-layout: default
----
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#04060c">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<title>Hasan's Web — Projects, Games & Activity Report</title>
+<meta name="description" content="The personal workshop of Imrul Hasan — browser games, web apps, video collections and a live activity report of everything being built.">
+<meta property="og:title" content="Hasan's Web — Projects, Games & Activity Report">
+<meta property="og:description" content="A live look at what I'm building: browser games, small web apps and a dashboard of progress.">
+<meta property="og:type" content="website">
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+<div class="shell">
+  <a class="skip-link" href="#main">Skip to content</a>
 
-<style>
-    /* বক্স সাইজিং রিসেট */
-    .minimal-hero, .minimal-hero * {
-        box-sizing: border-box;
-    }
+  <!-- ================= NAV ================= -->
+  <header class="nav">
+    <div class="nav__inner">
+      <a class="brand" href="index.html" aria-label="Hasan's Web — home">
+        <span class="brand__mark">IH</span>
+        <span>
+          <span class="brand__text">Hasan's Web</span>
+          <span class="brand__sub">Imrul Hasan · 2026</span>
+        </span>
+      </a>
 
-    :root {
-        /* Jekyll-এর সাথে মানানসই White-Gray থিম */
-        --bg-color: #2adb91; 
-        --card-bg: #ffffff;
-        --text-main: #0f172a; 
-        --text-muted: #64748b;
-    }
+      <button class="nav__toggle" aria-label="Toggle navigation" aria-expanded="false"><span></span></button>
 
-    /* হিরো সেকশন */
-    .minimal-hero {
-        font-family: 'Inter', sans-serif;
-        min-height: 100vh;
-        width: 100%; 
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        padding: 40px 20px;
-        text-align: center;
-        background-color: var(--bg-color);
-        background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
-        background-size: 24px 24px; 
-        color: var(--text-main);
-    }
+      <nav class="nav__links" aria-label="Main">
+        <a class="nav__link" href="index.html">Home</a>
+        <a class="nav__link" href="#projects">Projects</a>
+        <a class="nav__link" href="activity.html">Activity</a>
+        <a class="nav__link" href="page1.html">Videos</a>
+        <a class="nav__link" href="game.html">Arcade</a>
+        <a class="nav__link" href="pagecontact.html">Contact</a>
+      </nav>
 
-    /* লোডিং অ্যানিমেশন */
-    @keyframes fadeInUp {
-        0% { opacity: 0; transform: translateY(30px); }
-        100% { opacity: 1; transform: translateY(0); }
-    }
+      <a class="btn btn--primary btn--sm nav__cta" href="pagecontact.html">
+        <i class="fa-regular fa-comment-dots"></i> Say hello
+      </a>
+    </div>
+  </header>
 
-    /* মেইন কার্ড ডিজাইন - আলট্রা প্রিমিয়াম লুক */
-    .clean-container {
-        background: var(--card-bg);
-        padding: 50px 40px;
-        border-radius: 24px;
-        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08), 0 0 15px rgba(0, 0, 0, 0.02);
-        width: 100%;
-        max-width: 450px; 
-        border: 1px solid rgba(255, 255, 255, 0.8);
-        transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
-        animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
+  <main id="main">
+    <!-- ================= HERO ================= -->
+    <section class="hero">
+      <div class="container">
+        <div class="hero__grid">
 
-    @media (max-width: 480px) {
-        .minimal-hero {
-            padding: 20px 10px;
-        }
-        .clean-container {
-            padding: 40px 20px; 
-        }
-        .clean-container h1 {
-            font-size: 2.8rem; 
-        }
-    }
+          <div class="hero__copy">
+            <span class="hero__badge">
+              <span class="dot dot--pulse"></span>
+              Open to collaborations
+              <span class="hero__badge-tag">2026</span>
+            </span>
 
-    .clean-container:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.1), 0 0 20px rgba(0, 0, 0, 0.03);
-    }
+            <h1 class="hero__title">
+              Small ideas,<br>
+              turned into <em>playable</em><br>
+              web experiences.
+            </h1>
 
-    .clean-container h1 {
-        font-size: 3.5rem;
-        font-weight: 800;
-        margin: 0 0 8px 0;
-        color: var(--text-main);
-        letter-spacing: -1.5px;
-    }
+            <p class="hero__lead">
+              I'm <strong>Imrul Hasan</strong> — a self-taught builder making browser games, tiny web apps
+              and video collections. Everything here is hand-coded with HTML, CSS and vanilla JavaScript,
+              and tracked on a public <strong>activity report</strong>.
+            </p>
 
-    .clean-container p {
-        font-size: 1.1rem;
-        color: var(--text-muted);
-        margin-bottom: 35px;
-        font-weight: 400;
-    }
+            <div class="hero__actions">
+              <a class="btn btn--primary" href="#projects">
+                Explore projects <i class="fa-solid fa-arrow-right"></i>
+              </a>
+              <a class="btn btn--ghost" href="activity.html">
+                <i class="fa-solid fa-chart-simple"></i> Activity report
+              </a>
+            </div>
 
-    /* বাটন স্ট্যাক */
-    .button-stack {
-        display: flex;
-        flex-direction: column;
-        gap: 14px;
-    }
+            <p class="hero__note">
+              <i class="fa-solid fa-code-branch"></i>
+              Updated <span data-updated>November 2026</span> · <span>11 projects tracked</span>
+            </p>
+          </div>
 
-    /* বেসিক বাটন স্টাইল */
-    .clean-btn {
-        padding: 16px 20px;
-        font-size: 1.05rem;
-        font-weight: 600;
-        border-radius: 16px;
-        cursor: pointer;
-        text-decoration: none;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 12px;
-        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-        position: relative;
-        overflow: hidden;
-    }
+          <!-- floating snapshot card -->
+          <aside class="dash" aria-label="Activity snapshot">
+            <div class="dash__inner">
+              <div class="dash__top">
+                <span class="dash__dots"><i></i><i></i><i></i></span>
+                <span class="dash__label">activity · live</span>
+                <i class="fa-solid fa-arrow-trend-up" style="color:#34d399;font-size:.8rem"></i>
+              </div>
 
-    .clean-btn i {
-        font-size: 1.2rem;
-        transition: transform 0.3s ease;
-    }
+              <span class="dash__label">completed projects</span>
+              <div class="dash__hero-stat">
+                <span class="dash__hero-num" data-count="7">7</span>
+                <span class="dash__hero-cap">shipped &amp; online</span>
+              </div>
 
-    .clean-btn:hover i {
-        transform: scale(1.15);
-    }
+              <div class="dash__label" style="margin-top:20px">currently building</div>
+              <div class="mini-rows" id="miniRows">
+                <!-- injected from assets/activity-data.js -->
+              </div>
 
-    /* আউটলাইন বাটন (Light) */
-    .btn-outline {
-        background-color: #ffffff;
-        color: #334155;
-        border: 2px solid #e2e8f0;
-    }
+              <div class="panel-head" style="margin:20px 0 0;padding-top:16px;border-top:1px solid var(--line-soft)">
+                <span class="panel-meta">updated <span data-updated>November 2026</span></span>
+                <a class="project__link" href="activity.html">Full report <i class="fa-solid fa-arrow-right"></i></a>
+              </div>
+            </div>
+          </aside>
 
-    .btn-outline i {
-        color: var(--btn-color);
-    }
-
-    .btn-outline:hover {
-        border-color: var(--btn-color);
-        color: var(--btn-color);
-        background-color: var(--btn-bg-hover);
-        box-shadow: 0 10px 20px -5px rgba(0,0,0,0.05);
-        transform: translateY(-2px);
-    }
-
-    /* ফিল্ড বাটন (Highlight) */
-    .btn-filled {
-        background-color: var(--btn-color);
-        color: #ffffff;
-        border: none;
-        box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-    }
-
-    .btn-filled:hover {
-        filter: brightness(1.08);
-        transform: translateY(-3px);
-        box-shadow: 0 15px 25px -5px var(--btn-color-shadow);
-    }
-
-    /* ডাইনামিক বাটন কালারস */
-    .btn-rocket { --btn-color: #f97316; --btn-bg-hover: #fff7ed; } /* অরেঞ্জ */
-    .btn-file { --btn-color: #3b82f6; --btn-bg-hover: #eff6ff; } /* ব্লু */
-    .btn-game { --btn-color: #8b5cf6; --btn-color-shadow: rgba(139, 92, 246, 0.4); } /* পার্পল */
-    .btn-tube { --btn-color: #f43f5e; --btn-color-shadow: rgba(244, 63, 94, 0.4); } /* রোজ/রেড */
-    .btn-support { --btn-color: #0d9488; --btn-bg-hover: #f0fdfa; } /* টিল/সবুজ-নীল */
-
-    /* ফুটার */
-    .minimal-footer {
-        margin-top: 50px;
-        text-align: center;
-        animation: fadeInUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        animation-delay: 0.2s;
-        opacity: 0;
-    }
-
-    .footer-highlight {
-        font-size: 1.1rem;
-        font-weight: 700;
-        color: #334155;
-        display: block;
-        margin-bottom: 5px;
-    }
-
-    .footer-text {
-        font-size: 0.9rem;
-        color: #64748b;
-        display: block;
-        margin-bottom: 15px;
-    }
-
-    .footer-badge {
-        display: inline-block;
-        background: #e2e8f0;
-        color: #475569;
-        padding: 6px 16px;
-        border-radius: 20px;
-        font-size: 0.8rem;
-        font-weight: 700;
-        letter-spacing: 1px;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-    }
-</style>
-
-<div class="minimal-hero">
-    <div class="clean-container">
-        <h1>Welcome</h1>
-        <p>This is my first online website</p>
-    
-        <div class="button-stack">
-            <!-- Tube (Red/Pink Highlight) -->
-            <a href="https://hasanpersonal.github.io/Dinamic-" class="clean-btn btn-filled btn-tube">
-                <i class="fa-regular fa-file-lines"></i> Dinamic Tube Site By me
-            </a>
-            <!-- Rocket (Orange) -->
-            <a href="page1.html" class="clean-btn btn-outline btn-rocket">
-                <i class="fa-solid fa-rocket"></i> Go to Page 1
-            </a>
-            <!-- File (Blue) -->
-            <a href="page2.html" class="clean-btn btn-outline btn-file">
-                <i class="fa-regular fa-file-lines"></i> Explore Page 2
-            </a>
-            <!-- Gamepad (Purple Highlight) -->
-            <a href="game.html" class="clean-btn btn-filled btn-game">
-                <i class="fa-solid fa-gamepad"></i> Games by me
-            </a>
-            
-            <!-- Support (Teal) -->
-            <a href="pagecontact.html" class="clean-btn btn-filled btn-support">
-                <i class="fa-solid fa-headset"></i> Contact & Support
-            </a>
         </div>
+
+        <!-- quick numbers -->
+        <div class="stat-strip reveal">
+          <div class="stat">
+            <div class="stat__num"><span data-count="11">11</span><sup>+</sup></div>
+            <div class="stat__label"><i class="fa-solid fa-layer-group"></i> Projects tracked</div>
+          </div>
+          <div class="stat">
+            <div class="stat__num"><span data-count="7">7</span></div>
+            <div class="stat__label"><i class="fa-solid fa-circle-check"></i> Completed</div>
+          </div>
+          <div class="stat">
+            <div class="stat__num"><span data-count="3">3</span></div>
+            <div class="stat__label"><i class="fa-solid fa-gamepad"></i> Games live</div>
+          </div>
+          <div class="stat">
+            <div class="stat__num"><span data-count="6">6</span></div>
+            <div class="stat__label"><i class="fa-solid fa-film"></i> Videos online</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= MARQUEE ================= -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee__track">
+        <span>HTML5</span><span>CSS3</span><span>Vanilla JavaScript</span><span>GitHub Pages</span>
+        <span>Responsive design</span><span>Micro-interactions</span><span>Git &amp; Version control</span>
+        <span>Canvas games</span><span>Video embedding</span>
+        <span>HTML5</span><span>CSS3</span><span>Vanilla JavaScript</span><span>GitHub Pages</span>
+        <span>Responsive design</span><span>Micro-interactions</span><span>Git &amp; Version control</span>
+        <span>Canvas games</span><span>Video embedding</span>
+      </div>
     </div>
 
-    <div class="minimal-footer">
-        <span class="footer-highlight">Coded by Imrul Hasan 😇</span>
-        <span class="footer-text">Using HTML & CSS (Hosted on GitHub) 😌</span>
-        <span class="footer-badge">WEB PROJECT 2026 ✓✓</span>
+    <!-- ================= PROJECTS ================= -->
+    <section class="section" id="projects">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <span class="eyebrow">Selected work</span>
+            <h2 class="section-title">Things I've built and put online</h2>
+            <p class="section-lead">Games, web apps and content hubs — each one small, fast and playable from any browser.</p>
+          </div>
+          <a class="btn btn--ghost" href="activity.html">
+            <i class="fa-solid fa-table-list"></i> See all 11 projects
+          </a>
+        </div>
+
+        <div class="project-grid">
+
+          <article class="card project reveal">
+            <div class="project__cover" style="--cover:linear-gradient(140deg,#4c1d95,#1e1b4b 60%,#0b1020)">
+              <span class="project__status"><span class="dot" style="color:#34d399"></span> Live</span>
+              <i class="fa-solid fa-crosshairs"></i>
+            </div>
+            <div class="project__body">
+              <h3 class="project__title">Cyber Archery 3.0</h3>
+              <p class="project__desc">A fast, reflex-driven archery arcade game with escalating targets and a neon scoreboard.</p>
+              <div class="project__tags"><span class="tag">Game</span><span class="tag">Canvas</span><span class="tag">Arcade</span></div>
+              <div class="project__foot">
+                <span class="chip chip--live"><i class="fa-solid fa-bolt"></i> Shipped</span>
+                <a class="project__link" href="https://hasanpersonal.github.io/archer" target="_blank" rel="noopener">Play <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+              </div>
+            </div>
+          </article>
+
+          <article class="card project reveal" data-delay="80">
+            <div class="project__cover" style="--cover:linear-gradient(140deg,#7f1d1d,#3b0764 55%,#0b1020)">
+              <span class="project__status"><span class="dot" style="color:#34d399"></span> Live</span>
+              <i class="fa-solid fa-car-side"></i>
+            </div>
+            <div class="project__body">
+              <h3 class="project__title">Neon CRace</h3>
+              <p class="project__desc">Sixty seconds of neon highway, four lanes of traffic and one very stubborn high score.</p>
+              <div class="project__tags"><span class="tag">Game</span><span class="tag">Runner</span><span class="tag">60s</span></div>
+              <div class="project__foot">
+                <span class="chip chip--live"><i class="fa-solid fa-bolt"></i> Shipped</span>
+                <a class="project__link" href="https://hasanpersonal.github.io/car" target="_blank" rel="noopener">Play <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+              </div>
+            </div>
+          </article>
+
+          <article class="card project reveal" data-delay="160">
+            <div class="project__cover" style="--cover:linear-gradient(140deg,#9f1239,#4c0519 60%,#0b1020)">
+              <span class="project__status"><span class="dot" style="color:#34d399"></span> Live</span>
+              <i class="fa-solid fa-tower-broadcast"></i>
+            </div>
+            <div class="project__body">
+              <h3 class="project__title">Dinamic Tube</h3>
+              <p class="project__desc">My own little video tube — a dynamic player built to experiment with feeds and layout.</p>
+              <div class="project__tags"><span class="tag">Web app</span><span class="tag">JavaScript</span></div>
+              <div class="project__foot">
+                <span class="chip chip--live"><i class="fa-solid fa-bolt"></i> Shipped</span>
+                <a class="project__link" href="https://hasanpersonal.github.io/Dinamic-" target="_blank" rel="noopener">Open <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+              </div>
+            </div>
+          </article>
+
+          <article class="card project reveal">
+            <div class="project__cover" style="--cover:linear-gradient(140deg,#78350f,#3b0764 60%,#0b1020)">
+              <span class="project__status"><span class="dot" style="color:#fbbf24"></span> In progress · 75%</span>
+              <i class="fa-solid fa-layer-group"></i>
+            </div>
+            <div class="project__body">
+              <h3 class="project__title">UNO Table</h3>
+              <p class="project__desc">A calm, click-through card table. Turn logic is finished — the win screen is next.</p>
+              <div class="project__tags"><span class="tag">Game</span><span class="tag">Multiplayer</span><span class="tag">Cards</span></div>
+              <div class="project__foot">
+                <span class="chip chip--wip"><i class="fa-solid fa-hammer"></i> 75% done</span>
+                <a class="project__link" href="https://hasanpersonal.github.io/uno" target="_blank" rel="noopener">Preview <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+              </div>
+            </div>
+          </article>
+
+          <article class="card project reveal" data-delay="80">
+            <div class="project__cover" style="--cover:linear-gradient(140deg,#7c2d12,#4a044e 60%,#0b1020)">
+              <span class="project__status"><span class="dot" style="color:#34d399"></span> Live</span>
+              <i class="fa-brands fa-youtube"></i>
+            </div>
+            <div class="project__body">
+              <h3 class="project__title">Screening Room</h3>
+              <p class="project__desc">A tidy, distraction-free page for the videos I make — full-bleed players, no clutter.</p>
+              <div class="project__tags"><span class="tag">Content</span><span class="tag">YouTube</span></div>
+              <div class="project__foot">
+                <span class="chip chip--live"><i class="fa-solid fa-bolt"></i> Shipped</span>
+                <a class="project__link" href="page1.html">Watch <i class="fa-solid fa-arrow-right"></i></a>
+              </div>
+            </div>
+          </article>
+
+          <article class="card project reveal" data-delay="160">
+            <div class="project__cover" style="--cover:linear-gradient(140deg,#0c4a6e,#1e1b4b 60%,#0b1020)">
+              <span class="project__status"><span class="dot" style="color:#34d399"></span> Live</span>
+              <i class="fa-brands fa-google-drive"></i>
+            </div>
+            <div class="project__body">
+              <h3 class="project__title">Drive Video Vault</h3>
+              <p class="project__desc">Longer cuts and raw clips kept on Google Drive, presented as a clean thumbnail shelf.</p>
+              <div class="project__tags"><span class="tag">Content</span><span class="tag">Drive</span></div>
+              <div class="project__foot">
+                <span class="chip chip--live"><i class="fa-solid fa-bolt"></i> Shipped</span>
+                <a class="project__link" href="page2.html">Browse <i class="fa-solid fa-arrow-right"></i></a>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= ACTIVITY REPORT ================= -->
+    <section class="section" id="activity">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <span class="eyebrow">Activity report</span>
+            <h2 class="section-title">The numbers behind the fun</h2>
+            <p class="section-lead">A live snapshot of what's finished, what's half-built and where the hours are going.</p>
+          </div>
+          <a class="btn btn--primary" href="activity.html">
+            Open full report <i class="fa-solid fa-arrow-right"></i>
+          </a>
+        </div>
+
+        <div class="kpi-grid reveal">
+          <div class="card kpi" style="--kpi-color:#34d399">
+            <div class="kpi__top">
+              <span class="kpi__icon"><i class="fa-solid fa-circle-check"></i></span>
+              <span class="kpi__trend"><i class="fa-solid fa-arrow-up"></i> 2 this month</span>
+            </div>
+            <div class="kpi__value"><span data-count="7">7</span></div>
+            <div class="kpi__label">Completed projects</div>
+            <div class="kpi__spark" aria-hidden="true">
+              <span style="height:32%"></span><span style="height:46%"></span><span style="height:38%"></span>
+              <span style="height:62%"></span><span style="height:55%"></span><span style="height:78%"></span>
+              <span style="height:92%"></span>
+            </div>
+          </div>
+
+          <div class="card kpi" style="--kpi-color:#fbbf24">
+            <div class="kpi__top">
+              <span class="kpi__icon"><i class="fa-solid fa-hammer"></i></span>
+              <span class="kpi__trend kpi__trend--flat"><i class="fa-solid fa-equals"></i> steady</span>
+            </div>
+            <div class="kpi__value"><span data-count="3">3</span></div>
+            <div class="kpi__label">Working on right now</div>
+            <div class="kpi__spark" aria-hidden="true">
+              <span style="height:58%"></span><span style="height:64%"></span><span style="height:52%"></span>
+              <span style="height:70%"></span><span style="height:66%"></span><span style="height:74%"></span>
+              <span style="height:68%"></span>
+            </div>
+          </div>
+
+          <div class="card kpi" style="--kpi-color:#22d3ee">
+            <div class="kpi__top">
+              <span class="kpi__icon"><i class="fa-solid fa-gamepad"></i></span>
+              <span class="kpi__trend"><i class="fa-solid fa-arrow-up"></i> +1 new</span>
+            </div>
+            <div class="kpi__value"><span data-count="3">3</span></div>
+            <div class="kpi__label">Games live in the arcade</div>
+            <div class="kpi__spark" aria-hidden="true">
+              <span style="height:28%"></span><span style="height:48%"></span><span style="height:44%"></span>
+              <span style="height:52%"></span><span style="height:68%"></span><span style="height:84%"></span>
+              <span style="height:100%"></span>
+            </div>
+          </div>
+
+          <div class="card kpi" style="--kpi-color:#a78bfa">
+            <div class="kpi__top">
+              <span class="kpi__icon"><i class="fa-solid fa-film"></i></span>
+              <span class="kpi__trend"><i class="fa-solid fa-arrow-up"></i> +3 uploads</span>
+            </div>
+            <div class="kpi__value"><span data-count="6">6</span></div>
+            <div class="kpi__label">Videos published</div>
+            <div class="kpi__spark" aria-hidden="true">
+              <span style="height:40%"></span><span style="height:36%"></span><span style="height:58%"></span>
+              <span style="height:50%"></span><span style="height:72%"></span><span style="height:64%"></span>
+              <span style="height:88%"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="chart-grid mt-s">
+          <div class="card card--hover card__pad reveal">
+            <div class="panel-head">
+              <h2 class="panel-title"><i class="fa-solid fa-chart-pie"></i> Portfolio status</h2>
+              <span class="panel-meta" data-updated>November 2026</span>
+            </div>
+            <div class="donut-wrap" id="statusDonut"><!-- chart injected --></div>
+          </div>
+
+          <div class="card card--hover card__pad reveal" data-delay="90">
+            <div class="panel-head">
+              <h2 class="panel-title"><i class="fa-solid fa-chart-column"></i> Last 8 weeks</h2>
+              <span class="panel-meta">commits &amp; uploads</span>
+            </div>
+            <div class="bars" id="weeklyBars"><!-- chart injected --></div>
+          </div>
+        </div>
+
+        <div class="mt-s reveal" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px">
+          <div class="card card__pad">
+            <div class="panel-head">
+              <h2 class="panel-title"><i class="fa-solid fa-spinner"></i> Currently working on</h2>
+              <a class="panel-meta" href="activity.html">detail</a>
+            </div>
+            <div class="work-list" id="workingOn"><!-- injected --></div>
+          </div>
+
+          <div class="card card__pad">
+            <div class="panel-head">
+              <h2 class="panel-title"><i class="fa-solid fa-timeline"></i> Recent activity</h2>
+            </div>
+            <div class="timeline">
+              <div class="tl-item" style="--tl:#34d399">
+                <div class="tl-item__date">Nov 01, 2026</div>
+                <div class="tl-item__title">Activity report launched</div>
+                <div class="tl-item__desc">Projects, progress and shipped work in one dashboard.</div>
+              </div>
+              <div class="tl-item" style="--tl:#8b5cf6">
+                <div class="tl-item__date">Oct 26, 2026</div>
+                <div class="tl-item__title">Full site redesign</div>
+                <div class="tl-item__desc">New design system, shared stylesheet, faster navigation.</div>
+              </div>
+              <div class="tl-item" style="--tl:#fbbf24">
+                <div class="tl-item__date">Oct 18, 2026</div>
+                <div class="tl-item__title">UNO Table hit 75%</div>
+                <div class="tl-item__desc">Turn logic is done — polishing the win screen next.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= CTA ================= -->
+    <section class="section section--tight">
+      <div class="container">
+        <div class="cta-band reveal">
+          <span class="eyebrow" style="justify-content:center">Say hello</span>
+          <h2>Got an idea worth building?</h2>
+          <p>I'm always up for a small, weird, ambitious project. Message me on WhatsApp, drop an email, or just come play the games.</p>
+          <div class="hero__actions">
+            <a class="btn btn--primary" href="pagecontact.html"><i class="fa-regular fa-comment-dots"></i> Get in touch</a>
+            <a class="btn btn--ghost" href="game.html"><i class="fa-solid fa-gamepad"></i> Visit the arcade</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div>
+          <a class="brand" href="index.html">
+            <span class="brand__mark">IH</span>
+            <span><span class="brand__text">Hasan's Web</span><span class="brand__sub">Imrul Hasan · 2026</span></span>
+          </a>
+          <p class="footer__blurb">A personal workshop of browser games, tiny web apps and video collections — built and updated in public.</p>
+          <div class="socials">
+            <a href="https://github.com/hasanpersonal" target="_blank" rel="noopener" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+            <a href="https://youtube.com/@hasanbnsharif" target="_blank" rel="noopener" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+            <a href="https://www.facebook.com/s.imrulbinsharif" target="_blank" rel="noopener" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="https://wa.me/8801799344393" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+            <a href="mailto:s.imrulsharif@gmail.com" aria-label="Email"><i class="fa-regular fa-envelope"></i></a>
+          </div>
+        </div>
+
+        <div class="footer__col">
+          <h4>Explore</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html#projects">Projects</a></li>
+            <li><a href="activity.html">Activity report</a></li>
+            <li><a href="game.html">Arcade</a></li>
+          </ul>
+        </div>
+
+        <div class="footer__col">
+          <h4>Content</h4>
+          <ul>
+            <li><a href="page1.html">YouTube videos</a></li>
+            <li><a href="page2.html">Drive video vault</a></li>
+            <li><a href="pagecontact.html">Contact &amp; support</a></li>
+            <li><a href="https://hasanpersonal.github.io/Dinamic-" target="_blank" rel="noopener">Dinamic Tube</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer__bottom">
+        <span>&copy; <span data-year>2026</span> Hasan's Web. All rights reserved.</span>
+        <span class="sig">Coded by Imrul Hasan · HTML, CSS &amp; a lot of curiosity</span>
+      </div>
     </div>
+  </footer>
+
 </div>
+
+<script src="assets/activity-data.js"></script>
+<script src="assets/site.js"></script>
+<script src="assets/charts.js"></script>
+</body>
+</html>
