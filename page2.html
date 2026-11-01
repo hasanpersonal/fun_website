@@ -1,109 +1,178 @@
----
-layout: default
-title: My Video Collection
----
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#04060c">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<title>Drive Vault — Hasan's Web</title>
+<meta name="description" content="Longer cuts and raw clips from Google Drive, presented as a clean thumbnail shelf.">
 
-<style>
-    /* --- EIKHANE EKBAR CHANGE KORLEI SHOB CHANGE HOBE --- */
-    :root {
-        --card-bg: #faf0e6;
-        --card-border: #dddddd;
-        --card-shadow: 0 4px 10px rgba(0,0,0,0.08);
-        --card-radius: 12px;
-        --title-color: #333333;
-        --img-radius: 10px;
-    }
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+<div class="shell">
+  <a class="skip-link" href="#main">Skip to content</a>
 
-    * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-    }
+  <header class="nav">
+    <div class="nav__inner">
+      <a class="brand" href="index.html" aria-label="Hasan's Web &mdash; home">
+        <span class="brand__mark">IH</span>
+        <span>
+          <span class="brand__text">Hasan's Web</span>
+          <span class="brand__sub">Imrul Hasan &middot; 2026</span>
+        </span>
+      </a>
 
-    .video-page-container {
-        max-width: 1000px;
-        margin: 0 auto;
-        padding: 20px;
-    }
+      <button class="nav__toggle" aria-label="Toggle navigation" aria-expanded="false"><span></span></button>
 
-    .main-title {
-        text-align: center;
-        color: var(--title-color);
-        font-family: sans-serif;
-        margin-bottom: 30px;
-    }
+      <nav class="nav__links" aria-label="Main">
+        <a class="nav__link" href="index.html">Home</a>
+        <a class="nav__link" href="index.html#projects">Projects</a>
+        <a class="nav__link" href="activity.html">Activity</a>
+        <a class="nav__link" href="page1.html">Videos</a>
+        <a class="nav__link" href="game.html">Arcade</a>
+        <a class="nav__link" href="pagecontact.html">Contact</a>
+      </nav>
 
-    .video-card {
-        margin-bottom: 40px;
-        padding: 15px;
-        border: 1px solid var(--card-border);
-        border-radius: var(--card-radius);
-        background: var(--card-bg);
-        box-shadow: var(--card-shadow);
-    }
-
-    .video-card a {
-        text-decoration: none;
-    }
-
-    .video-card h2 {
-        font-size: 1.3rem;
-        color: var(--title-color);
-        font-family: sans-serif;
-        margin-bottom: 15px;
-    }
-
-    /* Thumbnail container - Eikhane size control kora hoyeche */
-    .thumbnail-box {
-        position: relative;
-        border-radius: var(--img-radius);
-        overflow: hidden;
-        background: #f0f0f0;
-        text-align: center; /* Image ke majhkane rakhar jonno */
-        padding: 10px 0;    /* Upore niche ektu khali jayga */
-    }
-
-    .thumbnail-box img {
-        width: 80%;         /* <--- IMAGE SIZE EIKHANE KOMANO HOYECHE (100% THEKE 80%) */
-        height: auto;
-        display: inline-block;
-        border-radius: var(--img-radius);
-        transition: transform 0.3s ease;
-    }
-
-    .thumbnail-box img:hover {
-        transform: scale(1.05); /* Mouse nile ektu boro hobe */
-    }
-</style>
-
-<div class="video-page-container">
-    <h1 class="main-title">My Videos</h1>
-
-    <div class="video-card">
-        <a href="https://drive.google.com/file/d/1ZGweVX0fwp9TY6aQHmF9sNMJOEKeKBR4/view?usp=drivesdk" target="_blank">
-            <h2>1. Leader= (I HAVE A PLAN)</h2>
-            <div class="thumbnail-box">
-                <img src="https://lh3.googleusercontent.com/u/0/d/1ZMOu2RwDalnr6u4hdPFUVGvlnQbZmbFF" alt="Video Thumbnail">
-            </div>
-        </a>
+      <a class="btn btn--primary btn--sm nav__cta" href="pagecontact.html">
+        <i class="fa-regular fa-comment-dots"></i> Say hello
+      </a>
     </div>
+  </header>
 
-    <div class="video-card">
-        <a href="#" target="_blank">
-            <h2>2. Second Video Title</h2>
-            <div class="thumbnail-box">
-                <img src="https://lh3.googleusercontent.com/u/0/d/1ZMOu2RwDalnr6u4hdPFUVGvlnQbZmbFF" alt="Video Thumbnail">
-            </div>
-        </a>
-    </div>
+  <main id="main">
+    <section class="page-hero">
+      <div class="container">
+        <div class="crumbs">
+          <a href="index.html">Home</a><span>/</span><span style="color:var(--text-soft)">Drive vault</span>
+        </div>
+        <span class="eyebrow">Archive</span>
+        <h1>The Drive video vault</h1>
+        <p class="section-lead" style="margin-top:12px">Longer cuts, raw footage and clips that never made it to YouTube &mdash; kept on Google Drive and shelved here.</p>
+        <div class="pill-row">
+          <span class="chip"><i class="fa-brands fa-google-drive"></i> Google Drive</span>
+          <span class="chip chip--live"><i class="fa-solid fa-folder-open"></i> 1 file linked</span>
+          <span class="chip"><i class="fa-solid fa-arrow-up-right-from-square"></i> Opens in a new tab</span>
+        </div>
+      </div>
+    </section>
+    <section class="section--tight">
+      <div class="container">
+        <div class="game-grid">
 
-    <div class="video-card">
-        <a href="#" target="_blank">
-            <h2>3. Third Video Title</h2>
-            <div class="thumbnail-box">
-                <img src="https://lh3.googleusercontent.com/u/0/d/1ZMOu2RwDalnr6u4hdPFUVGvlnQbZmbFF" alt="Video Thumbnail">
+          <article class="card thumb-card reveal">
+            <a class="thumb-link" href="https://drive.google.com/file/d/1ZGweVX0fwp9TY6aQHmF9sNMJOEKeKBR4/view?usp=drivesdk" target="_blank" rel="noopener">
+              <div class="thumb-media">
+                <img src="https://lh3.googleusercontent.com/u/0/d/1ZMOu2RwDalnr6u4hdPFUVGvlnQbZmbFF" alt="Leader — I Have A Plan thumbnail" loading="lazy">
+                <span class="thumb-play"><span><i class="fa-solid fa-play"></i></span></span>
+              </div>
+            </a>
+            <div class="thumb-body">
+              <span class="chip chip--live" style="margin-bottom:6px"><span class="dot"></span> Ready</span>
+              <h3>Leader — I Have A Plan</h3>
+              <p>Full-length cut, hosted on Drive.</p>
             </div>
-        </a>
+          </article>
+
+          <article class="card thumb-card reveal" data-delay="80">
+            <a class="thumb-link" href="https://drive.google.com/drive/folders" target="_blank" rel="noopener">
+              <div class="thumb-media">
+                <div class="ph-inner" style="position:absolute;inset:0;align-content:center">
+                  <i class="fa-solid fa-folder-plus"></i>
+                  <span>Link coming soon</span>
+                </div>
+                <span class="thumb-play"><span><i class="fa-solid fa-arrow-up-right-from-square"></i></span></span>
+              </div>
+            </a>
+            <div class="thumb-body">
+              <span class="chip chip--wip" style="margin-bottom:6px"><span class="dot"></span> Uploading</span>
+              <h3>Second cut</h3>
+              <p>Being exported right now.</p>
+            </div>
+          </article>
+
+          <article class="card thumb-card reveal" data-delay="160">
+            <a class="thumb-link" href="https://drive.google.com/drive/folders" target="_blank" rel="noopener">
+              <div class="thumb-media">
+                <div class="ph-inner" style="position:absolute;inset:0;align-content:center">
+                  <i class="fa-solid fa-hard-drive"></i>
+                  <span>Archive slot</span>
+                </div>
+                <span class="thumb-play"><span><i class="fa-solid fa-arrow-up-right-from-square"></i></span></span>
+              </div>
+            </a>
+            <div class="thumb-body">
+              <span class="chip chip--plan" style="margin-bottom:6px"><span class="dot"></span> Planned</span>
+              <h3>Archive #03</h3>
+              <p>Old clips being sorted.</p>
+            </div>
+          </article>
+
+        </div>
+
+        <div class="note-strip mt-l reveal">
+          <i class="fa-solid fa-circle-info"></i>
+          <span>Drive files must be shared as <code>Anyone with the link</code> for these thumbnails and players to load.</span>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div>
+          <a class="brand" href="index.html">
+            <span class="brand__mark">IH</span>
+            <span><span class="brand__text">Hasan's Web</span><span class="brand__sub">Imrul Hasan &middot; 2026</span></span>
+          </a>
+          <p class="footer__blurb">A personal workshop of browser games, tiny web apps and video collections &mdash; built and updated in public.</p>
+          <div class="socials">
+            <a href="https://github.com/hasanpersonal" target="_blank" rel="noopener" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+            <a href="https://youtube.com/@hasanbnsharif" target="_blank" rel="noopener" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+            <a href="https://www.facebook.com/s.imrulbinsharif" target="_blank" rel="noopener" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="https://wa.me/8801799344393" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+            <a href="mailto:s.imrulsharif@gmail.com" aria-label="Email"><i class="fa-regular fa-envelope"></i></a>
+          </div>
+        </div>
+
+        <div class="footer__col">
+          <h4>Explore</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html#projects">Projects</a></li>
+            <li><a href="activity.html">Activity report</a></li>
+            <li><a href="game.html">Arcade</a></li>
+          </ul>
+        </div>
+
+        <div class="footer__col">
+          <h4>Content</h4>
+          <ul>
+            <li><a href="page1.html">YouTube videos</a></li>
+            <li><a href="page2.html">Drive video vault</a></li>
+            <li><a href="pagecontact.html">Contact &amp; support</a></li>
+            <li><a href="https://hasanpersonal.github.io/Dinamic-" target="_blank" rel="noopener">Dinamic Tube</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer__bottom">
+        <span>&copy; <span data-year>2026</span> Hasan's Web. All rights reserved.</span>
+        <span class="sig">Coded by Imrul Hasan &middot; HTML, CSS &amp; a lot of curiosity</span>
+      </div>
     </div>
+  </footer>
 
 </div>
+
+<script src="assets/site.js"></script>
+
+</body>
+</html>

@@ -1,43 +1,232 @@
----
-layout: default
-title: Contact Me
----
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#04060c">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<title>Contact — Hasan's Web</title>
+<meta name="description" content="Get in touch with Imrul Hasan on WhatsApp, YouTube, Facebook, GitHub or email.">
 
-<div style="max-width: 600px; margin: 0 auto; padding: 40px 20px; text-align: center;">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+<div class="shell">
+  <a class="skip-link" href="#main">Skip to content</a>
 
-    <h1 style="font-family: 'Segoe UI', sans-serif; color: #333; margin-bottom: 10px;">Get In Touch</h1>
-    <p style="color: #666; margin-bottom: 40px; font-family: sans-serif;">you can connect with me by all this platforms below</p>
+  <header class="nav">
+    <div class="nav__inner">
+      <a class="brand" href="index.html" aria-label="Hasan's Web &mdash; home">
+        <span class="brand__mark">IH</span>
+        <span>
+          <span class="brand__text">Hasan's Web</span>
+          <span class="brand__sub">Imrul Hasan &middot; 2026</span>
+        </span>
+      </a>
 
-    <div style="display: flex; flex-direction: column; gap: 20px;">
+      <button class="nav__toggle" aria-label="Toggle navigation" aria-expanded="false"><span></span></button>
 
-        <a href="https://wa.me/+8801799344393" target="_blank" style="display: flex; align-items: center; text-decoration: none; padding: 15px 25px; background: #25D366; color: white; border-radius: 12px; font-weight: bold; font-family: sans-serif; transition: 0.3s; box-shadow: 0 4px 10px rgba(37, 211, 102, 0.2);">
-            <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="WA" style="width: 30px; margin-right: 15px;">
-            Message on WhatsApp
-        </a>
-          
-        <a href="https://youtube.com/@hasanbnsharif" target="_blank" style="display: flex; align-items: center; text-decoration: none; padding: 15px 25px; background: #FF0000; color: white; border-radius: 12px; font-weight: bold; font-family: sans-serif; transition: 0.3s; box-shadow: 0 4px 10px rgba(255, 0, 0, 0.2);">
-            <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube" style="width: 30px; margin-right: 15px;">
-            Me on YouTube
-        </a>
-        
+      <nav class="nav__links" aria-label="Main">
+        <a class="nav__link" href="index.html">Home</a>
+        <a class="nav__link" href="index.html#projects">Projects</a>
+        <a class="nav__link" href="activity.html">Activity</a>
+        <a class="nav__link" href="page1.html">Videos</a>
+        <a class="nav__link" href="game.html">Arcade</a>
+        <a class="nav__link" href="pagecontact.html">Contact</a>
+      </nav>
 
-        <a href="https://facebook.com/https://www.facebook.com/s.imrulbinsharif" target="_blank" style="display: flex; align-items: center; text-decoration: none; padding: 15px 25px; background: #1877F2; color: white; border-radius: 12px; font-weight: bold; font-family: sans-serif; transition: 0.3s; box-shadow: 0 4px 10px rgba(24, 119, 242, 0.2);">
-            <img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="FB" style="width: 30px; margin-right: 15px;">
-             Facebook Page
-        </a>
-
-        <a href="https://twitter.com/YOUR_HANDLE" target="_blank" style="display: flex; align-items: center; text-decoration: none; padding: 15px 25px; background: #000000; color: white; border-radius: 12px; font-weight: bold; font-family: sans-serif; transition: 0.3s; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);">
-            <img src="https://cdn-icons-png.flaticon.com/512/3256/3256013.png" alt="X" style="width: 30px; margin-right: 15px; filter: invert(1);">
-            Follow on Twitter / X
-        </a>
-
-        <a href="mailto:s.imrulsharif@gmail.com" style="display: flex; align-items: center; text-decoration: none; padding: 15px 25px; background: #DB4437; color: white; border-radius: 12px; font-weight: bold; font-family: sans-serif; transition: 0.3s; box-shadow: 0 4px 10px rgba(219, 68, 55, 0.2);">
-            <img src="https://cdn-icons-png.flaticon.com/512/732/732200.png" alt="Gmail" style="width: 30px; margin-right: 15px;">
-            Send an Email
-        </a>
-
+      <a class="btn btn--primary btn--sm nav__cta" href="pagecontact.html">
+        <i class="fa-regular fa-comment-dots"></i> Say hello
+      </a>
     </div>
+  </header>
 
-    <p style="margin-top: 50px; color: #999; font-size: 0.8rem; font-family: sans-serif;">&copy; 2026 Hasan's Web. All rights reserved.</p>
+  <main id="main">
+    <section class="page-hero">
+      <div class="container">
+        <div class="crumbs">
+          <a href="index.html">Home</a><span>/</span><span style="color:var(--text-soft)">Contact</span>
+        </div>
+        <span class="eyebrow">Get in touch</span>
+        <h1>Let&rsquo;s talk</h1>
+        <p class="section-lead" style="margin-top:12px">Project idea, a bug in one of the games, or just want to argue about fonts &mdash; every message lands in the same inbox and I read all of them.</p>
+        <div class="pill-row">
+          <span class="chip chip--live"><span class="dot dot--pulse"></span> Open to collaborations</span>
+          <span class="chip"><i class="fa-solid fa-location-dot"></i> Dhaka, Bangladesh</span>
+          <span class="chip"><i class="fa-regular fa-clock"></i> Replies within a day</span>
+        </div>
+      </div>
+    </section>
+    <section class="section--tight">
+      <div class="container">
+        <div class="contact-layout">
+
+          <div class="card card__pad reveal">
+            <div class="panel-head">
+              <h2 class="panel-title"><i class="fa-solid fa-paper-plane"></i> Pick a channel</h2>
+              <span class="panel-meta">all open</span>
+            </div>
+
+            <div class="contact-grid">
+              <a class="contact-tile" style="--brand:#25d366" href="https://wa.me/8801799344393" target="_blank" rel="noopener">
+                <span class="contact-tile__icon"><i class="fa-brands fa-whatsapp"></i></span>
+                <span class="contact-tile__body">
+                  <span class="contact-tile__label">WhatsApp</span>
+                  <span class="contact-tile__value">+880 1799 344393</span>
+                </span>
+                <i class="contact-tile__go fa-solid fa-arrow-up-right-from-square"></i>
+              </a>
+
+              <a class="contact-tile" style="--brand:#ff0033" href="https://youtube.com/@hasanbnsharif" target="_blank" rel="noopener">
+                <span class="contact-tile__icon"><i class="fa-brands fa-youtube"></i></span>
+                <span class="contact-tile__body">
+                  <span class="contact-tile__label">YouTube</span>
+                  <span class="contact-tile__value">@hasanbnsharif</span>
+                </span>
+                <i class="contact-tile__go fa-solid fa-arrow-up-right-from-square"></i>
+              </a>
+
+              <a class="contact-tile" style="--brand:#1877f2" href="https://www.facebook.com/s.imrulbinsharif" target="_blank" rel="noopener">
+                <span class="contact-tile__icon"><i class="fa-brands fa-facebook-f"></i></span>
+                <span class="contact-tile__body">
+                  <span class="contact-tile__label">Facebook</span>
+                  <span class="contact-tile__value">s.imrulbinsharif</span>
+                </span>
+                <i class="contact-tile__go fa-solid fa-arrow-up-right-from-square"></i>
+              </a>
+
+              <a class="contact-tile" style="--brand:#e2e8f0" href="https://github.com/hasanpersonal" target="_blank" rel="noopener">
+                <span class="contact-tile__icon"><i class="fa-brands fa-github"></i></span>
+                <span class="contact-tile__body">
+                  <span class="contact-tile__label">GitHub</span>
+                  <span class="contact-tile__value">hasanpersonal</span>
+                </span>
+                <i class="contact-tile__go fa-solid fa-arrow-up-right-from-square"></i>
+              </a>
+
+              <a class="contact-tile" style="--brand:#ea4335" href="mailto:s.imrulsharif@gmail.com">
+                <span class="contact-tile__icon"><i class="fa-regular fa-envelope"></i></span>
+                <span class="contact-tile__body">
+                  <span class="contact-tile__label">Email</span>
+                  <span class="contact-tile__value">s.imrulsharif@gmail.com</span>
+                </span>
+                <i class="contact-tile__go fa-solid fa-arrow-up-right-from-square"></i>
+              </a>
+
+              <a class="contact-tile" style="--brand:#8b5cf6" href="https://hasanpersonal.github.io/fun_website/activity.html">
+                <span class="contact-tile__icon"><i class="fa-solid fa-chart-simple"></i></span>
+                <span class="contact-tile__body">
+                  <span class="contact-tile__label">Activity report</span>
+                  <span class="contact-tile__value">See what I&rsquo;m building</span>
+                </span>
+                <i class="contact-tile__go fa-solid fa-arrow-right"></i>
+              </a>
+            </div>
+
+            <p class="card-sub mt-m">
+              Fastest route: WhatsApp for anything quick, email for anything long.
+            </p>
+          </div>
+
+          <div class="card card__pad reveal" data-delay="90">
+            <div class="avatar-block">
+              <span class="avatar">IH</span>
+              <span>
+                <span class="name">Imrul Hasan</span>
+                <span class="role">Self-taught developer &amp; video maker</span>
+              </span>
+            </div>
+
+            <div class="info-list">
+              <div class="info-row">
+                <i class="fa-solid fa-code"></i>
+                <div><strong>What I build</strong><span>Browser games, small web apps, video-first pages.</span></div>
+              </div>
+              <div class="info-row">
+                <i class="fa-solid fa-layer-group"></i>
+                <div><strong>Stack</strong><span>HTML, CSS, vanilla JavaScript, GitHub Pages.</span></div>
+              </div>
+              <div class="info-row">
+                <i class="fa-solid fa-location-dot"></i>
+                <div><strong>Based in</strong><span>Dhaka, Bangladesh &mdash; working with anyone, anywhere.</span></div>
+              </div>
+              <div class="info-row">
+                <i class="fa-regular fa-clock"></i>
+                <div><strong>Response time</strong><span>Usually within 24 hours.</span></div>
+              </div>
+              <div class="info-row">
+                <i class="fa-solid fa-handshake"></i>
+                <div><strong>Currently</strong><span>Open to collaborations and small freelance builds.</span></div>
+              </div>
+            </div>
+
+            <a class="btn btn--primary btn--block mt-l" href="https://wa.me/8801799344393" target="_blank" rel="noopener">
+              <i class="fa-brands fa-whatsapp"></i> Start a conversation
+            </a>
+          </div>
+        </div>
+
+        <p class="text-center card-sub mt-l reveal">
+          &copy; <span data-year>2026</span> Hasan's Web &middot; Coded by Imrul Hasan
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div>
+          <a class="brand" href="index.html">
+            <span class="brand__mark">IH</span>
+            <span><span class="brand__text">Hasan's Web</span><span class="brand__sub">Imrul Hasan &middot; 2026</span></span>
+          </a>
+          <p class="footer__blurb">A personal workshop of browser games, tiny web apps and video collections &mdash; built and updated in public.</p>
+          <div class="socials">
+            <a href="https://github.com/hasanpersonal" target="_blank" rel="noopener" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+            <a href="https://youtube.com/@hasanbnsharif" target="_blank" rel="noopener" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+            <a href="https://www.facebook.com/s.imrulbinsharif" target="_blank" rel="noopener" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="https://wa.me/8801799344393" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+            <a href="mailto:s.imrulsharif@gmail.com" aria-label="Email"><i class="fa-regular fa-envelope"></i></a>
+          </div>
+        </div>
+
+        <div class="footer__col">
+          <h4>Explore</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html#projects">Projects</a></li>
+            <li><a href="activity.html">Activity report</a></li>
+            <li><a href="game.html">Arcade</a></li>
+          </ul>
+        </div>
+
+        <div class="footer__col">
+          <h4>Content</h4>
+          <ul>
+            <li><a href="page1.html">YouTube videos</a></li>
+            <li><a href="page2.html">Drive video vault</a></li>
+            <li><a href="pagecontact.html">Contact &amp; support</a></li>
+            <li><a href="https://hasanpersonal.github.io/Dinamic-" target="_blank" rel="noopener">Dinamic Tube</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer__bottom">
+        <span>&copy; <span data-year>2026</span> Hasan's Web. All rights reserved.</span>
+        <span class="sig">Coded by Imrul Hasan &middot; HTML, CSS &amp; a lot of curiosity</span>
+      </div>
+    </div>
+  </footer>
 
 </div>
+
+<script src="assets/site.js"></script>
+
+</body>
+</html>
